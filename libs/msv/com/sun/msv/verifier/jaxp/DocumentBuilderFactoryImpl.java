@@ -166,5 +166,13 @@ public class DocumentBuilderFactoryImpl extends DocumentBuilderFactory {
 	public void setValidating( boolean newVal ) {
 		core.setValidating(newVal);
 	}
+	public boolean getFeature( String name ) 
+          throws ParserConfigurationException {
+		return core.getFeature(name);
+	}
+	public void setFeature( String name, boolean newVal ) 
+	  throws ParserConfigurationException {
+		core.setFeature(name, newVal);
+	}
 	
 }
