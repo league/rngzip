@@ -101,4 +101,10 @@ public class ValidatingDocumentBuilderFactory extends DocumentBuilderFactory
     { _WrappedFactory.setIgnoringElementContentWhitespace(whitespace); }
     public void setNamespaceAware(boolean awareness)
     { _WrappedFactory.setNamespaceAware(awareness); }
+    public boolean getFeature(String name) 
+      throws ParserConfigurationException
+    { return _WrappedFactory.getFeature(name); }
+    public void setFeature(String name, boolean value) 
+      throws ParserConfigurationException
+    { _WrappedFactory.setFeature(name, value); }
 }
