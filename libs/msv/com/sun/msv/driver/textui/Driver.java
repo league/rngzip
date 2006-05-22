@@ -40,7 +40,6 @@ import com.sun.msv.verifier.DocumentDeclaration;
 import com.sun.msv.verifier.Verifier;
 import com.sun.msv.verifier.identity.IDConstraintChecker;
 import com.sun.msv.verifier.regexp.REDocumentDeclaration;
-import com.sun.resolver.tools.CatalogResolver;
 
 /**
  * command line Verifier.
@@ -130,10 +129,8 @@ public class Driver {
 				// use Sun's "XML Entity and URI Resolvers" by Norman Walsh
 				// to resolve external entities.
 				// http://www.sun.com/xml/developers/resolver/
-				if(entityResolver==null)
-					entityResolver = new CatalogResolver(true);
-				
-				((CatalogResolver)entityResolver).getCatalog().parseCatalog(args[++i]);
+                          // removing dependence on com.sun.resolver.tools.CatalogResolver
+                          throw new UnsupportedOperationException("catalog");
 			}
 			else
 			if( args[i].equalsIgnoreCase("-version") ) {
