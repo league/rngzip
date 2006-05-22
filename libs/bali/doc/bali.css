@@ -1,0 +1,13 @@
+pre.screen {
+	background-color: black;
+	color: white;
+	padding: 1em;
+	font-weight: bold;
+}
+
+pre.code {
+	background-color: rgb(240,240,255);
+	color: rgb(0,0,64);
+	font-weight: bold;
+	padding: 1em;
+}

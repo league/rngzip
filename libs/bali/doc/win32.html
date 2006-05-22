@@ -1,0 +1,116 @@
+<html>
+<head>
+	<title>Bali - RELAX NG Validatelet Compiler</title>
+	<meta http-equiv="Content-type" content="text/html; charset=iso-8859-1">
+	<link type="text/css" rel="stylesheet" href="bali.css"/>
+</head>
+<body>
+	<h1>Bali Win32 Validatelet</h1>
+	<div style="text-align: right; font-size:smaller">
+		$Id: win32.html,v 1.2 2002/09/23 18:08:27 Bear Exp $ <br>
+		By <a href="mailto:kk@kohsuke.org">Kohsuke KAWAGUCHI</a>
+	</div>
+	
+	
+	
+	<p>
+		Bali can produce C++ source code targeted to the Win32/Visual C++ environment. The generated code can validate MSXML DOM tree or MSXML SAX events.
+	</p>
+	<h2>Generating a validatelet</h2>
+	<p>
+		To compile <code>myschema.rng</code> into a validatelet in the <code>foo</code>namespace to the <code>src</code> folder, type in as follows:
+	</p>
+<pre class="screen">
+$ java -jar bali.jar myschema.rng -ow src foo bar
+</pre>
+	<p>
+		The third parameter of the "-ow" option specifies the stem of the factory method names. 
+	</p><p>
+		This will generate <code>bar.h</code> and <code>bar.cpp</code> into the <code>src</code> folder, along with other source/header files necessary to run a validatelet.
+	</p>
+	
+	<h2>Writing code to use validatelet</h2>
+	
+	<h3>Project set-up</h3>
+	<p>
+		First, you need to modify <code>stdafx.h</code> and have it include a couple of header files necessary for a validatelet. 
+		**********************************
+	</p>
+	
+	<h3>For DOM</h3>
+	<p>
+		Generated <code>bar.h</code> defines methods that create a validatelet. Your application should include this header file and call these methods to obtain an instance of the validatelet.
+	</p><p>
+		To create a validatelet for MSXML DOM, call the <code>createBarDOMValidatelet()</code> method as follows:
+	</p>
+<pre class="code">
+bali::IValidatelet* pValidatelet = foo::createBarDOMValidatelet();
+</pre>
+	<p>
+		The <code>IValidatelet</code> interface defines one method that takes a MSXML DOM document or element and validate it. If you pass a document, this method will validate the whole document. If you pass an element, it will validate a sub-tree rooted at that element.
+	</p><p>
+		Upon the completion, this method returns true if the validation was successful, and false otherwise. You can also receive a pointer to the node that causes a failure (see the header file for the detail.)
+	</p><p>
+		Thus the code will look like:
+	</p>
+<pre class="code">
+// load a document
+IXMLDOMDocumentPtr pDOMDocument(__uuidof(DOMDocument));
+pDOMDocument->async = false;
+pDOMDocument->load(myXml);
+
+if( pValidatelet->validate( pDOMDocument ) )
+{
+    // this document is OK. The show will go on
+}
+else
+{
+    // abort. there was an error.
+}
+</pre>
+	<p>
+		The same validatelet object can be reused many times, as long as it is used by only one thread at any given time.
+	</p><p>
+		Once you finish using it, it is your resonsibility to delete a validatelet.
+	</p>
+<pre class="code">
+delete pValidatelet;
+</pre>
+
+
+	<h3>For SAX</h3>
+	<p>
+		Another method defined in the header file is the <code>createBarSAXValidatelet</code> method. This method will return a <code>ISAXContentHandler</code> interface that implements a validatelet. This interface will allow you to validate SAX events.
+	</p>
+<pre class="code">
+MSXML2::ISAXContentHandler* pValidatelet = foo::createBarSAXValidatelet();
+</pre>
+	<p>
+		You can then use this handler to validate SAX events. Every time the startDocument callback is called, a validatelet re-initializes itself. Thus you can reuse one SAX validatelet as many times as you want.
+	</p><p>
+		Since SAX validatelet is a COM object, you need to release it explicitly.
+	</p>
+<pre class="code">
+pValidatelet->Release();
+</pre>
+
+
+	<h2>Request for comments</h2>
+	<p>
+		Although it was my favorite platform until a year or two ago, I no longer work on the Win32 platform. Therefore, it is very likely that the interface I provided here is somewhat different from what it should be.
+	</p><p>
+		I solicit any comment regarding how a validatelet should be exposed to the client application.
+	</p>
+	
+	
+	<h2>Limitation</h2>
+	<ol>
+		<li>
+			Right now, the only supported datatype library is the RELAX NG built-in datatypes. <b>XML Schema datatypes are not supported</b> simply because I couldn't find an implementation for this platform. Let me know if you have one.
+		<li>
+			Because of the validation algorithm, the generated validatelet is not necessarily a <i>fail-fast</i> validator. This is, when you read a start element, it doesn't validate all the attributes immediately. Thus if you write your code in such a way that you'll access attributes at the start element, that code could be vulnerable to invalid documents.
+		<li>
+			A validatelet doesn't support recovery from an error. After reporting the first error, it simply stops validation.
+	</ol>
+</body>
+</html>

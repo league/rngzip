@@ -1,0 +1,84 @@
+<html>
+<head>
+	<title>Bali - RELAX NG Validatelet Compiler</title>
+	<meta http-equiv="Content-type" content="text/html; charset=iso-8859-1">
+	<link type="text/css" rel="stylesheet" href="bali.css"/>
+</head>
+<body>
+	<h1>Bali Java Validatelet</h1>
+	<div style="text-align: right; font-size:smaller">
+		$Id: java.html,v 1.4 2002/09/30 17:06:17 Bear Exp $ <br>
+		By <a href="mailto:kk@kohsuke.org">Kohsuke KAWAGUCHI</a>
+	</div>
+	<!--img src="bali.png" style="float:right"/-->
+	<h2>Generating a validatelet</h2>
+	<p>
+		To compile <code>myschema.rng</code> into the <code>org.acme.MyValidatelet</code> in the <code>src</code> folder, type in as follows:
+	</p>
+<pre class="screen">
+$ java -jar bali.jar myschema.rng -oj src org.acme.MyValidatelet
+</pre>
+	<p>
+		This will produce <code>./src/org/acme/MyValidatelet.java</code> along with a couple of other files that are necessary to run this validatelet.
+	</p>
+	
+	<h2>Writing code to use validatelet</h2>
+	
+	<h3>Through JARV</h3>
+	<p>
+		Next, you need to write code that uses this validatelet. The simplest way is to use <a href="http://iso-relax.sourceforge.net/JARV/">JARV</a> interface that gives you high-level access to validation (such as validating a DOM tree, file, or using it as an XMLFilter etc.) For details about using JARV, consult to <a href="http://iso-relax.sourceforge.net/JARV/JARV.html">this document</a>.
+	</p><p>
+		Typical code would look like follows:
+	</p>
+<pre class="code">
+// wrap a compiled schema into JARV schema object
+org.iso_relax.verifier.Schema schema
+  = new org.kohsuke.bali.validatelet.jarv.JARVSchemaImpl(org.acme.MyValidatelet.schema);
+
+// next, create a verifier
+org.iso_relax.verifier.Verifier verifier = schema.newVerifier();
+
+// then have fun with it. for example,...
+if( !verifier.verify(new File(...)) )
+  System.out.println("not valid");
+</pre>
+
+	<h3>Through SAX</h3>
+	<p>
+		If you are comfortable with working with SAX or you don't want to have <code>isorelax.jar</code> around for some reason, you could use the generated validatelet directly. All the generated validatelets implement <code><a href="api/org/kohsuke/validatelet/Validatelet.html">Validatelet<a/></code>. This interface extends SAX <code>ContentHandler</code>, so the basic client programming model is to send SAX events to a validatelet.
+	</p><p>
+		You can set a SAX <code>ErrorHandler</code> to a validatelet to receive validation errors. If you don't set one, it will simply throw a <code>SAXParseException</code> upon an error.
+	</p><p>
+		Typical code in this case would look like this:
+	</p>
+<pre class="code">
+// create a new instance of validatelet
+org.kohsuke.validatelet.Validatelet  v = new org.acme.MyValidatelet();
+
+// set an error handler to receive errors.
+v.setErrorHandler( errorHandler );
+
+reader.setContentHandler(v);
+reader.parse(something);
+</pre>
+
+
+	<h2>Required JAR Files at Run-time</h2>
+	<p>
+		Firstly, you need to have <code>validatelet.jar</code> file in your classpath when you run an application that uses validatelets. This jar file just contains the <code>Validatelet</code> interface, which provides the common base type for all the validatelets. This makes it possible to write code that equally accepts any validatelet. I solicit any comment as to whether this benefit justifies requring a jar file at run-time.
+	</p><p>
+		If you use JARV as your client API, you also need to have <code>isorelax.jar</code> in your classpath. This jar file can be found in the <code>lib</code> directory of the distribution.
+	</p><p>
+		Furthermore, if your schema uses a datatype library (such as W3C XML Schema datatypes), then you need to have an implementation of that library in your classpath, too. For W3C XML Schema Datatypes, you can either use <a href="http://wwws.sun.com/software/xml/developers/xsdlib2/">Sun XML Datatypes Library</a> or one found inside <a href="http://www.thaiopensource.com/relaxng/jing.html">Jing</a>. In general, you can use any datatype library as long as it supports the <code>org.relaxng.datatype</code> interfaces.
+	</p>
+	
+	
+	<h2>Limitation</h2>
+	<ol>
+		<li>
+			Because of the validation algorithm, the generated validatelet is not necessarily a <i>fail-fast</i> validator. This is, when you read a start element, it doesn't validate all the attributes immediately. Thus if you write your code in such a way that you'll access attributes at the start element, that code could be vulnerable to invalid documents.
+		<li>
+			A validatelet doesn't support recovery from an error. After reporting the first error, it simply stops validation.
+	</ol>
+</body>
+</html>

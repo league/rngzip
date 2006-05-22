@@ -1,0 +1,61 @@
+<html>
+<head>
+	<title>Bali - RELAX NG Validatelet Compiler</title>
+	<meta http-equiv="Content-type" content="text/html; charset=iso-8859-1">
+	<link type="text/css" rel="stylesheet" href="bali.css"/>
+	<style>
+		ol li {
+			margin-top: 1em;
+		}
+	</style>
+</head>
+<body>
+	<h1>Using Other Schema Languages</h1>
+	<div style="text-align: right; font-size:smaller">
+		$Id: schemaLanguages.html,v 1.1 2002/09/26 17:06:42 Bear Exp $ <br>
+		By <a href="mailto:kk@kohsuke.org">Kohsuke KAWAGUCHI</a>
+	</div>
+	
+	
+	<!--img src="bali.png" style="float:right"/-->
+	<h2>Supported Languages</h2>
+	<p>
+		All the schema languages supported by Sun Multi-Schema Validator are supported. Specifically,
+	</p>
+	<ol>
+		<li>XML DTD
+		<li>W3C XML Schema
+		<li>RELAX Core
+		<li>RELAX Namespace
+		<li>TREX
+	</ol>
+	
+	<h2>Limitations</h2>
+	<p>
+		it is very difficult to translate a schema from one language to another while strictly preserving all the constraints. As such, although Bali can compile schemas written in other languages, it cannot correctly enforce all the constraints mandated by each schema language.
+	</p><p>
+		Here are the list of limitations. W3C XML Schema might have other problems that I'm not aware of.
+	</p>
+	<ol>
+		<li>XML DTD  (stable)
+		<ul>
+			<li>DTD validation should work below the namespace processing, but the generated validate works above the namespace processing. If you are working with namespace-aware documents, this is probably not a problem, but if not, don't use this tool.
+			<li>NOTATION, ENTITY, and ENTITIES types are not validated.
+		</ul>
+		
+		<li>W3C XML Schema (use it with caution)
+		<ul>
+			<li>xsi:* are not supported and causes validation error. Some of them are easy to support, so let us know how you think about this limitation.
+			<li>fixed value constraints will not correctly validated. The generated validatelet will accept values that are not equal to the fixed value.
+		</ul>
+		
+		<li>RELAX Core / RELAX Namespace (stable)
+		<ul>
+			<li>RELAX Core's semantics of allowing non-declared attributes are not supported. Attributes that are not declared will cause a validation error.
+		</ul>
+		
+		<li>TREX (stable)
+		<ul>
+			<li>&lt;concur> pattern is not supported and causes the compilation to fail.
+</body>
+</html>

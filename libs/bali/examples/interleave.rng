@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<grammar xmlns="http://relaxng.org/ns/structure/1.0">
+
+  <start>
+    <element name="root">
+      <interleave>
+      	<group>
+      		<element name="foo"><empty/></element>
+      		<zeroOrMore>
+      			<element name="bar"><text/></element>
+      		</zeroOrMore>
+      	</group>
+      	<ref name="model1"/>
+      </interleave>
+      <zeroOrMore>
+      	<interleave>
+      		<optional>
+	      		<ref name="model1"/>
+	      	</optional>
+      		<zeroOrMore>
+      			<element name="meta"><text/></element>
+      		</zeroOrMore>
+      	</interleave>
+      </zeroOrMore>
+    </element>
+  </start>
+  
+  <define name="model1">
+  	<element name="greedy"><empty/></element>
+  	<choice>
+  		<element name="bob"><empty/></element>
+  		<element name="joe"><empty/></element>
+  	</choice>
+  </define>
+</grammar>

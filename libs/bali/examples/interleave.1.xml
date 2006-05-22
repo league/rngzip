@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<root>
+	<foo/>
+	
+	<bar/>
+	<greedy/>
+	<bar/>
+	<bob/>
+</root>

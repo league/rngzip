@@ -1,0 +1,9 @@
+digraph G {
+	rankdir = LR;
+	
+	"Bali" [shape=box]
+	"XHTML.rng" -> "Bali"
+	
+	"Bali" -> "Java XHTMLValidatelet"
+	"Bali" -> "Win32 XHTMLValidatelet"
+}
