@@ -8,7 +8,6 @@ import com.sun.msv.grammar.AttributeExp;
 import com.sun.msv.grammar.ChoiceExp;
 import com.sun.msv.grammar.DataExp;
 import com.sun.msv.grammar.Expression;
-import com.thaiopensource.datatype.Datatype2;
 
 /**
  * 
@@ -43,9 +42,6 @@ public class Util {
                 return false;
             
             Datatype dt = ((DatatypeImpl)d.dt).realDatatype;
-            
-            if( dt instanceof Datatype2 )
-                return ((Datatype2)dt).alwaysValid();
             
             return false;
         }

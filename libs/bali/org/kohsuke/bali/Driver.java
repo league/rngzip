@@ -15,8 +15,6 @@ import java.util.Set;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.xml.serialize.OutputFormat;
-import org.apache.xml.serialize.XMLSerializer;
 import org.kohsuke.bali.automaton.TreeAutomaton;
 import org.kohsuke.bali.automaton.builder.*;
 import org.kohsuke.bali.datatype.DatatypeLibraryImpl;
@@ -497,7 +495,7 @@ public class Driver {
             spf,
             new RELAXNGReader.StateFactory() {
                 // return our DatatypeLibrary implementation
-                public DatatypeLibrary getDatatypeLibrary( String namespaceURI ) {
+                public DatatypeLibrary resolveDataTypeLibrary( String namespaceURI ) {
                     return new DatatypeLibraryImpl(namespaceURI);
                 }
             },
@@ -542,6 +540,9 @@ public class Driver {
         // then write it as RELAX NG, and re-parse it as RELAX NG
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         RELAXNGWriter writer = new RELAXNGWriter();
+        // removing dependence on org.apache.xml.serialize.*
+        throw new UnsupportedOperationException("loadOtherGrammar");
+        /*
         writer.setDocumentHandler(new XMLSerializer( baos,
                 new OutputFormat("xml",null,true) ) );
         writer.write(grammar);
@@ -552,5 +553,6 @@ public class Driver {
         reader.parse(new InputSource(new ByteArrayInputStream(baos.toByteArray())));
         
         return reader.getResult();
+        */
     }
 }
