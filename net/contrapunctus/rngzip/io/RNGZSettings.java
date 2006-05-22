@@ -1,8 +1,8 @@
 package net.contrapunctus.rngzip.io;
 
-import com.colloquial.arithcode.ArithCodeInputStream;
-import com.colloquial.arithcode.ArithCodeOutputStream;
-import com.colloquial.arithcode.PPMModel;
+//import com.colloquial.arithcode.ArithCodeInputStream;
+//import com.colloquial.arithcode.ArithCodeOutputStream;
+//import com.colloquial.arithcode.PPMModel;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -15,8 +15,8 @@ import net.contrapunctus.rngzip.util.BitOutputStream;
 import net.contrapunctus.rngzip.util.MultiplexInputStream;
 import net.contrapunctus.rngzip.util.MultiplexOutputStream;
 import net.contrapunctus.rngzip.util.OutputStreamFilter;
-import org.apache.tools.bzip2.CBZip2InputStream;
-import org.apache.tools.bzip2.CBZip2OutputStream;
+//import org.apache.tools.bzip2.CBZip2InputStream;
+//import org.apache.tools.bzip2.CBZip2OutputStream;
 
 public class RNGZSettings 
 {
@@ -102,10 +102,10 @@ public class RNGZSettings
       switch(cm) {
       case NONE: break;
       case GZ: out = new GZIPOutputStream(out); break;
-      case BZ2: out = new CBZip2OutputStream(out); break;
-      case PPM: 
-        out = new ArithCodeOutputStream(out, new PPMModel(ppmOrder)); 
-        break;
+      //case BZ2: out = new CBZip2OutputStream(out); break;
+      //case PPM: 
+      //  out = new ArithCodeOutputStream(out, new PPMModel(ppmOrder)); 
+      //  break;
       default: assert false;
       }
       return out;
@@ -214,10 +214,10 @@ public class RNGZSettings
       switch(cm) {
       case NONE: break;
       case GZ: in = new GZIPInputStream(in); break;
-      case BZ2: in = new CBZip2InputStream(in); break;
-      case PPM: 
-        in = new ArithCodeInputStream(in, new PPMModel(ppmOrder));
-        break;
+      //case BZ2: in = new CBZip2InputStream(in); break;
+      //case PPM: 
+      //  in = new ArithCodeInputStream(in, new PPMModel(ppmOrder));
+      //  break;
       default: assert false;
       }
       return in;

@@ -8,7 +8,6 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPInputStream;
 import net.contrapunctus.rngzip.util.BitInputStream;
 import net.contrapunctus.rngzip.util.MultiplexInputStream;
-import sax.Writer;
 
 /**
  * This implements a compressed XML input interface by reading the

@@ -6,7 +6,6 @@ import org.kohsuke.bali.automaton.*;
 import org.kohsuke.bali.datatype.Value;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
-import sax.Writer;
 import net.contrapunctus.rngzip.util.BaliAutomaton;
 import net.contrapunctus.rngzip.util.Bali;
 import net.contrapunctus.rngzip.io.ChoiceDecoder;
@@ -134,15 +133,5 @@ class GenericDecompressor
       }
       catch(SAXException e) { exn_sax = e; }
       return null;
-   }
-      
-   public static void main(String[] args) throws Exception
-   {
-     //RNGZInputInterface in = new RNGZInputStream(System.in);
-      InteractiveInput in = new InteractiveInput(System.in, System.err);
-      Writer wr = new Writer();
-      wr.setOutput(System.out, null);
-      new GenericDecompressor(args[0], in, wr);
-      System.out.println();
    }
 }

@@ -3,13 +3,14 @@
 default: build
 
 .PHONY: default build rebuild nofiles allfiles buildfiles doc dist \
-	clean distclean mostlyclean maintainer-clean
+	clean distclean mostlyclean maintainer-clean libsonly
 .DELETE_ON_ERROR:
 
 ################################ Paths and files
 
+MYNAME = rngzip
 BUILD = build
-CLASSPATH = $(BUILD)
+CLASSPATH = $(BUILD):/sw/share/java/xerces-j/xercesSamples.jar
 
 LIBRARIES := bali iso-relax msv relaxng-datatype gnu-getopt
 SOURCEPATH := net

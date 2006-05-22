@@ -21,7 +21,6 @@ import org.kohsuke.bali.optimizer.ZeroOrMoreAttributeExpander;
 import org.kohsuke.bali.writer.AutomatonDumper;
 import org.kohsuke.bali.writer.Interpreter;
 import runtime.ValidateletImpl;
-import sax.Writer;
 import java.net.MalformedURLException;
 
 public class Bali 
