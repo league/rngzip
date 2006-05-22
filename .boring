@@ -2,3 +2,11 @@
 ^build$
 \.jar$
 ~$
+/com/sun/msv/datatype/xsd/datetime/ISO8601Parser.java$
+/com/sun/msv/datatype/xsd/datetime/ISO8601ParserConstants.java$
+/com/sun/msv/datatype/xsd/datetime/ISO8601ParserTokenManager.java$
+/com/sun/msv/datatype/xsd/datetime/ParseException.java$
+/com/sun/msv/datatype/xsd/datetime/SimpleCharStream.java$
+/com/sun/msv/datatype/xsd/datetime/Token.java$
+/com/sun/msv/datatype/xsd/datetime/TokenMgrError.java$
+^doc/api/
