@@ -9,7 +9,7 @@
  */
 package com.sun.msv.datatype.xsd;
 
-import org.apache.xerces.impl.xpath.regex.RegularExpression;
+import java.util.regex.Pattern;
 import org.relaxng.datatype.ValidationContext;
 
 import com.sun.msv.datatype.SerializationContext;
@@ -30,7 +30,7 @@ public class AnyURIType extends BuiltinAtomicType implements Discrete {
 	}
 	
 	protected boolean checkFormat( String content, ValidationContext context ) {
-		return regexp.matches(escape(content));
+          return regexp.matcher(escape(content)).matches();
 	}
 
 	private static void appendHex( StringBuffer buf, int hex ) {
@@ -119,9 +119,9 @@ public class AnyURIType extends BuiltinAtomicType implements Discrete {
 		return new String(escaped);
 	}
 
-	final static RegularExpression regexp = createRegExp();
+	final static Pattern regexp = createRegExp();
 	
-	static RegularExpression createRegExp() {
+	static Pattern createRegExp() {
 		String alpha		= "[a-zA-Z]";
 		String alphanum		= "[0-9a-zA-Z]";
 		String hex			= "[0-9a-fA-F]";
@@ -165,13 +165,13 @@ public class AnyURIType extends BuiltinAtomicType implements Discrete {
 		String relativeURI	= "(("+netPath+")|("+absPath+")|("+relPath+"))(\\?"+query+")?";
 		String absoluteURI	= scheme+":(("+hierPart+")|("+opaquePart+"))";
 		String uriRef = "("+absoluteURI+"|"+relativeURI+")?(#"+fragment+")?";
-		return new RegularExpression(uriRef,"X");
+		return Pattern.compile(uriRef);
 	}
 	
 
 	public Object _createValue( final String content, ValidationContext context ) {
 		// we can't use java.net.URL (for example, it cannot handle IPv6.)
-		if(!regexp.matches(escape(content)))		return null;
+          if(!regexp.matcher(escape(content)).matches()) return null;
 		
 		// the value space and the lexical space is the same.
 		// escaped characters are only used for validation.

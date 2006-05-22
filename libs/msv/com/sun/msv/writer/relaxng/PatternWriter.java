@@ -327,10 +327,10 @@ public abstract class PatternWriter implements ExpressionVisitorVoid {
 			if( dtf instanceof PatternFacet ) {
 				String pattern = "";
 				PatternFacet pf = (PatternFacet)dtf;
-				for( int j=0; j<pf.getRegExps().length; j++ ) {
-					if( pattern.length()!=0 )	pattern += "|";
-					pattern += pf.patterns[j];
-				}
+				//for( int j=0; j<pf.getRegExps().length; j++ ) {
+				//	if( pattern.length()!=0 )	pattern += "|";
+				//	pattern += pf.patterns[j];
+				//}
 				param("pattern",pattern);
 			} else
 			if( dtf instanceof TotalDigitsFacet ) {
