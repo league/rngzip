@@ -14,7 +14,8 @@ JAVAC_FLAGS = -Xlint:all -encoding UTF-8
 JVM_FLAGS = -ea
 JAVADOC_FLAGS = -author -use -quiet
 
-ALL_JAVAC_FLAGS = $(JAVAC_FLAGS) -d $(BUILD) -cp $(BUILD):$(CLASSPATH)
+PSEP = \;
+ALL_JAVAC_FLAGS = $(JAVAC_FLAGS) -d $(BUILD) -cp $(BUILD)$(PSEP)$(CLASSPATH)
 ALL_JAVADOC_FLAGS = $(JAVADOC_FLAGS) -encoding UTF-8 -charset UTF-8
 ALL_JVM_FLAGS = $(JVM_FLAGS)
 
@@ -106,7 +107,7 @@ TEST_SOURCES = $(shell find ./tests -name '*.java' | $(STRIP_PATH))
 TEST_CLASSES = $(addprefix tests/,$(patsubst %.java,%.class,$(TEST_SOURCES)))
 TESTS = $(subst /,.,$(patsubst %.java,%,$(TEST_SOURCES)))
 
-TEST_CLASSPATH = tests:$(BUILD):$(JUNIT_JAR):$(CLASSPATH)
+TEST_CLASSPATH = tests$(PSEP)$(BUILD)$(PSEP)$(JUNIT_JAR)$(PSEP)$(CLASSPATH)
 
 test: CLASSPATH = $(TEST_CLASSPATH)
 test: ALL_JAVAC_FLAGS = $(JAVAC_FLAGS) -d tests -cp $(CLASSPATH)
@@ -128,7 +129,7 @@ $(NAME).jar: nofiles $(ALL_CLASSES) compilefiles manifest.txt
 
 manifest.txt: Makefile
 	echo Main-Class: $(PACKAGE).Driver >$@
-	echo Class-Path: $(CLASSPATH)     >>$@
+	echo Class-Path: .$(PSEP)$(CLASSPATH)     >>$@
 
 # for maintainer only: push changes up to web site
 DARCS_BRANCH = trunk
