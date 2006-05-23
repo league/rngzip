@@ -130,8 +130,21 @@ manifest.txt: Makefile
 	echo Main-Class: $(PACKAGE).Driver >$@
 	echo Class-Path: $(CLASSPATH)     >>$@
 
-upload-changes:
-	echo Ok.
+# for maintainer only: push changes up to web site
+DARCS_BRANCH = trunk
+DARCS_STAGING = $(HOME)/Sites/$(NAME)
+DARCS_DEST = contrapunctus.net:public_html/dist/$(NAME)
+
+darcs-put:
+	darcs put -v --no-pristine-tree $(DARCS_STAGING)/$(DARCS_BRANCH)
+
+push-sync:
+	darcs push
+	rsync -av --include='/$(DARCS_BRANCH)/' \
+	          --include='/$(DARCS_BRANCH)/_darcs/' \
+	          --include='/$(DARCS_BRANCH)/_darcs/**' \
+	          --exclude='*' \
+	      $(DARCS_STAGING)/ $(DARCS_DEST)
 
 ################################ Documentation
 
