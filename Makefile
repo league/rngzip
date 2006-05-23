@@ -7,6 +7,7 @@ JVM = java
 JAVADOC = javadoc
 JAVACC = javacc
 JAR = jar
+TRANG = trang
 MKDIR = mkdir -p
 INSTALL = install -D -m 644
 
@@ -14,7 +15,7 @@ JAVAC_FLAGS = -Xlint:all -encoding UTF-8
 JVM_FLAGS = -ea
 JAVADOC_FLAGS = -author -use -quiet
 
-PSEP = \;
+PSEP = :
 ALL_JAVAC_FLAGS = $(JAVAC_FLAGS) -d $(BUILD) -cp $(BUILD)$(PSEP)$(CLASSPATH)
 ALL_JAVADOC_FLAGS = $(JAVADOC_FLAGS) -encoding UTF-8 -charset UTF-8
 ALL_JVM_FLAGS = $(JVM_FLAGS)
@@ -62,6 +63,8 @@ vpath %.jj $(LIBRARIES)
 vpath %.properties $(LIBRARIES)
 vpath %.rng $(LIBRARIES)
 
+include Makefile.local
+
 ################################ Java build hacks
 
 default: all
@@ -70,6 +73,7 @@ all: compile
 .PHONY: default compile recompile nofiles allfiles compilefiles doc dist \
 	clean distclean mostlyclean maintainer-clean libsonly test jvm
 .DELETE_ON_ERROR:
+.SUFFIXES: .rnc .rng
 
 compile: nofiles $(ALL_CLASSES) compilefiles
 recompile: nofiles allfiles compilefiles
@@ -107,13 +111,19 @@ TEST_SOURCES = $(shell find ./tests -name '*.java' | $(STRIP_PATH))
 TEST_CLASSES = $(addprefix tests/,$(patsubst %.java,%.class,$(TEST_SOURCES)))
 TESTS = $(subst /,.,$(patsubst %.java,%,$(TEST_SOURCES)))
 
-TEST_CLASSPATH = tests$(PSEP)$(BUILD)$(PSEP)$(JUNIT_JAR)$(PSEP)$(CLASSPATH)
+TEST_CLASSPATH := tests$(PSEP)$(BUILD)$(PSEP)$(JUNIT_JAR)$(PSEP)$(CLASSPATH)
+
+TEST_RNC_SCHEMATA = $(shell find tests/cases -name '*.rnc')
+TEST_RNG_SCHEMATA = $(patsubst %.rnc,%.rng,$(TEST_RNC_SCHEMATA))
 
 test: CLASSPATH = $(TEST_CLASSPATH)
 test: ALL_JAVAC_FLAGS = $(JAVAC_FLAGS) -d tests -cp $(CLASSPATH)
-test: nofiles $(TEST_CLASSES) compilefiles
+test: nofiles $(TEST_CLASSES) compilefiles $(TEST_RNG_SCHEMATA)
 	$(JVM) $(ALL_JVM_FLAGS) -cp $(CLASSPATH) \
 	    org.junit.runner.JUnitCore $(TESTS)
+
+%.rng: %.rnc
+	$(TRANG) $^ $@
 
 # Useful for interactive runs: `make jvm` blah blah
 
@@ -161,7 +171,8 @@ doc/api/index.html: $(ALL_SOURCES)
 # classes in the build/ directory, and the API documentation.
 mostlyclean:
 	$(RM) -r $(BUILD)/net
-	$(RM) $(TEST_CLASSES) files manifest.txt *~
+	$(RM) $(TEST_CLASSES) $(TEST_RNG_SCHEMATA) 
+	$(RM) files manifest.txt *~
 
 # Delete files that are normally created by building the program.
 # Also preserve files that could be made by building, but normally
