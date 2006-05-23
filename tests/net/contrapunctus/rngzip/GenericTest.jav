@@ -4,8 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FilenameFilter;
-import junit.framework.Test;
-import junit.framework.TestSuite;
 import net.contrapunctus.rngzip.io.RNGZInputStream;
 import net.contrapunctus.rngzip.io.RNGZOutputStream;
 import net.contrapunctus.rngzip.io.RNGZSettings;
@@ -20,14 +18,13 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * Test suite for a generic compress-decompress round-trip, using 
  * files in tests/ sub-directory.
  */
-public class GenericTest extends junit.framework.TestCase
+public class GenericTest 
 {
    static final String TESTDIR = "tests";
    String xfile, rfile;
    
    public GenericTest(String name)
    {
-      super(name);
       name = TESTDIR+File.separatorChar+name;
       xfile = name;
       rfile = name.replaceFirst("\\..*\\.xml", ".rng");

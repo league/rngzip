@@ -3,14 +3,13 @@ package net.contrapunctus.rngzip.io;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.LinkedList;
-import junit.framework.Test;
-import junit.framework.TestSuite;
 import net.contrapunctus.rngzip.util.MultiplexBlockTest;
+import static org.junit.Assert.*;
 
 /**
  * Test suite for RNGZ input and output streams.
  */
-public class RNGZIOTest extends junit.framework.TestCase
+public class RNGZIOTest 
 {
    public static Test suite()
    {
@@ -31,7 +30,6 @@ public class RNGZIOTest extends junit.framework.TestCase
    private ChoiceCoder[] cc = new ChoiceCoder[MAX];
    private RNGZIOTest(RNGZSettings s)
    {
-      super(s.toString());
       settings = s;
    }
 

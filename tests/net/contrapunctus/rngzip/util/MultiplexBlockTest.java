@@ -11,12 +11,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * Test suite for the Multiplex* classes.
  */
-public class MultiplexBlockTest extends junit.framework.TestCase
+public class MultiplexBlockTest
 {
+  @Test
    public void testExamples() throws IOException
    {
       testEnc(0,12121,new byte[]{(byte)0x5E,(byte)0x59});
@@ -65,9 +68,9 @@ public class MultiplexBlockTest extends junit.framework.TestCase
       MultiplexBlockRep ro = new MultiplexBlockRep(bo, sid);
       ro.encode(size);
       byte[] rs = bo.toByteArray();
-      assertEquals(bs.length, rs.length);
+      assert(bs.length == rs.length);
       for(int i = 0;  i < bs.length;  i++) {
-         assertEquals(bs[i], rs[i]);
+         assert(bs[i] == rs[i]);
       }
    }
 
@@ -76,10 +79,11 @@ public class MultiplexBlockTest extends junit.framework.TestCase
       ByteArrayInputStream bi = new ByteArrayInputStream(bs);
       MultiplexBlockRep ri = new MultiplexBlockRep(bi);
       int sz = ri.decode();
-      assertEquals(sid, ri.streamID);
-      assertEquals(size, sz);
+      assert(sid == ri.streamID);
+      assert(size == sz);
    }
 
+  @Test
    public void testBlockLimit() throws IOException
    {
       /* create a huge array */
@@ -105,6 +109,7 @@ public class MultiplexBlockTest extends junit.framework.TestCase
       mo.close();
    }
 
+  @Test
    public void testStreams() throws IOException
    {
       /* first write */
@@ -132,15 +137,15 @@ public class MultiplexBlockTest extends junit.framework.TestCase
       /* then read */
       ByteArrayInputStream bi = new ByteArrayInputStream(buf);
       MultiplexInputStream mi = new MultiplexInputStream(bi);
-      assertEquals(0xDEADBEEF, mi.magic());
+      assert(0xDEADBEEF == mi.magic());
       DataInputStream di = new DataInputStream(mi.open(1));
       BufferedReader br = new BufferedReader(new InputStreamReader(mi.open(0)));
-      assertEquals("Hello, world", br.readLine());
-      assertEquals("Here now", br.readLine());
-      assertEquals(0xCAFEBABE, di.readInt());
-      assertEquals(0xBEEF, di.readUnsignedShort());
-      assertEquals(0x12345678, di.readInt());
-      assertEquals("The end.", br.readLine());
+      assert("Hello, world".equals(br.readLine()));
+      assert("Here now".equals(br.readLine()));
+      assert(0xCAFEBABE == di.readInt());
+      assert(0xBEEF == di.readUnsignedShort());
+      assert(0x12345678 == di.readInt());
+      assert("The end.".equals( br.readLine()));
       assertNull(br.readLine());
       try {
          di.readByte();

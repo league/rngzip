@@ -1,21 +1,34 @@
 # Makefile -- requires GNU make
 
-default: compile
+################################ Programs and options
 
-.PHONY: default compile recompile nofiles allfiles compilefiles doc dist \
-	clean distclean mostlyclean maintainer-clean libsonly
-.DELETE_ON_ERROR:
+JAVAC = javac
+JVM = java
+JAVADOC = javadoc
+JAVACC = javacc
+JAR = jar
+MKDIR = mkdir -p
+INSTALL = install -D -m 644
+
+JAVAC_FLAGS = -Xlint:all -encoding UTF-8
+JVM_FLAGS = -ea
+JAVADOC_FLAGS = -author -use -quiet
+
+ALL_JAVAC_FLAGS = $(JAVAC_FLAGS) -d $(BUILD) -cp $(BUILD):$(CLASSPATH)
+ALL_JAVADOC_FLAGS = $(JAVADOC_FLAGS) -encoding UTF-8 -charset UTF-8
+ALL_JVM_FLAGS = $(JVM_FLAGS)
 
 ################################ Paths and files
+
+JUNIT_JAR = /home/league/tmp/junit4.0/junit-4.0.jar
+CLASSPATH = /sw/share/java/xerces-j/xercesSamples.jar
 
 NAME = rngzip
 PACKAGE = net.contrapunctus.$(NAME)
 
-BUILD = build
-CLASSPATH = /sw/share/java/xerces-j/xercesSamples.jar
-
 LIBRARIES := bali iso-relax msv relaxng-datatype gnu-getopt
 SOURCEPATH := net
+BUILD = build
 
 SOURCES := $(shell find $(SOURCEPATH) -name '*.java')
 
@@ -27,7 +40,7 @@ PARSER_GEN := $(PARSER_NAME)Parser.java $(PARSER_NAME)ParserConstants.java \
   $(PARSER_DIR)/TokenMgrError.java
 PARSER_FILES := $(addprefix libs/msv/,$(PARSER_GEN))
 
-STRIP_PATH := sed 's:^libs/[-a-z]*/::'
+STRIP_PATH := sed 's:^[\.a-z]*/[-a-z]*/::'
 LIBRARIES := $(addprefix libs/,$(LIBRARIES))
 LIB_SOURCES := $(PARSER_GEN) \
   $(shell find $(LIBRARIES) -name '*.java' | $(STRIP_PATH))
@@ -48,24 +61,14 @@ vpath %.jj $(LIBRARIES)
 vpath %.properties $(LIBRARIES)
 vpath %.rng $(LIBRARIES)
 
-################################ Programs and options
-
-JAVAC = javac
-JVM = java
-JAVADOC = javadoc
-JAVACC = javacc
-JAR = jar
-MKDIR = mkdir -p
-INSTALL = install -D -m 644
-
-JAVAC_FLAGS = -Xlint:all 
-JVM_FLAGS = -ea
-JAVADOC_FLAGS = -author -use -quiet
-
-ALL_JAVAC_FLAGS = $(JAVAC_FLAGS) -d $(BUILD) -cp $(BUILD):$(CLASSPATH) -encoding UTF-8 
-ALL_JAVADOC_FLAGS = $(JAVADOC_FLAGS) -encoding UTF-8 -charset UTF-8
-
 ################################ Java build hacks
+
+default: all
+all: compile
+
+.PHONY: default compile recompile nofiles allfiles compilefiles doc dist \
+	clean distclean mostlyclean maintainer-clean libsonly test jvm
+.DELETE_ON_ERROR:
 
 compile: nofiles $(ALL_CLASSES) compilefiles
 recompile: nofiles allfiles compilefiles
@@ -77,13 +80,14 @@ $(BUILD):
 nofiles:
 	@$(RM) files
 
-allfiles: $(SOURCES)
+allfiles: $(ALL_SOURCES)
 	@echo Compiling all .java files...
 	@echo $^ > files
 
 compilefiles: $(RESOURCES)
 	@if [ -e files ]; then \
-	  $(JAVAC) $(ALL_JAVAC_FLAGS) @files && echo Ok.; \
+	  echo $(JAVAC) $(ALL_JAVAC_FLAGS) ... ;\
+	  $(JAVAC) $(ALL_JAVAC_FLAGS) @files && echo Ok. ;\
 	else echo Nothing to compile.; fi
 
 %.class: %.java
@@ -96,11 +100,30 @@ $(PARSER_FILES): $(PARSER_NAME).jj
 $(BUILD)/%: %
 	$(INSTALL) $^ $@
 
+################################ Test cases
+
+TEST_SOURCES = $(shell find ./tests -name '*.java' | $(STRIP_PATH))
+TEST_CLASSES = $(addprefix tests/,$(patsubst %.java,%.class,$(TEST_SOURCES)))
+TESTS = $(subst /,.,$(patsubst %.java,%,$(TEST_SOURCES)))
+
+TEST_CLASSPATH = tests:$(BUILD):$(JUNIT_JAR):$(CLASSPATH)
+
+test: CLASSPATH = $(TEST_CLASSPATH)
+test: ALL_JAVAC_FLAGS = $(JAVAC_FLAGS) -d tests -cp $(CLASSPATH)
+test: nofiles $(TEST_CLASSES) compilefiles
+	$(JVM) $(ALL_JVM_FLAGS) -cp $(CLASSPATH) \
+	    org.junit.runner.JUnitCore $(TESTS)
+
+# Useful for interactive runs: `make jvm` blah blah
+
+jvm:
+	@echo $(JVM) $(ALL_JVM_FLAGS) -cp $(TEST_CLASSPATH)
+
 ################################ Packaging
 
-dist: $(SOURCES)
+dist: $(ALL_SOURCES)
 
-$(NAME).jar: nofiles $(CLASSES) compilefiles manifest.txt
+$(NAME).jar: nofiles $(ALL_CLASSES) compilefiles manifest.txt
 	$(JAR) cfm $@ manifest.txt -C build . 
 
 manifest.txt: Makefile
@@ -111,7 +134,7 @@ manifest.txt: Makefile
 
 doc: doc/api/index.html
 
-doc/api/index.html: $(SOURCES)
+doc/api/index.html: $(ALL_SOURCES)
 	javadoc -d $(dir $@) $(ALL_JAVADOC_FLAGS) $^
 
 ################################ Cleanliness
@@ -121,7 +144,7 @@ doc/api/index.html: $(SOURCES)
 # classes in the build/ directory, and the API documentation.
 mostlyclean:
 	$(RM) -r $(BUILD)/net
-	$(RM) files manifest.txt *~
+	$(RM) $(TEST_CLASSES) files manifest.txt *~
 
 # Delete files that are normally created by building the program.
 # Also preserve files that could be made by building, but normally

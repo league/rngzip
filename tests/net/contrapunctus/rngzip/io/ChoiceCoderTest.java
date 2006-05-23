@@ -1,16 +1,17 @@
 package net.contrapunctus.rngzip.io;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ByteArrayInputStream;
-import net.contrapunctus.rngzip.util.BitOutputStream;
 import net.contrapunctus.rngzip.util.BitInputStream;
-
+import net.contrapunctus.rngzip.util.BitOutputStream;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * Test suite for choice encoders and decoders.
  */
-public class ChoiceCoderTest extends junit.framework.TestCase
+public class ChoiceCoderTest
 {
    private static final int MIN = 1;
    private static final int MAX = 20;
@@ -83,12 +84,14 @@ public class ChoiceCoderTest extends junit.framework.TestCase
       }
    }
 
+  @Test
    public void testIdentitySimple() throws IOException
    {
       setupSimple();
       runIdentity();
    }
 
+  @Test
    public void testIdentityHuffman() throws IOException
    {
       setupHuffman();
