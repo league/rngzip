@@ -32,6 +32,7 @@ LIBRARIES := $(addprefix libs/,$(LIBRARIES))
 LIB_SOURCES := $(PARSER_GEN) \
   $(shell find $(LIBRARIES) -name '*.java' | $(STRIP_PATH))
 AUX_FILES := net/contrapunctus/rngzip/help.txt \
+  com/sun/msv/reader/trex/ng/relaxng.rng \
   $(shell find $(LIBRARIES) -name '*.properties' | $(STRIP_PATH))
 
 ALL_SOURCES := $(SOURCES) $(LIB_SOURCES)
@@ -45,6 +46,7 @@ vpath %.class $(BUILD)
 vpath %.java $(LIBRARIES)
 vpath %.jj $(LIBRARIES)
 vpath %.properties $(LIBRARIES)
+vpath %.rng $(LIBRARIES)
 
 ################################ Programs and options
 
@@ -65,7 +67,7 @@ ALL_JAVADOC_FLAGS = $(JAVADOC_FLAGS) -encoding UTF-8 -charset UTF-8
 
 ################################ Java build hacks
 
-compile: nofiles $(CLASSES) compilefiles
+compile: nofiles $(ALL_CLASSES) compilefiles
 recompile: nofiles allfiles compilefiles
 libsonly: nofiles $(LIB_CLASSES) compilefiles
 
@@ -91,10 +93,7 @@ compilefiles: $(RESOURCES)
 $(PARSER_FILES): $(PARSER_NAME).jj
 	$(JAVACC) -OUTPUT_DIRECTORY=$(dir $^) $^
 
-$(BUILD)/%.properties: %.properties
-	$(INSTALL) $^ $@
-
-$(BUILD)/%.txt: %.txt
+$(BUILD)/%: %
 	$(INSTALL) $^ $@
 
 ################################ Packaging

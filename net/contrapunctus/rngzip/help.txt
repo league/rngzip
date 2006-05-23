@@ -12,8 +12,8 @@
  -S --suffix=.SUF              use suffix .SUF on compressed files [.rnz]
  -T --tree-compressor=COMP     compress the encoded XML tree using COMP:
                                   none : no compression
-                                  gz   : zlib (deflate) compression
-                                 *bz2  : block-sorting compression [default]
+                                 *gz   : zlib (deflate) compression
+                                  bz2  : block-sorting compression [default]
                                   ppm  : prediction by partial match
  -t --timings                  output timings (implies -v) 
  -V --version                  display version number, copyright, and license

@@ -37,8 +37,8 @@ public class RNGZSettings
       DataCompression.values();
 
    protected BitCoding coding = BitCoding.HUFFMAN;
-   protected DataCompression bit_cm = DataCompression.BZ2;
-   protected DataCompression dat_cm = DataCompression.BZ2;
+   protected DataCompression bit_cm = DataCompression.GZ;
+   protected DataCompression dat_cm = DataCompression.GZ;
 
    public RNGZSettings() { }
    public RNGZSettings(BitCoding bc, DataCompression bcm, DataCompression dcm)
