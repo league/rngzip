@@ -29,7 +29,7 @@ public class RNGZSettings
    
    public enum DataCompression
    {
-     NONE, GZ, BZ2, PPM;
+     NONE, GZ;  //, BZ2, PPM;
    }
 
    private static final BitCoding[] BitCoding_values = BitCoding.values();

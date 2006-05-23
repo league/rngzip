@@ -4,42 +4,49 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.LinkedList;
 import net.contrapunctus.rngzip.util.MultiplexBlockTest;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import static org.junit.Assert.*;
 
 /**
  * Test suite for RNGZ input and output streams.
  */
+@RunWith(Parameterized.class)
 public class RNGZIOTest 
 {
-   public static Test suite()
-   {
-      TestSuite ts = new TestSuite();
-      for(RNGZSettings.BitCoding x : RNGZSettings.BitCoding.values()) {
-         for(RNGZSettings.DataCompression y : RNGZSettings.DataCompression.values()) {
-            for(RNGZSettings.DataCompression z : RNGZSettings.DataCompression.values()) {
-               ts.addTest(new RNGZIOTest(new RNGZSettings(x,y,z)));
-            }
-         }
+  @Parameterized.Parameters public static LinkedList<Object[]> data() {
+    LinkedList<Object[]> list = new LinkedList<Object[]>();
+    for(RNGZSettings.BitCoding x : RNGZSettings.BitCoding.values()) {
+      for(RNGZSettings.DataCompression y : RNGZSettings.DataCompression.values()) {
+        for(RNGZSettings.DataCompression z : RNGZSettings.DataCompression.values()) {
+          list.add( new Object[] { new RNGZSettings(x, y, z) } );
+        }
       }
-      return ts;
-   }
+    }
+    return list;
+  }
 
-   private RNGZSettings settings;
-   private final int MIN = 1;
-   private final int MAX = 5;
-   private ChoiceCoder[] cc = new ChoiceCoder[MAX];
-   private RNGZIOTest(RNGZSettings s)
-   {
-      settings = s;
-   }
+  public RNGZIOTest( RNGZSettings s )
+  {
+    settings = s;
+  }
 
-   private void setupCoders() 
+  private RNGZSettings settings;
+  private final int MIN = 1;
+  private final int MAX = 5;
+  private ChoiceCoder[] cc = new ChoiceCoder[MAX];
+
+  @Before
+   public void setupCoders() 
    {
       for(int i = MIN;  i < MAX;  i++) {
          cc[i] = settings.makeChoiceCoder(i, i);
       }
    }
-   
+
+  @Test
    public void runTest() throws Exception
    {
       // first write
