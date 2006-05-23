@@ -130,6 +130,9 @@ manifest.txt: Makefile
 	echo Main-Class: $(PACKAGE).Driver >$@
 	echo Class-Path: $(CLASSPATH)     >>$@
 
+upload-changes:
+	echo Ok.
+
 ################################ Documentation
 
 doc: doc/api/index.html
