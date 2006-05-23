@@ -1,0 +1,5 @@
+start = element top { 
+  (attribute bar {text} | element bar {text}),
+  (attribute foo {text} | element foo {text})
+}
+
