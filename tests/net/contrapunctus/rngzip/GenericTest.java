@@ -51,8 +51,16 @@ public class GenericTest
   }
   
   String xfile, rfile;
-   
+
   @Test
+    public void roundTrip() throws Exception
+  {
+    try { runTest(); }
+    catch( Throwable x ) {
+      throw new Error(xfile + ": "+ x.getMessage(), x);
+    }
+  }
+   
    public void runTest() throws Exception
    {
       /* first compress */

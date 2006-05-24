@@ -16,11 +16,15 @@ import static org.junit.Assert.*;
 @RunWith(Parameterized.class)
 public class RNGZIOTest 
 {
-  @Parameterized.Parameters public static LinkedList<Object[]> data() {
+  @Parameterized.Parameters 
+  public static LinkedList<Object[]> data() {
     LinkedList<Object[]> list = new LinkedList<Object[]>();
-    for(RNGZSettings.BitCoding x : RNGZSettings.BitCoding.values()) {
-      for(RNGZSettings.DataCompression y : RNGZSettings.DataCompression.values()) {
-        for(RNGZSettings.DataCompression z : RNGZSettings.DataCompression.values()) {
+    for(RNGZSettings.BitCoding x 
+          : RNGZSettings.BitCoding.values()) {
+      for(RNGZSettings.DataCompression y 
+            : RNGZSettings.DataCompression.values()) {
+        for(RNGZSettings.DataCompression z 
+              : RNGZSettings.DataCompression.values()) {
           list.add( new Object[] { new RNGZSettings(x, y, z) } );
         }
       }
@@ -31,6 +35,11 @@ public class RNGZIOTest
   public RNGZIOTest( RNGZSettings s )
   {
     settings = s;
+  }
+
+  public String toString() 
+  {
+    return settings.toString();
   }
 
   private RNGZSettings settings;
@@ -47,6 +56,18 @@ public class RNGZIOTest
    }
 
   @Test
+  public void checkIO() throws Exception
+  {
+    try 
+      {
+        runTest(); 
+      }
+    catch( Throwable x ) 
+      {
+        throw new Error(this + ":  " + x.getMessage());
+      }
+  }
+    
    public void runTest() throws Exception
    {
       // first write
