@@ -1,27 +1,26 @@
 package net.contrapunctus.rngzip;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.FilenameFilter;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.TreeSet;
 import net.contrapunctus.rngzip.io.RNGZInputStream;
 import net.contrapunctus.rngzip.io.RNGZOutputStream;
 import net.contrapunctus.rngzip.io.RNGZSettings;
+import net.contrapunctus.rngzip.util.Bali;
 import net.contrapunctus.rngzip.util.ErrorReporter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.kohsuke.bali.automaton.TreeAutomaton;
+import org.kohsuke.bali.writer.*;
 import org.xml.sax.Attributes;
 import org.xml.sax.XMLReader;
+import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
+import runtime.ValidateletImpl;
 
 /**
  * Test suite for a generic compress-decompress round-trip, using
@@ -85,10 +84,16 @@ public class GenericTest
   {
     try
       {
+        validateOnly();
         recordOriginal();
         compress();
         decompress();
         origSax.assertEqual(newSax);
+        // If we get here, there were no exceptions.
+        // But was there any output on the stream?
+        errorStream.flush();
+        if( errorBytes.size() > 0 )
+          throw new Exception("error stream");
       }
     catch( Throwable th )
       {
@@ -97,6 +102,23 @@ public class GenericTest
         String msg = composeErrorMessage(th.getMessage());
         throw new Error( msg, th );
       }
+  }
+
+  private void validateOnly() throws Exception
+  {
+    AutomatonWriter writer = new NullWriter();    
+    Interpreter interpreter = new Interpreter();
+    writer = new MultiWriter(writer, interpreter);
+    TreeAutomaton automaton = Bali.buildAutomatonFromRNG(schemaFileName);
+    writer.write(automaton);
+    ValidateletImpl v = interpreter.createValidatelet();
+    xmlReader.setContentHandler(v);
+    try {
+      xmlReader.parse(origFileName);
+    }
+    catch( SAXParseException exn ) {
+      errorStream.println("WARNING: Bali COULD NOT VALIDATE THIS TEST CASE");
+    }
   }
 
   private void recordOriginal() throws Exception
