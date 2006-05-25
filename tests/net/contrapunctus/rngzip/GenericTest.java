@@ -2,7 +2,9 @@ package net.contrapunctus.rngzip;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.FilenameFilter;
 import java.io.PrintStream;
 import java.util.Iterator;
@@ -78,12 +80,23 @@ public class GenericTest
     schemaFileName = origFileName.replaceFirst("\\..*\\.xml", ".rng");
   }
 
+  @Test
   public void roundTrip() throws Exception
   {
-    recordOriginal();
-    compress();
-    decompress();
-    origSax.assertEqual(newSax);
+    try
+      {
+        recordOriginal();
+        compress();
+        decompress();
+        origSax.assertEqual(newSax);
+      }
+    catch( Throwable th )
+      {
+        maybeSaveRNZ();
+        maybeSaveNewXML();
+        String msg = composeErrorMessage(th.getMessage());
+        throw new Error( msg, th );
+      }
   }
 
   private void recordOriginal() throws Exception
@@ -96,13 +109,13 @@ public class GenericTest
   private void compress() throws Exception
   {
     ByteArrayOutputStream bo = new ByteArrayOutputStream();
-        RNGZOutputStream ro = new RNGZOutputStream(bo, settings);
-        GenericCompressor gc = new GenericCompressor
-          (schemaFileName, errorReporter, ro);
-        xmlReader.setContentHandler(gc);
-        xmlReader.parse(origFileName);
-        ro.close();
-        compressedBytes = bo.toByteArray();
+    RNGZOutputStream ro = new RNGZOutputStream(bo, settings);
+    GenericCompressor gc = new GenericCompressor
+      (schemaFileName, errorReporter, ro);
+    xmlReader.setContentHandler(gc);
+    xmlReader.parse(origFileName);
+    ro.close();
+    compressedBytes = bo.toByteArray();
   }
 
   private void decompress() throws Exception
@@ -114,17 +127,46 @@ public class GenericTest
     ri.close();
   }
 
-  @Test
-  public void run()
+  private void maybeSaveRNZ() throws Exception
   {
-    try
+    if( compressedBytes != null )
       {
-        roundTrip();
+        String rnz = origFileName.replaceFirst("\\.xml$", ".rnz");
+        FileOutputStream fos = new FileOutputStream(rnz);
+        fos.write(compressedBytes);
+        fos.close();
+        errorStream.println("Saved " + rnz + " (" +
+                            compressedBytes.length +
+                            " bytes)");
       }
-    catch( Throwable th )
+  }
+
+  private void maybeSaveNewXML() throws IOException
+  {
+    if( newSax != null )
       {
-        throw new Error(origFileName, th);
+        String xin = origFileName.replaceFirst("\\.xml$", ".xin");
+        String xout = origFileName.replaceFirst("\\.xml$", ".xout");
+        origSax.saveTo(xin);
+        newSax.saveTo(xout);
+        errorStream.println("Saved " + xin + " and " + xout);
       }
+  }
+
+  private String composeErrorMessage( String exnMesg )
+  {
+    errorStream.close();
+    StringBuilder buf = new StringBuilder();
+    buf.append(exnMesg);
+    buf.append("\nFailure in ");
+    buf.append(origFileName);
+    buf.append("\n");
+    if( errorBytes.size() > 0 )
+      {
+        buf.append("Details follow:\n");
+        buf.append(new String(errorBytes.toByteArray()));
+      }
+    return buf.toString();
   }
 
   /**
@@ -199,6 +241,21 @@ public class GenericTest
           history.add(last);
           history.add('$' + txt);
         }
+    }
+
+    public int size()
+    {
+      return history.size();
+    }
+
+    public void saveTo( String fileName ) throws IOException
+    {
+      PrintStream ps = new PrintStream(new FileOutputStream(fileName));
+      for( String e : history )
+        {
+          ps.println(e);
+        }
+      ps.close();
     }
 
     /* Check whether two event histories are the same. */

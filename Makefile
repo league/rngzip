@@ -113,6 +113,7 @@ TESTS := $(subst /,.,$(patsubst %.java,%,$(TEST_SOURCES)))
 
 TEST_CLASSPATH := tests$(PSEP)$(BUILD)$(PSEP)$(JUNIT_JAR)$(PSEP)$(CLASSPATH)
 
+TEST_XML_CASES := $(shell find tests/cases -name '*.xml')
 TEST_RNC_SCHEMATA := $(shell find tests/cases -name '*.rnc')
 TEST_RNG_SCHEMATA := $(patsubst %.rnc,%.rng,$(TEST_RNC_SCHEMATA))
 
@@ -120,7 +121,8 @@ test: CLASSPATH = $(TEST_CLASSPATH)
 test: ALL_JAVAC_FLAGS = $(JAVAC_FLAGS) -d tests -cp $(CLASSPATH)
 test: nofiles $(TEST_CLASSES) compilefiles $(TEST_RNG_SCHEMATA)
 	$(JVM) $(ALL_JVM_FLAGS) -cp $(CLASSPATH) \
-	    org.junit.runner.JUnitCore $(TESTS)
+	    org.junit.runner.JUnitCore $(TESTS) | tee test-log.txt
+	@echo Transcript of test run saved to test-log.txt
 
 %.rng: %.rnc
 	$(TRANG) $^ $@
@@ -172,7 +174,10 @@ doc/api/index.html: $(ALL_SOURCES)
 mostlyclean:
 	$(RM) -r $(BUILD)/net
 	$(RM) $(TEST_CLASSES) $(TEST_RNG_SCHEMATA) 
-	$(RM) files manifest.txt *~
+	$(RM) $(patsubst %.xml,%.rnz,$(TEST_XML_CASES))
+	$(RM) $(patsubst %.xml,%.xin,$(TEST_XML_CASES))
+	$(RM) $(patsubst %.xml,%.xout,$(TEST_XML_CASES))
+	$(RM) test-log.txt files manifest.txt *~
 
 # Delete files that are normally created by building the program.
 # Also preserve files that could be made by building, but normally
