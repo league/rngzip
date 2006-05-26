@@ -13,8 +13,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Vector;
 
-import org.apache.xerces.impl.xpath.regex.ParseException;
-import org.apache.xerces.impl.xpath.regex.RegularExpression;
+import java.util.regex.PatternSyntaxException;
+import java.util.regex.Pattern;
 import org.relaxng.datatype.ValidationContext;
 import org.relaxng.datatype.DatatypeException;
 
@@ -32,9 +32,9 @@ public final class PatternFacet extends DataTypeWithLexicalConstraintFacet {
 	 * actual object that performs regular expression validation.
 	 * one of the item has to match
 	 */
-	private transient RegularExpression[] exps;
+	private transient Pattern[] exps;
     
-    public RegularExpression[] getRegExps() { return exps; }
+    public Pattern[] getRegExps() { return exps; }
 	
 	/**
 	 * string representations of the above RegularExpressions.
@@ -64,7 +64,7 @@ public final class PatternFacet extends DataTypeWithLexicalConstraintFacet {
         
         try {
             compileRegExps();
-        } catch( ParseException pe ) {
+        } catch( PatternSyntaxException pe ) {
             // in case regularExpression is not a correct pattern
             throw new DatatypeException( localize( ERR_PARSE_ERROR,
                 pe.getMessage() ) );
@@ -72,10 +72,10 @@ public final class PatternFacet extends DataTypeWithLexicalConstraintFacet {
     }
     
     /** Compiles all the regular expressions. */
-    private void compileRegExps() throws ParseException {
-		exps = new RegularExpression[patterns.length];
+    private void compileRegExps() throws PatternSyntaxException {
+		exps = new Pattern[patterns.length];
 		for(int i=0;i<exps.length;i++)
-			exps[i] = new RegularExpression(patterns[i],"X");
+			exps[i] = Pattern.compile(patterns[i]);
 		
 		// loosened facet check is almost impossible for pattern facet.
 		// ignore it for now.
@@ -99,7 +99,7 @@ public final class PatternFacet extends DataTypeWithLexicalConstraintFacet {
         // at any given time.
         synchronized(this) {
     		for( int i=0; i<exps.length; i++ )
-    			if(exps[i].matches(literal))
+                  if(exps[i].matcher(literal).matches())
     				return true;
         }
 		// otherwise fail
