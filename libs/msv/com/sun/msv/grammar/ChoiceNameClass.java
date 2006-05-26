@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ChoiceNameClass.java,v 1.10 2003/01/16 21:51:17 kk122374 Exp $
+ * @(#)$Id: ChoiceNameClass.java,v 1.9 2002/09/05 15:13:26 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -34,7 +34,4 @@ public class ChoiceNameClass extends NameClass {
 	public String toString() {
 		return '('+nc1.toString()+'|'+nc2.toString()+')';
 	}
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

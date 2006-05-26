@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: KeyRefConstraint.java,v 1.2 2003/01/16 21:51:21 kk122374 Exp $
+ * @(#)$Id: KeyRefConstraint.java,v 1.1 2001/05/15 21:52:36 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -24,7 +24,4 @@ public class KeyRefConstraint extends IdentityConstraint {
 	 * this field is intentionally non-final.
 	 */
 	public KeyConstraint key;
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

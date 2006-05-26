@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: MultiSchemaReader.java,v 1.3 2003/01/09 21:00:13 kk122374 Exp $
+ * @(#)$Id: MultiSchemaReader.java,v 1.2 2002/02/24 01:30:15 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,10 +9,15 @@
  */
 package com.sun.msv.reader.xmlschema;
 
+import com.sun.msv.grammar.xmlschema.XMLSchemaGrammar;
+import com.sun.msv.util.Util;
+import java.io.IOException;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.XMLReader;
+import org.xml.sax.SAXException;
 import org.xml.sax.InputSource;
 import org.xml.sax.helpers.LocatorImpl;
-
-import com.sun.msv.util.Util;
+import org.xml.sax.helpers.XMLFilterImpl;
 
 /**
  * An utility class that

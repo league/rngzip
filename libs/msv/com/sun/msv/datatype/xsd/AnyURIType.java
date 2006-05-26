@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: AnyURIType.java,v 1.24 2003/01/16 23:47:00 ryans Exp $
+ * @(#)$Id: AnyURIType.java,v 1.22 2002/10/08 22:01:26 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,10 +9,11 @@
  */
 package com.sun.msv.datatype.xsd;
 
-import java.util.regex.Pattern;
-import org.relaxng.datatype.ValidationContext;
-
+import java.io.ByteArrayInputStream;
 import com.sun.msv.datatype.SerializationContext;
+
+import org.apache.xerces.impl.xpath.regex.RegularExpression;
+import org.relaxng.datatype.ValidationContext;
 
 /**
  * "anyURI" type.
@@ -30,7 +31,7 @@ public class AnyURIType extends BuiltinAtomicType implements Discrete {
 	}
 	
 	protected boolean checkFormat( String content, ValidationContext context ) {
-          return regexp.matcher(escape(content)).matches();
+		return regexp.matches(escape(content));
 	}
 
 	private static void appendHex( StringBuffer buf, int hex ) {
@@ -119,9 +120,9 @@ public class AnyURIType extends BuiltinAtomicType implements Discrete {
 		return new String(escaped);
 	}
 
-	final static Pattern regexp = createRegExp();
+	final static RegularExpression regexp = createRegExp();
 	
-	static Pattern createRegExp() {
+	static RegularExpression createRegExp() {
 		String alpha		= "[a-zA-Z]";
 		String alphanum		= "[0-9a-zA-Z]";
 		String hex			= "[0-9a-fA-F]";
@@ -165,13 +166,13 @@ public class AnyURIType extends BuiltinAtomicType implements Discrete {
 		String relativeURI	= "(("+netPath+")|("+absPath+")|("+relPath+"))(\\?"+query+")?";
 		String absoluteURI	= scheme+":(("+hierPart+")|("+opaquePart+"))";
 		String uriRef = "("+absoluteURI+"|"+relativeURI+")?(#"+fragment+")?";
-		return Pattern.compile(uriRef);
+		return new RegularExpression(uriRef,"X");
 	}
 	
 
 	public Object _createValue( final String content, ValidationContext context ) {
 		// we can't use java.net.URL (for example, it cannot handle IPv6.)
-          if(!regexp.matcher(escape(content)).matches()) return null;
+		if(!regexp.matches(escape(content)))		return null;
 		
 		// the value space and the lexical space is the same.
 		// escaped characters are only used for validation.
@@ -209,7 +210,4 @@ public class AnyURIType extends BuiltinAtomicType implements Discrete {
 	public XSDatatype getBaseType() {
 		return SimpleURType.theInstance;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

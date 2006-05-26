@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: LongType.java,v 1.19 2003/02/24 18:43:13 kk122374 Exp $
+ * @(#)$Id: LongType.java,v 1.16 2001/11/27 01:54:52 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -21,14 +21,8 @@ import org.relaxng.datatype.ValidationContext;
  */
 public class LongType extends IntegerDerivedType {
 	public static final LongType theInstance = new LongType();
-	private LongType() {
-        super("long",createRangeFacet( IntegerType.theInstance,
-            new Long(Long.MIN_VALUE),
-            new Long(Long.MAX_VALUE)));
-    }
-	protected LongType( String typeName, XSDatatypeImpl baseFacets ) {
-        super(typeName,baseFacets);
-    }
+	private LongType() { super("long"); }
+	protected LongType( String typeName ) { super(typeName); }
 	
 	public XSDatatype getBaseType() {
 		return IntegerType.theInstance;
@@ -54,7 +48,4 @@ public class LongType extends IntegerDerivedType {
 	public Class getJavaObjectType() {
 		return Long.class;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

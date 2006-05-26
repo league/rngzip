@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: StringCareLevelCalculator.java,v 1.12 2003/01/09 21:00:22 kk122374 Exp $
+ * @(#)$Id: StringCareLevelCalculator.java,v 1.11 2002/02/24 01:29:19 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,13 +9,7 @@
  */
 package com.sun.msv.verifier.regexp;
 
-import com.sun.msv.grammar.AttributeExp;
-import com.sun.msv.grammar.DataExp;
-import com.sun.msv.grammar.ElementExp;
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.ListExp;
-import com.sun.msv.grammar.MixedExp;
-import com.sun.msv.grammar.ValueExp;
+import com.sun.msv.grammar.*;
 import com.sun.msv.grammar.util.ExpressionFinder;
 import com.sun.msv.verifier.Acceptor;
 

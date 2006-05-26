@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: FieldsMatcher.java,v 1.6 2003/01/09 21:00:18 kk122374 Exp $
+ * @(#)$Id: FieldsMatcher.java,v 1.5 2001/12/06 04:19:43 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,12 +9,14 @@
  */
 package com.sun.msv.verifier.identity;
 
-import org.xml.sax.Locator;
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+import org.xml.sax.Locator;
 import org.xml.sax.helpers.LocatorImpl;
-
+import com.sun.msv.grammar.xmlschema.IdentityConstraint;
 import com.sun.msv.grammar.xmlschema.KeyConstraint;
 import com.sun.msv.grammar.xmlschema.KeyRefConstraint;
+import java.util.Set;
 
 /**
  * Coordinator of FieldMatcher.
@@ -74,7 +76,7 @@ public class FieldsMatcher extends MatcherBundle {
 				// if this is the key constraint, it is an error
 				owner.reportError(
 					startTag, null, 
-                    IDConstraintChecker.ERR_UNMATCHED_KEY_FIELD,
+					owner.ERR_UNMATCHED_KEY_FIELD,
 					new Object[]{
 						selector.idConst.namespaceURI,
 						selector.idConst.localName,
@@ -107,12 +109,12 @@ public class FieldsMatcher extends MatcherBundle {
 		// this set already has this value.
 		owner.reportError(
 			startTag, null,
-            IDConstraintChecker.ERR_NOT_UNIQUE,
+			owner.ERR_NOT_UNIQUE,
 			new Object[]{
 				selector.idConst.namespaceURI, selector.idConst.localName} );
 		owner.reportError(
 			((KeyValue)items[i]).locator, null,
-            IDConstraintChecker.ERR_NOT_UNIQUE_DIAG,
+			owner.ERR_NOT_UNIQUE_DIAG,
 			new Object[]{
 				selector.idConst.namespaceURI, selector.idConst.localName} );
 	}

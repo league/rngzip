@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ModuleMergeState.java,v 1.3 2003/01/09 21:00:08 kk122374 Exp $
+ * @(#)$Id: ModuleMergeState.java,v 1.2 2001/05/01 18:13:09 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,6 +9,10 @@
  */
 package com.sun.msv.reader.relax.core;
 
+import com.sun.msv.util.StartTagInfo;
+import com.sun.msv.grammar.Expression;
+import com.sun.msv.grammar.relax.RELAXModule;
+import com.sun.msv.reader.*;
 
 /**
  * Used to parse module.
@@ -58,7 +62,7 @@ public class ModuleMergeState extends DivInModuleState
 		{// check relaxCoreVersion
 			final String coreVersion = startTag.getAttribute("relaxCoreVersion");
 			if( coreVersion==null )
-				reader.reportWarning( RELAXCoreReader.ERR_MISSING_ATTRIBUTE, "module", "relaxCoreVersion" );
+				reader.reportWarning( reader.ERR_MISSING_ATTRIBUTE, "module", "relaxCoreVersion" );
 			else
 			if(!"1.0".equals(coreVersion))
 				reader.reportWarning( RELAXCoreReader.WRN_ILLEGAL_RELAXCORE_VERSION, coreVersion );

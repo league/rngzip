@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ExpressionWithoutChildState.java,v 1.5 2003/01/09 21:00:05 kk122374 Exp $
+ * @(#)$Id: ExpressionWithoutChildState.java,v 1.4 2001/05/01 18:13:02 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,6 +9,7 @@
  */
 package com.sun.msv.reader;
 
+import com.sun.msv.reader.State;
 import com.sun.msv.util.StartTagInfo;
 
 /**

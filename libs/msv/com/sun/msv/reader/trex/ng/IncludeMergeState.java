@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: IncludeMergeState.java,v 1.3 2003/01/09 21:00:11 kk122374 Exp $
+ * @(#)$Id: IncludeMergeState.java,v 1.2 2001/06/05 01:59:45 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,11 +10,11 @@
 package com.sun.msv.reader.trex.ng;
 
 import java.util.Set;
-
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.ReferenceExp;
+import com.sun.msv.reader.ChildlessState;
 import com.sun.msv.reader.ExpressionOwner;
 import com.sun.msv.reader.State;
+import com.sun.msv.grammar.Expression;
+import com.sun.msv.grammar.ReferenceExp;
 import com.sun.msv.util.StartTagInfo;
 
 /**
@@ -59,7 +59,7 @@ public class IncludeMergeState extends com.sun.msv.reader.trex.IncludeMergeState
 			old[i].set( info );
 			info.haveHead = false;
 			info.combineMethod = null;
-			info.redefinition = RELAXNGReader.RefExpParseInfo.originalNotFoundYet;
+			info.redefinition = info.originalNotFoundYet;
 		}
 		
 		// process inclusion.
@@ -69,9 +69,9 @@ public class IncludeMergeState extends com.sun.msv.reader.trex.IncludeMergeState
 		for( int i=0; i<patterns.length; i++ ) {
 			RELAXNGReader.RefExpParseInfo info = reader.getRefExpParseInfo(patterns[i]);
 			
-			if( info.redefinition==RELAXNGReader.RefExpParseInfo.originalNotFoundYet )
+			if( info.redefinition==info.originalNotFoundYet )
 				// the original definition was not found.
-				reader.reportError( RELAXNGReader.ERR_REDEFINING_UNDEFINED, patterns[i].name );
+				reader.reportError( reader.ERR_REDEFINING_UNDEFINED, patterns[i].name );
 
 			// then restore the values.
 			reader.getRefExpParseInfo(patterns[i]).set( old[i] );

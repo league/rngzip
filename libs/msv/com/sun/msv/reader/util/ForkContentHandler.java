@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ForkContentHandler.java,v 1.4 2003/01/09 21:00:12 kk122374 Exp $
+ * @(#)$Id: ForkContentHandler.java,v 1.3 2001/09/15 02:19:44 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,10 +9,11 @@
  */
 package com.sun.msv.reader.util;
 
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
-import org.xml.sax.SAXException;
 
 /**
  * feeds SAX events to two ContentHandlers.

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: DocumentFilter.java,v 1.2 2003/01/09 21:00:17 kk122374 Exp $
+ * @(#)$Id: DocumentFilter.java,v 1.1 2001/08/02 17:31:33 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,10 +9,10 @@
  */
 package com.sun.msv.util.xml;
 
-import org.xml.sax.AttributeList;
-import org.xml.sax.DocumentHandler;
-import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
+import org.xml.sax.Locator;
+import org.xml.sax.DocumentHandler;
+import org.xml.sax.AttributeList;
 
 /**
  * SAX DocumentHandler event interceptor.

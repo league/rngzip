@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ElementDeclExp.java,v 1.16 2003/01/16 21:51:21 kk122374 Exp $
+ * @(#)$Id: ElementDeclExp.java,v 1.14 2002/02/24 01:30:01 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,15 +9,14 @@
  */
 package com.sun.msv.grammar.xmlschema;
 
-import java.util.Vector;
-
 import com.sun.msv.grammar.ChoiceExp;
 import com.sun.msv.grammar.ElementExp;
 import com.sun.msv.grammar.Expression;
+import com.sun.msv.grammar.SimpleNameClass;
 import com.sun.msv.grammar.NameClass;
 import com.sun.msv.grammar.ReferenceExp;
-import com.sun.msv.grammar.SimpleNameClass;
 import com.sun.msv.grammar.util.ExpressionWalker;
+import java.util.Vector;
 
 /**
  * Element declaration.
@@ -291,8 +290,7 @@ public class ElementDeclExp extends ReferenceExp
 	
 	public static final int RESTRICTION	= 0x1;
 	public static final int EXTENSION	= 0x2;
-	public static final int SUBSTITUTION   = 0x4;
-    public static final int ALL             = 0x7;
+	public static final int SUBSTITUTION= 0x4;
 
 	/**
 	 * The <a href="http://www.w3.org/TR/xmlschema-1/#e-final">
@@ -351,7 +349,4 @@ public class ElementDeclExp extends ReferenceExp
 		return super.isDefined() && element!=null;
 	}
 	
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

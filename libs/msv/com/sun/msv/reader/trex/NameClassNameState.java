@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: NameClassNameState.java,v 1.9 2003/01/09 21:00:09 kk122374 Exp $
+ * @(#)$Id: NameClassNameState.java,v 1.8 2001/11/28 01:24:58 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,9 +9,9 @@
  */
 package com.sun.msv.reader.trex;
 
-import com.sun.msv.datatype.xsd.WhiteSpaceProcessor;
 import com.sun.msv.grammar.NameClass;
 import com.sun.msv.grammar.SimpleNameClass;
+import com.sun.msv.datatype.xsd.WhiteSpaceProcessor;
 
 /**
  * parses &lt;name&gt; name class.

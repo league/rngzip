@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: BuiltinAtomicType.java,v 1.4 2003/01/16 23:47:00 ryans Exp $
+ * @(#)$Id: BuiltinAtomicType.java,v 1.3 2002/06/24 19:57:27 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -48,7 +48,4 @@ public abstract class BuiltinAtomicType extends ConcreteType
 		
 		return this;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

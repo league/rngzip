@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ValueState.java,v 1.8 2003/01/09 21:00:11 kk122374 Exp $
+ * @(#)$Id: ValueState.java,v 1.7 2002/10/06 18:07:05 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,12 +9,12 @@
  */
 package com.sun.msv.reader.trex.ng;
 
+import com.sun.msv.reader.ExpressionWithoutChildState;
+import com.sun.msv.grammar.Expression;
+import com.sun.msv.util.StringPair;
+
 import org.relaxng.datatype.Datatype;
 import org.relaxng.datatype.DatatypeException;
-
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.reader.ExpressionWithoutChildState;
-import com.sun.msv.util.StringPair;
 
 /**
  * parses &lt;value&gt; pattern.
@@ -59,7 +59,7 @@ public class ValueState extends ExpressionWithoutChildState {
 		Object value = type.createValue(text.toString(),reader);
 		if( value==null ) {
 			// this is not a good value for this type.
-			reader.reportError( RELAXNGReader.ERR_BAD_DATA_VALUE, typeName, text.toString().trim() );
+			reader.reportError( reader.ERR_BAD_DATA_VALUE, typeName, text.toString().trim() );
 			return Expression.nullSet;	// recover by returning something.
 		}
 		

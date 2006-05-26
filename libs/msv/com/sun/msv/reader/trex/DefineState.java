@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: DefineState.java,v 1.13 2003/01/09 21:00:09 kk122374 Exp $
+ * @(#)$Id: DefineState.java,v 1.12 2001/10/12 23:37:52 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -12,6 +12,7 @@ package com.sun.msv.reader.trex;
 import com.sun.msv.grammar.Expression;
 import com.sun.msv.grammar.ReferenceExp;
 import com.sun.msv.reader.SequenceState;
+import org.xml.sax.Locator;
 
 /**
  * parses &lt;define&gt; declaration.
@@ -25,7 +26,7 @@ public abstract class DefineState extends SequenceState {
 		
 		if(name==null) {
 			// name attribute is required.
-			reader.reportError( TREXBaseReader.ERR_MISSING_ATTRIBUTE,
+			reader.reportError( reader.ERR_MISSING_ATTRIBUTE,
 				"ref","name");
 			return null;
 		}
@@ -45,7 +46,7 @@ public abstract class DefineState extends SequenceState {
 		// combine two patterns
 		Expression newexp = doCombine( ref, exp, combine );
 		if( newexp==null )
-			reader.reportError( TREXBaseReader.ERR_BAD_COMBINE, combine );
+			reader.reportError( reader.ERR_BAD_COMBINE, combine );
 			// recover by ignoring this definition
 		else
 			ref.exp = newexp;

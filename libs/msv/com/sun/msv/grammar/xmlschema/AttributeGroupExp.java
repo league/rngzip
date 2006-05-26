@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: AttributeGroupExp.java,v 1.10 2003/01/16 21:51:21 kk122374 Exp $
+ * @(#)$Id: AttributeGroupExp.java,v 1.9 2001/10/11 19:25:59 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -64,7 +64,4 @@ public class AttributeGroupExp extends RedefinableExp implements AttWildcardExp 
 		if(rhs.wildcard==null)	wildcard = null;
 		else					wildcard = rhs.wildcard.copy();
 	}
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

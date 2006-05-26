@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: SchemaImpl.java,v 1.3 2003/01/09 21:00:19 kk122374 Exp $
+ * @(#)$Id: SchemaImpl.java,v 1.2 2001/11/19 19:57:35 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,16 +9,15 @@
  */
 package com.sun.msv.verifier.jarv;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
-
-import org.iso_relax.verifier.Schema;
-import org.iso_relax.verifier.Verifier;
-import org.iso_relax.verifier.VerifierConfigurationException;
+import javax.xml.parsers.ParserConfigurationException;
+import org.iso_relax.verifier.*;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
-
+import org.xml.sax.InputSource;
 import com.sun.msv.grammar.Grammar;
+import com.sun.msv.verifier.regexp.REDocumentDeclaration;
+import com.sun.msv.verifier.DocumentDeclaration;
 import com.sun.msv.verifier.IVerifier;
 
 /**

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: IdAbuseChecker.java,v 1.12 2003/01/09 21:00:09 kk122374 Exp $
+ * @(#)$Id: IdAbuseChecker.java,v 1.11 2001/11/21 22:25:36 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,35 +9,15 @@
  */
 package com.sun.msv.reader.relax.core.checker;
 
+import org.relaxng.datatype.Datatype;
+import com.sun.msv.datatype.xsd.IDType;
+import com.sun.msv.datatype.xsd.IDREFType;
+import com.sun.msv.grammar.*;
+import com.sun.msv.grammar.relax.*;
+import com.sun.msv.reader.relax.core.RELAXCoreReader;
 import java.util.Iterator;
 import java.util.Set;
-
-import org.relaxng.datatype.Datatype;
-
-import com.sun.msv.datatype.xsd.IDREFType;
-import com.sun.msv.datatype.xsd.IDType;
-import com.sun.msv.grammar.AttributeExp;
-import com.sun.msv.grammar.ChoiceExp;
-import com.sun.msv.grammar.ConcurExp;
-import com.sun.msv.grammar.DataExp;
-import com.sun.msv.grammar.ElementExp;
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.InterleaveExp;
-import com.sun.msv.grammar.ListExp;
-import com.sun.msv.grammar.MixedExp;
-import com.sun.msv.grammar.OneOrMoreExp;
-import com.sun.msv.grammar.OtherExp;
-import com.sun.msv.grammar.ReferenceExp;
-import com.sun.msv.grammar.SequenceExp;
-import com.sun.msv.grammar.SimpleNameClass;
-import com.sun.msv.grammar.ValueExp;
-import com.sun.msv.grammar.relax.AttPoolClause;
-import com.sun.msv.grammar.relax.ElementRules;
-import com.sun.msv.grammar.relax.HedgeRules;
-import com.sun.msv.grammar.relax.RELAXExpressionVisitorVoid;
-import com.sun.msv.grammar.relax.RELAXModule;
-import com.sun.msv.grammar.relax.TagClause;
-import com.sun.msv.reader.relax.core.RELAXCoreReader;
+import java.util.Map;
 
 /**
  * makes sure that ID/IDREF are not abused.
@@ -125,9 +105,9 @@ public class IdAbuseChecker implements RELAXExpressionVisitorVoid {
 			if( atr.nameClass instanceof SimpleNameClass ) {
 				final String name = ((SimpleNameClass)atr.nameClass).localName;
 				if( nonIdAttrNames.contains(name) )
-					reader.reportError( RELAXCoreReader.ERR_ID_ABUSE_1, name );
+					reader.reportError( reader.ERR_ID_ABUSE_1, name );
 			} else
-				reader.reportError( RELAXCoreReader.ERR_ID_ABUSE );
+				reader.reportError( reader.ERR_ID_ABUSE );
 		}
 	}
 

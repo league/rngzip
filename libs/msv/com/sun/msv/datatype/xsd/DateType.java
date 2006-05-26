@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: DateType.java,v 1.21 2003/01/16 23:47:00 ryans Exp $
+ * @(#)$Id: DateType.java,v 1.19 2001/08/14 21:47:12 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,12 +9,14 @@
  */
 package com.sun.msv.datatype.xsd;
 
-import java.util.Calendar;
-
 import com.sun.msv.datatype.SerializationContext;
-import com.sun.msv.datatype.xsd.datetime.BigDateTimeValueType;
-import com.sun.msv.datatype.xsd.datetime.IDateTimeValueType;
 import com.sun.msv.datatype.xsd.datetime.ISO8601Parser;
+import com.sun.msv.datatype.xsd.datetime.IDateTimeValueType;
+import com.sun.msv.datatype.xsd.datetime.BigDateTimeValueType;
+import org.relaxng.datatype.ValidationContext;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.SimpleTimeZone;
 
 /**
  * "date" type.
@@ -53,16 +55,13 @@ public class DateType extends DateTimeBaseType {
 		Calendar cal = (Calendar)value;
 		
 		StringBuffer result = new StringBuffer();
-		result.append(formatYear(cal.get(Calendar.YEAR)));
+		result.append(formatYear(cal.get(cal.YEAR)));
 		result.append('-');
-		result.append(formatTwoDigits(cal.get(Calendar.MONTH)+1));
+		result.append(formatTwoDigits(cal.get(cal.MONTH)+1));
 		result.append('-');
-		result.append(formatTwoDigits(cal.get(Calendar.DAY_OF_MONTH)));
+		result.append(formatTwoDigits(cal.get(cal.DAY_OF_MONTH)));
 		result.append(formatTimeZone(cal));
 		
 		return result.toString();
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

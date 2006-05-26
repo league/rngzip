@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: AttributeWildcard.java,v 1.3 2003/01/16 21:51:21 kk122374 Exp $
+ * @(#)$Id: AttributeWildcard.java,v 1.1 2001/10/10 23:19:12 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,12 +9,8 @@
  */
 package com.sun.msv.grammar.xmlschema;
 
+import com.sun.msv.grammar.*;
 import java.util.Iterator;
-
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.ExpressionPool;
-import com.sun.msv.grammar.NameClass;
-import com.sun.msv.grammar.ReferenceExp;
 
 /**
  * Attribute wildcard property of the schema component.
@@ -73,7 +69,7 @@ public class AttributeWildcard {
 				// nc is built by using NamespaceNameClass.
 				// "strict" allows global element declarations of 
 				// specified namespaces.
-				if(name.accepts( schema.targetNamespace, NameClass.LOCALNAME_WILDCARD )) {
+				if(name.accepts( schema.targetNamespace, name.LOCALNAME_WILDCARD )) {
 					
 					// gather global attributes.
 					ReferenceExp[] atts = schema.attributeDecls.getAll();
@@ -97,7 +93,4 @@ public class AttributeWildcard {
 			throw new Error("undefined process mode:"+processMode);
 		}
 	}
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

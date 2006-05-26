@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ExternalAttributeExp.java,v 1.5 2003/01/09 21:00:14 kk122374 Exp $
+ * @(#)$Id: ExternalAttributeExp.java,v 1.4 2001/06/27 23:59:36 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,11 +9,10 @@
  */
 package com.sun.msv.relaxns.grammar;
 
-import org.xml.sax.Locator;
-
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.ExpressionPool;
 import com.sun.msv.grammar.OtherExp;
+import com.sun.msv.grammar.ExpressionPool;
+import com.sun.msv.grammar.Expression;
+import org.xml.sax.Locator;
 
 /**
  * place holder for imported attributes declaration.

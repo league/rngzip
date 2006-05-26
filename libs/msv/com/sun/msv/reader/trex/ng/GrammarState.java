@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: GrammarState.java,v 1.2 2003/01/09 21:00:11 kk122374 Exp $
+ * @(#)$Id: GrammarState.java,v 1.1 2001/10/12 23:37:57 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,6 +9,10 @@
  */
 package com.sun.msv.reader.trex.ng;
 
+import com.sun.msv.util.StartTagInfo;
+import com.sun.msv.reader.State;
+import com.sun.msv.grammar.Expression;
+import com.sun.msv.grammar.trex.TREXGrammar;
 
 /**
  * parses &lt;grammar&gt; element.

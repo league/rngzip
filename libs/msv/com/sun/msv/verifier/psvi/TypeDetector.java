@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: TypeDetector.java,v 1.8 2003/01/09 21:00:20 kk122374 Exp $
+ * @(#)$Id: TypeDetector.java,v 1.7 2002/06/24 19:58:00 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,26 +9,26 @@
  */
 package com.sun.msv.verifier.psvi;
 
-import java.util.StringTokenizer;
-
+import org.xml.sax.*;
 import org.relaxng.datatype.Datatype;
-import org.xml.sax.Attributes;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.Locator;
-import org.xml.sax.SAXException;
-
+import java.util.Set;
+import java.util.Iterator;
+import java.util.StringTokenizer;
 import com.sun.msv.grammar.ElementExp;
-import com.sun.msv.util.DatatypeRef;
+import com.sun.msv.grammar.Grammar;
 import com.sun.msv.util.StartTagInfo;
+import com.sun.msv.util.StringPair;
 import com.sun.msv.util.StringRef;
+import com.sun.msv.util.DatatypeRef;
 import com.sun.msv.verifier.Acceptor;
 import com.sun.msv.verifier.DocumentDeclaration;
 import com.sun.msv.verifier.ErrorInfo;
 import com.sun.msv.verifier.ValidityViolation;
 import com.sun.msv.verifier.Verifier;
-import com.sun.msv.verifier.regexp.ComplexAcceptor;
 import com.sun.msv.verifier.regexp.REDocumentDeclaration;
+//import com.sun.msv.verifier.regexp.AttributeToken;
 import com.sun.msv.verifier.regexp.SimpleAcceptor;
+import com.sun.msv.verifier.regexp.ComplexAcceptor;
 
 /**
  * assign types to the incoming SAX2 events and reports them to

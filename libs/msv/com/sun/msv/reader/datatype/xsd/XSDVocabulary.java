@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: XSDVocabulary.java,v 1.12 2003/01/09 21:00:06 kk122374 Exp $
+ * @(#)$Id: XSDVocabulary.java,v 1.11 2001/11/21 22:15:19 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,13 +9,16 @@
  */
 package com.sun.msv.reader.datatype.xsd;
 
-import org.relaxng.datatype.Datatype;
-import org.relaxng.datatype.DatatypeException;
-
-import com.sun.msv.datatype.xsd.DatatypeFactory;
 import com.sun.msv.reader.State;
 import com.sun.msv.reader.datatype.DataTypeVocabulary;
+import com.sun.msv.datatype.xsd.DatatypeFactory;
+import com.sun.msv.datatype.xsd.XSDatatype;
+import com.sun.msv.datatype.xsd.XSDatatypeImpl;
 import com.sun.msv.util.StartTagInfo;
+import org.relaxng.datatype.Datatype;
+import org.relaxng.datatype.DatatypeException;
+import org.xml.sax.ContentHandler;
+import java.util.Map;
 
 /**
  * XSD implementation of {@link DataTypeVocabulary}.

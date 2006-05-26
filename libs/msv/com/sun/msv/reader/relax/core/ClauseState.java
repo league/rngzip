@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ClauseState.java,v 1.4 2003/01/09 21:00:07 kk122374 Exp $
+ * @(#)$Id: ClauseState.java,v 1.3 2001/05/01 18:13:08 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,11 +9,9 @@
  */
 package com.sun.msv.reader.relax.core;
 
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.reader.ExpressionOwner;
-import com.sun.msv.reader.SimpleState;
-import com.sun.msv.reader.State;
 import com.sun.msv.util.StartTagInfo;
+import com.sun.msv.grammar.Expression;
+import com.sun.msv.reader.*;
 
 /**
  * common part of &lt;tag&gt; and &lt;attPool&gt;.

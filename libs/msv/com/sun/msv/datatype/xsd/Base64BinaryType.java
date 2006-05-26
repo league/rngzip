@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: Base64BinaryType.java,v 1.23 2003/01/16 23:47:00 ryans Exp $
+ * @(#)$Id: Base64BinaryType.java,v 1.20 2002/03/09 15:27:06 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,7 +10,6 @@
 package com.sun.msv.datatype.xsd;
 
 import org.relaxng.datatype.ValidationContext;
-
 import com.sun.msv.datatype.SerializationContext;
 
 /**
@@ -55,7 +54,7 @@ public class Base64BinaryType extends BinaryBaseType {
     }
     
     public static byte[] load( String lexicalValue ) {
-        final char[] buf = lexicalValue.toCharArray();
+        final byte[] buf = lexicalValue.getBytes();
 
 		final int outlen = calcLength(buf);
 		if( outlen==-1 )	return null;
@@ -92,7 +91,7 @@ public class Base64BinaryType extends BinaryBaseType {
 	}
 
 	protected boolean checkFormat( String lexicalValue, ValidationContext context ) {
-		return calcLength( lexicalValue.toCharArray() ) != -1;
+		return calcLength( lexicalValue.getBytes() ) != -1;
 	}
 
 	/**
@@ -102,7 +101,7 @@ public class Base64BinaryType extends BinaryBaseType {
 	 * @return	-1		if format is illegal.
 	 * 
 	 */
-	private static int calcLength( final char[] buf ) {
+	private static int calcLength( final byte[] buf ) {
 		final int len = buf.length;
 		int base64count=0, paddingCount=0;
 		int i;
@@ -110,8 +109,6 @@ public class Base64BinaryType extends BinaryBaseType {
 		for( i=0; i<len; i++ ) {
 			if( buf[i]=='=' )	// decodeMap['=']!=-1, so we have to check this first.
 				break;
-            if( buf[i]>=256 )
-                return -1;      // incorrect character
 			if( decodeMap[buf[i]]!=-1 )
 				base64count++;
 		}
@@ -122,8 +119,6 @@ public class Base64BinaryType extends BinaryBaseType {
 				paddingCount++;
 				continue;
 			}
-            if( buf[i]>=256 )
-                return -1;      // incorrect character
 			if( decodeMap[buf[i]]!=-1 )
 				return -1;
 		}
@@ -204,7 +199,4 @@ public class Base64BinaryType extends BinaryBaseType {
 		
 		return serializeJavaObject( ((BinaryValueType)value).rawData, context );
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

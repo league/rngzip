@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ErrorHandlerAdaptor.java,v 1.6 2003/01/09 21:00:16 kk122374 Exp $
+ * @(#)$Id: ErrorHandlerAdaptor.java,v 1.5 2001/08/16 02:45:09 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,9 +10,9 @@
 package com.sun.msv.relaxns.verifier;
 
 import org.iso_relax.dispatcher.Dispatcher;
-import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+import org.xml.sax.ErrorHandler;
 
 /**
  * wraps ISORELAX ErrorHandler by VerificationErrorHandler interface.

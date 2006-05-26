@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: IncludeMergeState.java,v 1.10 2003/01/09 21:00:09 kk122374 Exp $
+ * @(#)$Id: IncludeMergeState.java,v 1.9 2002/03/04 02:12:04 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,8 +10,8 @@
 package com.sun.msv.reader.trex;
 
 import com.sun.msv.reader.AbortException;
-import com.sun.msv.reader.SimpleState;
 import com.sun.msv.reader.State;
+import com.sun.msv.reader.SimpleState;
 import com.sun.msv.util.StartTagInfo;
 
 /**

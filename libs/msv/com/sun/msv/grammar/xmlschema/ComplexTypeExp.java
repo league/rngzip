@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ComplexTypeExp.java,v 1.20 2003/01/16 21:51:21 kk122374 Exp $
+ * @(#)$Id: ComplexTypeExp.java,v 1.18 2001/11/21 22:15:17 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,9 +10,19 @@
 package com.sun.msv.grammar.xmlschema;
 
 import com.sun.msv.datatype.xsd.XSDatatype;
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.ReferenceExp;
+import com.sun.msv.datatype.xsd.TypeIncubator;
+import com.sun.msv.datatype.xsd.QnameType;
 import com.sun.msv.reader.datatype.xsd.XSDatatypeExp;
+import com.sun.msv.grammar.ReferenceExp;
+import com.sun.msv.grammar.OtherExp;
+import com.sun.msv.grammar.ElementExp;
+import com.sun.msv.grammar.Expression;
+import com.sun.msv.grammar.SimpleNameClass;
+import com.sun.msv.grammar.ChoiceNameClass;
+import com.sun.msv.grammar.trex.ElementPattern;
+import com.sun.msv.grammar.util.ExpressionWalker;
+import org.relaxng.datatype.ValidationContext;
+import org.relaxng.datatype.DatatypeException;
 
 /**
  * ComplexType definition.
@@ -396,7 +406,4 @@ public class ComplexTypeExp extends XMLSchemaTypeExp {
 	public boolean isDefined() {
 		return body.isDefined();
 	}
-        
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

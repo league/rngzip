@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: IDREFType.java,v 1.5 2003/01/16 23:47:01 ryans Exp $
+ * @(#)$Id: IDREFType.java,v 1.3 2002/04/07 15:42:37 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,6 +9,11 @@
  */
 package com.sun.msv.datatype.xsd;
 
+import com.sun.msv.datatype.xsd.NmtokenType;
+import com.sun.msv.datatype.xsd.XSDatatypeImpl;
+import com.sun.msv.datatype.xsd.DatatypeFactory;
+import com.sun.msv.datatype.xsd.TypeIncubator;
+import org.relaxng.datatype.ValidationContext;
 
 /**
  * very limited 'IDREF' type of XML Schema Part 2.
@@ -36,7 +41,4 @@ public class IDREFType extends NcnameType {
 		// prevent serialization from breaking the singleton.
 		return theInstance;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

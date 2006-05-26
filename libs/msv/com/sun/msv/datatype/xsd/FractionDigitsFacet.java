@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: FractionDigitsFacet.java,v 1.15 2003/02/12 19:58:13 kk122374 Exp $
+ * @(#)$Id: FractionDigitsFacet.java,v 1.13 2002/06/24 19:57:28 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -24,11 +24,11 @@ public class FractionDigitsFacet extends DataTypeWithLexicalConstraintFacet {
 	/** maximum number of fraction digits */
 	public final int scale;
 
-    public FractionDigitsFacet( String nsUri, String typeName, XSDatatypeImpl baseType, int _scale, boolean _isFixed )
-        throws DatatypeException {
-		super( nsUri, typeName, baseType, FACET_FRACTIONDIGITS, _isFixed );
+	public FractionDigitsFacet( String nsUri, String typeName, XSDatatypeImpl baseType, TypeIncubator facets )
+		throws DatatypeException {
+		super( nsUri, typeName, baseType, FACET_FRACTIONDIGITS, facets );
 		
-		scale = _scale;
+		scale = facets.getNonNegativeInteger(FACET_FRACTIONDIGITS);
 		
 		// loosened facet check
 		DataTypeWithFacet o = baseType.getFacetObject(FACET_FRACTIONDIGITS);
@@ -83,7 +83,4 @@ public class FractionDigitsFacet extends DataTypeWithLexicalConstraintFacet {
 		
 		return count-trailingZero;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

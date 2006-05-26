@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: TypeIncubator.java,v 1.25 2003/02/12 19:58:14 kk122374 Exp $
+ * @(#)$Id: TypeIncubator.java,v 1.21 2002/10/06 18:06:43 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,13 +9,14 @@
  */
 package com.sun.msv.datatype.xsd;
 
-import java.math.BigInteger;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
-
-import org.relaxng.datatype.DatatypeException;
+import java.util.Iterator;
+import java.math.BigInteger;
 import org.relaxng.datatype.ValidationContext;
+import org.relaxng.datatype.Datatype;
+import org.relaxng.datatype.DatatypeBuilder;
+import org.relaxng.datatype.DatatypeException;
 
 /**
  * derives a new type by adding facets.
@@ -45,7 +46,7 @@ public class TypeIncubator {
 	 */
 	public void add( String name, String strValue, boolean fixed,
 					 ValidationContext context ) throws DatatypeException {
-		addFacet( name, strValue, fixed, context );
+		addFacet( name, strValue, context );
 	}
 	
 	/** adds a facet to the type.
@@ -53,8 +54,7 @@ public class TypeIncubator {
 	 * @exception	DatatypeException
 	 *		when given facet is already specified
 	 */
-	public void addFacet( String name, String strValue, boolean fixed,
-					 ValidationContext context ) throws DatatypeException {
+	public void addFacet( String name, String strValue, ValidationContext context ) throws DatatypeException {
 		
         if(baseType instanceof ErrorType)
             return; // silently ignore any further error
@@ -62,13 +62,6 @@ public class TypeIncubator {
         // checks applicability of the facet
 		switch( baseType.isFacetApplicable(name) ) {
 		case XSDatatypeImpl.APPLICABLE:	break;
-		case XSDatatypeImpl.FIXED:
-            // simply ignore this facet.
-            return;
-            // to issue an error, we need to first make sure that the
-            // specified value is different from the fixed value.
-//			throw new DatatypeException( XSDatatypeImpl.localize(
-//				XSDatatypeImpl.ERR_OVERRIDING_FIXED_FACET, name ) );
 		case XSDatatypeImpl.NOT_ALLOWED:
 			throw new DatatypeException( XSDatatypeImpl.localize(
 				XSDatatypeImpl.ERR_NOT_APPLICABLE_FACET, name ) );
@@ -89,22 +82,18 @@ public class TypeIncubator {
 			value = strValue;
 		
 		if( isRepeatable(name) ) {
-			FacetInfo fi;
+            Vector v;
 			if( impl.containsKey(name) )
-				fi = (FacetInfo)impl.get(name);
+				v = (Vector)impl.get(name);
 			else
-				impl.put(name, fi=new FacetInfo(new Vector(),fixed));
+				impl.put(name, v=new Vector());
 			
-			((Vector)fi.value).add(value);
-			// TODO : what shall we do if
-			// <enumeration value="a" fixed="true" />
-			// <enumeration value="b" fixed="false" />
-			fi.fixed |= fixed;
+			v.add(value);
 		} else {
 			if( impl.containsKey(name) )
 				throw new DatatypeException( XSDatatypeImpl.localize(
 					XSDatatypeImpl.ERR_DUPLICATE_FACET, name ) );
-			impl.put(name, new FacetInfo(value,fixed));
+			impl.put(name,value);
 		}
 	}
 	
@@ -205,29 +194,17 @@ public class TypeIncubator {
 					exclusiveFacetPairs[i][1] ) );
 		
 		if( contains(XSDatatypeImpl.FACET_TOTALDIGITS) )
-			r = new TotalDigitsFacet	( newNameUri,newLocalName, r,
-                getPositiveInteger(XSDatatype.FACET_TOTALDIGITS),
-                isFixed(XSDatatype.FACET_TOTALDIGITS) );
+			r = new TotalDigitsFacet	( newNameUri,newLocalName, r, this );
 		if( contains(XSDatatypeImpl.FACET_FRACTIONDIGITS) )
-			r = new FractionDigitsFacet ( newNameUri,newLocalName, r,
-                getPositiveInteger(XSDatatype.FACET_FRACTIONDIGITS),
-                isFixed(XSDatatype.FACET_FRACTIONDIGITS) );
+			r = new FractionDigitsFacet ( newNameUri,newLocalName, r, this );
 		if( contains(XSDatatypeImpl.FACET_MININCLUSIVE) )
-			r = new MinInclusiveFacet	( newNameUri,newLocalName, r, (Number)
-                getFacet(XSDatatype.FACET_MININCLUSIVE),
-                isFixed (XSDatatype.FACET_MININCLUSIVE) );
+			r = new MinInclusiveFacet	( newNameUri,newLocalName, r, this );
 		if( contains(XSDatatypeImpl.FACET_MAXINCLUSIVE) )
-            r = new MaxInclusiveFacet   ( newNameUri,newLocalName, r, (Number)
-                getFacet(XSDatatype.FACET_MAXINCLUSIVE),
-                isFixed (XSDatatype.FACET_MAXINCLUSIVE) );
+			r = new MaxInclusiveFacet	( newNameUri,newLocalName, r, this );
 		if( contains(XSDatatypeImpl.FACET_MINEXCLUSIVE) )
-            r = new MinExclusiveFacet   ( newNameUri,newLocalName, r, (Number)
-                getFacet(XSDatatype.FACET_MINEXCLUSIVE),
-                isFixed (XSDatatype.FACET_MINEXCLUSIVE) );
+			r = new MinExclusiveFacet	( newNameUri,newLocalName, r, this );
 		if( contains(XSDatatypeImpl.FACET_MAXEXCLUSIVE) )
-            r = new MaxExclusiveFacet   ( newNameUri,newLocalName, r, (Number)
-                getFacet(XSDatatype.FACET_MAXEXCLUSIVE),
-                isFixed (XSDatatype.FACET_MAXEXCLUSIVE) );
+			r = new MaxExclusiveFacet	( newNameUri,newLocalName, r, this );
 		if( contains(XSDatatypeImpl.FACET_LENGTH) )
 			r = new LengthFacet		( newNameUri,newLocalName, r, this );
 		if( contains(XSDatatypeImpl.FACET_MINLENGTH) )
@@ -239,9 +216,7 @@ public class TypeIncubator {
 		if( contains(XSDatatypeImpl.FACET_PATTERN) )
 			r = new PatternFacet		( newNameUri,newLocalName, r, this );
 		if( contains(XSDatatypeImpl.FACET_ENUMERATION) )
-			r = new EnumerationFacet	( newNameUri,newLocalName, r,
-                getVector(XSDatatype.FACET_ENUMERATION),
-                isFixed  (XSDatatype.FACET_ENUMERATION) );
+			r = new EnumerationFacet	( newNameUri,newLocalName, r, this );
 		
 					
 		// additional facet consistency check
@@ -360,15 +335,6 @@ public class TypeIncubator {
 	}
 	
 	
-	/**
-	 * returns true if that facet is fixed.
-	 * 
-	 * the behavior is undefined when the specified facetName doesn't exist
-	 * in this map.
-	 */
-	public boolean isFixed( String facetName ) {
-		return ((FacetInfo)impl.get(facetName)).fixed;
-	}
 	
 	/**
 	 * gets a value of non-repeatable facet
@@ -377,7 +343,7 @@ public class TypeIncubator {
 	 * in this map.
 	 */
 	public Object getFacet( String facetName ) {
-		return ((FacetInfo)impl.get(facetName)).value;
+		return impl.get(facetName);
 	}
 	
 	/**
@@ -387,7 +353,7 @@ public class TypeIncubator {
 	 * in this map.
 	 */
 	public Vector getVector(String facetName) {
-		return (Vector)((FacetInfo)impl.get(facetName)).value;
+		return (Vector)impl.get(facetName);
 	}
 	
 	/**
@@ -448,16 +414,6 @@ public class TypeIncubator {
 		return impl.isEmpty();
 	}
 	
-	
-	private static class FacetInfo {
-		public Object value;
-		public boolean fixed;
-		public FacetInfo( Object value, boolean fixed ) {
-			this.value = value;
-			this.fixed = fixed;
-		}
-	}
-	
 	/**
 	 * dumps the contents to the given object.
 	 * this method is for debug use only.
@@ -466,16 +422,16 @@ public class TypeIncubator {
 		Iterator itr = impl.keySet().iterator();
 		while(itr.hasNext()) {
 			String facetName = (String)itr.next();
-			FacetInfo fi = (FacetInfo)impl.get(facetName);
+			Object value = impl.get(facetName);
 			
-			if(fi.value instanceof Vector) {
+			if(value instanceof Vector) {
 				out.println( facetName + " :");
-				Vector v = (Vector)fi.value;
+				Vector v = (Vector)value;
 				for( int i=0; i<v.size(); i++ )
 					out.println( "  " +v.elementAt(i) );
 			}
 			else
-				out.println( facetName + " : " + fi.value );
+				out.println( facetName + " : " + value );
 		}
 	}
 	

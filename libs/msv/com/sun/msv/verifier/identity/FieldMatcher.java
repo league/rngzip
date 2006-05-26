@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: FieldMatcher.java,v 1.8 2003/01/09 21:00:18 kk122374 Exp $
+ * @(#)$Id: FieldMatcher.java,v 1.7 2001/10/17 00:01:22 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,10 +9,10 @@
  */
 package com.sun.msv.verifier.identity;
 
-import org.relaxng.datatype.Datatype;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-
+import org.relaxng.datatype.Datatype;
+import com.sun.msv.grammar.NameClass;
 import com.sun.msv.grammar.xmlschema.Field;
 
 /**
@@ -142,7 +142,7 @@ public class FieldMatcher extends PathMatcher {
 			if( parent.children[i]==this )
 				break;
 		
-		owner.reportError( null, IDConstraintChecker.ERR_DOUBLE_MATCH,
+		owner.reportError( null, owner.ERR_DOUBLE_MATCH,
 			new Object[]{
 				parent.selector.idConst.namespaceURI,
 				parent.selector.idConst.localName,

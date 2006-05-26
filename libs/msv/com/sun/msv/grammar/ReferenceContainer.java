@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ReferenceContainer.java,v 1.11 2003/01/16 21:51:17 kk122374 Exp $
+ * @(#)$Id: ReferenceContainer.java,v 1.9 2001/05/29 23:03:54 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,8 +9,8 @@
  */
 package com.sun.msv.grammar;
 
-import java.util.Iterator;
 import java.util.Map;
+import java.util.Iterator;
 
 /**
  * Container of ReferenceExp. a map from name to ReferenceExp.
@@ -91,7 +91,4 @@ public abstract class ReferenceContainer implements java.io.Serializable {
 	public final int size()	{
 		return impl.size();
 	}
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

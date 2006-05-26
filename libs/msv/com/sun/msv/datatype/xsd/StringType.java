@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: StringType.java,v 1.21 2003/01/16 23:47:03 ryans Exp $
+ * @(#)$Id: StringType.java,v 1.19 2002/11/07 16:49:29 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,7 +10,6 @@
 package com.sun.msv.datatype.xsd;
 
 import org.relaxng.datatype.ValidationContext;
-
 import com.sun.msv.datatype.SerializationContext;
 
 /**
@@ -84,7 +83,4 @@ public class StringType extends BuiltinAtomicType implements Discrete {
     public boolean isAlwaysValid() {
         return isAlwaysValid;
     }
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

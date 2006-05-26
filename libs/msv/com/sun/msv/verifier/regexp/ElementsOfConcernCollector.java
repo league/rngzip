@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ElementsOfConcernCollector.java,v 1.12 2003/01/09 21:00:22 kk122374 Exp $
+ * @(#)$Id: ElementsOfConcernCollector.java,v 1.11 2001/10/18 23:52:18 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,23 +9,8 @@
  */
 package com.sun.msv.verifier.regexp;
 
+import com.sun.msv.grammar.*;
 import java.util.Collection;
-
-import com.sun.msv.grammar.AttributeExp;
-import com.sun.msv.grammar.ChoiceExp;
-import com.sun.msv.grammar.ConcurExp;
-import com.sun.msv.grammar.DataExp;
-import com.sun.msv.grammar.ElementExp;
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.ExpressionVisitor;
-import com.sun.msv.grammar.InterleaveExp;
-import com.sun.msv.grammar.ListExp;
-import com.sun.msv.grammar.MixedExp;
-import com.sun.msv.grammar.OneOrMoreExp;
-import com.sun.msv.grammar.OtherExp;
-import com.sun.msv.grammar.ReferenceExp;
-import com.sun.msv.grammar.SequenceExp;
-import com.sun.msv.grammar.ValueExp;
 
 /**
  * Collects "elements of concern".

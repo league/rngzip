@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: RangeFacet.java,v 1.21 2003/02/12 19:58:14 kk122374 Exp $
+ * @(#)$Id: RangeFacet.java,v 1.19 2002/06/24 19:57:28 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -18,12 +18,12 @@ import org.relaxng.datatype.ValidationContext;
  * @author <a href="mailto:kohsuke.kawaguchi@eng.sun.com">Kohsuke KAWAGUCHI</a>
  */
 public abstract class RangeFacet extends DataTypeWithValueConstraintFacet {
-	public final Number limitValue;
+	public final Object limitValue;
 
-    protected RangeFacet( String nsUri, String typeName, XSDatatypeImpl baseType, String facetName, Number limit, boolean _isFixed )
-        throws DatatypeException {
-		super(nsUri,typeName,baseType,facetName,_isFixed);
-		limitValue = limit;
+	protected RangeFacet( String nsUri, String typeName, XSDatatypeImpl baseType, String facetName, TypeIncubator facets )
+		throws DatatypeException {
+		super(nsUri,typeName,baseType,facetName,facets);
+		limitValue = facets.getFacet(facetName);
 	}
 	
 	public final Object _createValue( String literal, ValidationContext context ) {
@@ -43,7 +43,4 @@ public abstract class RangeFacet extends DataTypeWithValueConstraintFacet {
 	}
 	
 	protected abstract boolean rangeCheck( int compareResult );
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

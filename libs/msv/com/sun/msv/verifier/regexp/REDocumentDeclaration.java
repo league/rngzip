@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: REDocumentDeclaration.java,v 1.24 2003/01/09 21:00:22 kk122374 Exp $
+ * @(#)$Id: REDocumentDeclaration.java,v 1.23 2001/11/19 19:56:41 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,11 +9,14 @@
  */
 package com.sun.msv.verifier.regexp;
 
+import com.sun.msv.verifier.Acceptor;
+import com.sun.msv.verifier.DocumentDeclaration;
+import com.sun.msv.verifier.regexp.ExpressionAcceptor;
 import com.sun.msv.grammar.Expression;
 import com.sun.msv.grammar.ExpressionPool;
 import com.sun.msv.grammar.Grammar;
-import com.sun.msv.verifier.Acceptor;
-import com.sun.msv.verifier.DocumentDeclaration;
+import com.sun.msv.grammar.util.RefExpRemover;
+import java.util.Map;
 
 /**
  * {@link DocumentDeclaration} implementation

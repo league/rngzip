@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: NGNameState.java,v 1.3 2003/01/09 21:00:11 kk122374 Exp $
+ * @(#)$Id: NGNameState.java,v 1.2 2001/07/13 00:30:23 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,10 +9,10 @@
  */
 package com.sun.msv.reader.trex.ng;
 
-import com.sun.msv.grammar.AnyNameClass;
-import com.sun.msv.grammar.DifferenceNameClass;
 import com.sun.msv.grammar.NameClass;
+import com.sun.msv.grammar.AnyNameClass;
 import com.sun.msv.grammar.NamespaceNameClass;
+import com.sun.msv.grammar.DifferenceNameClass;
 import com.sun.msv.reader.State;
 import com.sun.msv.reader.trex.NameClassWithChildState;
 import com.sun.msv.util.StartTagInfo;

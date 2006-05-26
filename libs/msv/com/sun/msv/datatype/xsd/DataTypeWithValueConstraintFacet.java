@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: DataTypeWithValueConstraintFacet.java,v 1.16 2003/02/12 19:58:13 kk122374 Exp $
+ * @(#)$Id: DataTypeWithValueConstraintFacet.java,v 1.14 2002/06/24 19:57:27 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,8 +9,8 @@
  */
 package com.sun.msv.datatype.xsd;
 
-import org.relaxng.datatype.DatatypeException;
 import org.relaxng.datatype.ValidationContext;
+import org.relaxng.datatype.DatatypeException;
 
 /**
  * base class for facets which constrain value space.
@@ -20,10 +20,10 @@ import org.relaxng.datatype.ValidationContext;
 abstract class DataTypeWithValueConstraintFacet extends DataTypeWithFacet {
 	
 	DataTypeWithValueConstraintFacet(
-		String nsUri, String typeName, XSDatatypeImpl baseType, String facetName, boolean _isFixed )
+		String nsUri, String typeName, XSDatatypeImpl baseType, String facetName, TypeIncubator facets )
 		throws DatatypeException {
 	
-		super( nsUri, typeName, baseType, facetName, _isFixed );
+		super( nsUri, typeName, baseType, facetName, facets );
 	}
 	
 	final protected boolean needValueCheck() { return true; }

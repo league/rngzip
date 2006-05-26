@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: XMLSchemaSchema.java,v 1.14 2003/01/16 21:51:21 kk122374 Exp $
+ * @(#)$Id: XMLSchemaSchema.java,v 1.12 2002/02/28 03:16:35 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,12 +9,12 @@
  */
 package com.sun.msv.grammar.xmlschema;
 
-import java.util.Map;
-
+import com.sun.msv.grammar.Grammar;
 import com.sun.msv.grammar.Expression;
 import com.sun.msv.grammar.ExpressionPool;
 import com.sun.msv.grammar.ReferenceContainer;
 import com.sun.msv.grammar.ReferenceExp;
+import java.util.Map;
 
 /**
  * XML Schema object.
@@ -141,7 +141,4 @@ public class XMLSchemaSchema implements java.io.Serializable {
 	}
 	/** map from identity constraint name to IdentityConstraint object. */
 	public final IdentityConstraintContainer identityConstraints = new IdentityConstraintContainer();
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

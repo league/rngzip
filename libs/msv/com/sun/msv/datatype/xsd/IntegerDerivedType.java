@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: IntegerDerivedType.java,v 1.25 2003/02/12 19:58:13 kk122374 Exp $
+ * @(#)$Id: IntegerDerivedType.java,v 1.22 2002/10/08 22:01:27 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,9 +9,7 @@
  */
 package com.sun.msv.datatype.xsd;
 
-import org.relaxng.datatype.DatatypeException;
 import org.relaxng.datatype.ValidationContext;
-
 import com.sun.msv.datatype.SerializationContext;
 
 /**
@@ -20,13 +18,9 @@ import com.sun.msv.datatype.SerializationContext;
  * @author <a href="mailto:kohsuke.kawaguchi@eng.sun.com">Kohsuke KAWAGUCHI</a>
  */
 abstract class IntegerDerivedType extends BuiltinAtomicType implements Comparator {
-
-    private final XSDatatypeImpl baseFacets;
-    
 	
-	protected IntegerDerivedType( String typeName, XSDatatypeImpl _baseFacets ) {
+	protected IntegerDerivedType( String typeName ) {
 		super(typeName);
-        this.baseFacets = _baseFacets;
 	}
 	
 	public final int isFacetApplicable( String facetName ) {
@@ -40,16 +34,9 @@ abstract class IntegerDerivedType extends BuiltinAtomicType implements Comparato
 		||	facetName.equals(FACET_MAXEXCLUSIVE)
 		||	facetName.equals(FACET_MINEXCLUSIVE) )
 			return APPLICABLE;
-		
-        if( facetName.equals(FACET_FRACTIONDIGITS) )
-            return FIXED;
-            
-	   return NOT_ALLOWED;
+		else
+			return NOT_ALLOWED;
 	}
-
-    public DataTypeWithFacet getFacetObject(String facetName) {
-        return baseFacets.getFacetObject(facetName);
-    }
 	
 	protected final boolean checkFormat( String content, ValidationContext context ) {
 		// integer-derived types always checks lexical format by trying to convert it to value object
@@ -87,18 +74,4 @@ abstract class IntegerDerivedType extends BuiltinAtomicType implements Comparato
 		
 		throw new NumberFormatException();
 	}
-    
-    /** Apply a range facet. */
-    protected static XSDatatypeImpl createRangeFacet( XSDatatypeImpl baseType, Number min, Number max ) {
-         try {
-             XSDatatypeImpl r = baseType;
-             if( min!=null )
-                r = new MinInclusiveFacet(null,null,r,min,false);
-             if( max!=null )
-                r = new MaxInclusiveFacet(null,null,r,max,false);
-             return r;
-         } catch( DatatypeException e ) {
-             throw new InternalError(); // impossible
-         }
-    }
 }

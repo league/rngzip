@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: DatatypeFactory.java,v 1.40 2003/01/09 21:02:03 kk122374 Exp $
+ * @(#)$Id: DatatypeFactory.java,v 1.38 2002/11/07 16:49:51 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,10 +9,9 @@
  */
 package com.sun.msv.datatype.xsd;
 
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
-
+import java.util.Iterator;
+import java.util.Collection;
 import org.relaxng.datatype.DatatypeException;
 
 /**
@@ -248,7 +247,7 @@ public class DatatypeFactory {
 	
 	private static XSDatatypeImpl createBuiltinList( String name, XSDatatypeImpl item ) throws DatatypeException {
 		TypeIncubator ti = new TypeIncubator(new ListType(null,null,item));
-		ti.addFacet("minLength","1",false,null);
+		ti.addFacet("minLength","1",null);
         // wrap it by a proxy object so that
         // these objects will work as singleton.
         return new Proxy(XSDatatype.XMLSCHEMA_NSURI,name,ti.derive(null,null)) {

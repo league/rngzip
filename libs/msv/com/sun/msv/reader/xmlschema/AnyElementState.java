@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: AnyElementState.java,v 1.12 2003/01/09 21:00:12 kk122374 Exp $
+ * @(#)$Id: AnyElementState.java,v 1.11 2002/07/29 17:52:41 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,18 +9,18 @@
  */
 package com.sun.msv.reader.xmlschema;
 
-import java.util.Iterator;
-
 import com.sun.msv.grammar.AnyNameClass;
+import com.sun.msv.grammar.AttributeExp;
 import com.sun.msv.grammar.Expression;
 import com.sun.msv.grammar.NameClass;
-import com.sun.msv.grammar.ReferenceContainer;
 import com.sun.msv.grammar.ReferenceExp;
+import com.sun.msv.grammar.ReferenceContainer;
 import com.sun.msv.grammar.trex.ElementPattern;
-import com.sun.msv.grammar.xmlschema.ElementDeclExp;
 import com.sun.msv.grammar.xmlschema.XMLSchemaSchema;
+import com.sun.msv.grammar.xmlschema.ElementDeclExp;
 import com.sun.msv.reader.GrammarReader;
 import com.sun.msv.reader.State;
+import java.util.Iterator;
 
 /**
  * used to parse &lt;any &gt; element.
@@ -62,7 +62,7 @@ public class AnyElementState extends AnyState
 
 				if( !process.equals("lax")
 				&&  !process.equals("strict") )  {
-					reader.reportError( XMLSchemaReader.ERR_BAD_ATTRIBUTE_VALUE, "processContents", process );
+					reader.reportError( reader.ERR_BAD_ATTRIBUTE_VALUE, "processContents", process );
 					exp.exp = Expression.nullSet;
 					return;
 				}
@@ -76,7 +76,7 @@ public class AnyElementState extends AnyState
 					// nc is built by using NamespaceNameClass.
 					// "strict" allows global element declarations of 
 					// specified namespaces.
-					if(nc.accepts( schema.targetNamespace, NameClass.LOCALNAME_WILDCARD ))
+					if(nc.accepts( schema.targetNamespace, nc.LOCALNAME_WILDCARD ))
 						// schema.topLevel is choices of globally declared elements.
 						exp.exp = reader.pool.createChoice( exp.exp, schema.topLevel );
 				}

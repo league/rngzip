@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ChoiceExp.java,v 1.6 2003/01/16 21:51:17 kk122374 Exp $
+ * @(#)$Id: ChoiceExp.java,v 1.5 2001/05/16 21:33:15 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -28,7 +28,4 @@ public final class ChoiceExp extends BinaryExp {
 	protected boolean calcEpsilonReducibility() {
 		return exp1.isEpsilonReducible() || exp2.isEpsilonReducible();
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

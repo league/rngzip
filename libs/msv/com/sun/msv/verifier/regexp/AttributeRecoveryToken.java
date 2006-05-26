@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: AttributeRecoveryToken.java,v 1.9 2003/01/09 21:00:21 kk122374 Exp $
+ * @(#)$Id: AttributeRecoveryToken.java,v 1.8 2001/10/19 23:59:20 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -11,6 +11,7 @@ package com.sun.msv.verifier.regexp;
 
 import com.sun.msv.grammar.AttributeExp;
 import com.sun.msv.grammar.Expression;
+import com.sun.msv.grammar.ExpressionPool;
 
 /**
  * special AttributeToken that memorizes {@link AttributeExp} that fails to

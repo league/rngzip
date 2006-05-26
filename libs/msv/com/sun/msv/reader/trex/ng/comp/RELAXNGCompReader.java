@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: RELAXNGCompReader.java,v 1.7 2003/01/09 21:00:11 kk122374 Exp $
+ * @(#)$Id: RELAXNGCompReader.java,v 1.6 2002/03/04 00:53:49 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,25 +10,26 @@
 package com.sun.msv.reader.trex.ng.comp;
 
 import java.text.MessageFormat;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.ResourceBundle;
-
-import javax.xml.parsers.SAXParserFactory;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
-import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
-
-import com.sun.msv.grammar.AttributeExp;
-import com.sun.msv.grammar.ExpressionPool;
-import com.sun.msv.grammar.relaxng.RELAXNGGrammar;
+import org.xml.sax.Locator;
+import org.relaxng.datatype.Datatype;
+import javax.xml.parsers.SAXParserFactory;
+import com.sun.msv.grammar.*;
+import com.sun.msv.grammar.util.ExpressionWalker;
 import com.sun.msv.grammar.trex.TREXGrammar;
-import com.sun.msv.reader.GrammarReaderController;
-import com.sun.msv.reader.State;
+import com.sun.msv.grammar.relaxng.RELAXNGGrammar;
+import com.sun.msv.reader.*;
 import com.sun.msv.reader.trex.ng.RELAXNGReader;
-import com.sun.msv.util.LightStack;
 import com.sun.msv.util.StartTagInfo;
+import com.sun.msv.util.StringPair;
+import com.sun.msv.util.LightStack;
 
 /**
  * reads RELAX NG grammar with DTD compatibility annotation

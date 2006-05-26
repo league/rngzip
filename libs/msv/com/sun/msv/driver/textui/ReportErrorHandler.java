@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ReportErrorHandler.java,v 1.13 2003/01/09 21:00:02 kk122374 Exp $
+ * @(#)$Id: ReportErrorHandler.java,v 1.12 2001/08/16 02:45:07 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,12 +9,11 @@
  */
 package com.sun.msv.driver.textui;
 
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-
-import com.sun.msv.verifier.ValidationUnrecoverableException;
 import com.sun.msv.verifier.ValidityViolation;
+import com.sun.msv.verifier.ValidationUnrecoverableException;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXParseException;
+import org.xml.sax.SAXException;
 
 /**
  * {@link VerificationErrorHandler} that reports all errors and warnings.

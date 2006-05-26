@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: BinaryExp.java,v 1.13 2003/01/16 21:51:17 kk122374 Exp $
+ * @(#)$Id: BinaryExp.java,v 1.12 2001/07/13 17:57:30 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -85,7 +85,4 @@ public abstract class BinaryExp extends Expression {
 		};
 	}
 	
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

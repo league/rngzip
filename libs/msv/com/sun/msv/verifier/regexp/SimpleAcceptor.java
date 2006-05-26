@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: SimpleAcceptor.java,v 1.5 2003/01/09 21:00:22 kk122374 Exp $
+ * @(#)$Id: SimpleAcceptor.java,v 1.4 2001/08/08 19:42:39 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,9 +9,11 @@
  */
 package com.sun.msv.verifier.regexp;
 
-import com.sun.msv.grammar.ElementExp;
-import com.sun.msv.grammar.Expression;
 import com.sun.msv.verifier.Acceptor;
+import com.sun.msv.verifier.regexp.ElementToken;
+import com.sun.msv.verifier.regexp.ExpressionAcceptor;
+import com.sun.msv.grammar.Expression;
+import com.sun.msv.grammar.ElementExp;
 
 /**
  * Acceptor that will be used when only one ElementExp matches

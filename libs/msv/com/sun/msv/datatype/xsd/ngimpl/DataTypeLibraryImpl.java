@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: DataTypeLibraryImpl.java,v 1.7 2003/01/07 00:17:06 kk122374 Exp $
+ * @(#)$Id: DataTypeLibraryImpl.java,v 1.6 2001/10/23 18:22:56 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,14 +9,14 @@
  */
 package com.sun.msv.datatype.xsd.ngimpl;
 
-import org.relaxng.datatype.Datatype;
-import org.relaxng.datatype.DatatypeBuilder;
-import org.relaxng.datatype.DatatypeException;
-import org.relaxng.datatype.DatatypeLibrary;
-import org.relaxng.datatype.DatatypeLibraryFactory;
-
 import com.sun.msv.datatype.xsd.DatatypeFactory;
 import com.sun.msv.datatype.xsd.XSDatatype;
+import com.sun.msv.datatype.xsd.NmtokenType;
+import org.relaxng.datatype.Datatype;
+import org.relaxng.datatype.DatatypeException;
+import org.relaxng.datatype.DatatypeBuilder;
+import org.relaxng.datatype.DatatypeLibrary;
+import org.relaxng.datatype.DatatypeLibraryFactory;
 
 /**
  * DatatypeLibrary implementation for Sun XML Datatypes Library.

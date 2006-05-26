@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: TREXGrammar.java,v 1.11 2003/01/16 21:51:19 kk122374 Exp $
+ * @(#)$Id: TREXGrammar.java,v 1.9 2001/10/12 01:36:59 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,11 +9,7 @@
  */
 package com.sun.msv.grammar.trex;
 
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.ExpressionPool;
-import com.sun.msv.grammar.Grammar;
-import com.sun.msv.grammar.ReferenceContainer;
-import com.sun.msv.grammar.ReferenceExp;
+import com.sun.msv.grammar.*;
 import com.sun.msv.reader.datatype.DataTypeVocabularyMap;
 
 /**
@@ -84,7 +80,4 @@ public class TREXGrammar extends ReferenceExp implements Grammar{
 	
 	public TREXGrammar( ExpressionPool pool )	{ this(pool,null); }
 	public TREXGrammar() { this(new ExpressionPool(),null); }
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

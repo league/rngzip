@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ReferenceExp.java,v 1.10 2003/01/16 21:51:17 kk122374 Exp $
+ * @(#)$Id: ReferenceExp.java,v 1.9 2001/10/10 23:21:28 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -82,7 +82,4 @@ public class ReferenceExp extends Expression {
 	public final Expression visit( ExpressionVisitorExpression visitor ){ return visitor.onRef(this); }
 	public final boolean visit( ExpressionVisitorBoolean visitor )		{ return visitor.onRef(this); }
 	public final void visit( ExpressionVisitorVoid visitor )			{ visitor.onRef(this); }
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

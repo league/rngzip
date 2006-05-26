@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: AnyOtherElementState.java,v 1.3 2003/01/09 21:00:15 kk122374 Exp $
+ * @(#)$Id: AnyOtherElementState.java,v 1.2 2001/05/01 18:13:25 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,11 +9,12 @@
  */
 package com.sun.msv.relaxns.reader.relax;
 
-import org.xml.sax.Locator;
-
-import com.sun.msv.grammar.Expression;
 import com.sun.msv.reader.ExpressionWithoutChildState;
+import com.sun.msv.grammar.*;
+import com.sun.msv.grammar.relax.ElementRule;
+import com.sun.msv.grammar.relax.TagClause;
 import com.sun.msv.relaxns.grammar.relax.AnyOtherElementExp;
+import org.xml.sax.Locator;
 
 /**
  * parses &lt;anyOtherElement&gt; state.
@@ -36,7 +37,7 @@ public class AnyOtherElementState extends ExpressionWithoutChildState
 		if( in!=null && ex!=null ) {
 			reader.reportError(
 				new Locator[]{this.location},
-				RELAXCoreIslandSchemaReader.ERR_CONFLICTING_ATTRIBUTES,
+				reader.ERR_CONFLICTING_ATTRIBUTES,
 				new Object[]{"includeNamespace", "excludeNamespace"} );
 			ex=null;
 		}

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: Expression.java,v 1.16 2003/01/16 21:53:53 kk122374 Exp $
+ * @(#)$Id: Expression.java,v 1.14 2001/11/03 01:20:28 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,6 +9,8 @@
  */
 package com.sun.msv.grammar;
 
+import org.xml.sax.*;
+import java.util.Collection;
 import com.sun.msv.grammar.util.RefExpRemover;
 
 /**
@@ -215,10 +217,7 @@ public abstract class Expression implements java.io.Serializable {
 		public void visit( ExpressionVisitorVoid visitor )				{ visitor.onEpsilon(); }
 		protected boolean calcEpsilonReducibility() { return true; }
 		public boolean equals( Object o ) { return this==o; }	// this class is used as singleton.
-    
-        // serialization support
-        private static final long serialVersionUID = 1;    
-        private Object readResolve() { return Expression.epsilon; }
+		private Object readResolve() { return this.epsilon; }
 	};
 	/**
 	 * Special expression object that represents epsilon (&#x3B5;).
@@ -235,10 +234,7 @@ public abstract class Expression implements java.io.Serializable {
 		public void visit( ExpressionVisitorVoid visitor )				{ visitor.onNullSet(); }
 		protected boolean calcEpsilonReducibility() { return false; }
 		public boolean equals( Object o ) { return this==o; }	// this class is used as singleton.
-    
-        // serialization support
-        private static final long serialVersionUID = 1;    
-		private Object readResolve() { return Expression.nullSet; }
+		private Object readResolve() { return this.nullSet; }
 	};
 	/**
 	 * special expression object that represents the empty set (&#x3A6;).
@@ -261,10 +257,7 @@ public abstract class Expression implements java.io.Serializable {
 		// That is, residual of anyString by StringToken is not the epsilon but an anyString.
 		protected boolean calcEpsilonReducibility() { return true; }
 		public boolean equals( Object o ) { return this==o; }	// this class is used as singleton.
-    
-        // serialization support
-        private static final long serialVersionUID = 1;    
-        private Object readResolve() { return Expression.anyString; }
+		private Object readResolve() { return this.anyString; }
 	};
 	/**
 	 * special expression object that represents "any string".

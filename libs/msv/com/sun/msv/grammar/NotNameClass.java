@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: NotNameClass.java,v 1.9 2003/01/16 21:51:17 kk122374 Exp $
+ * @(#)$Id: NotNameClass.java,v 1.8 2001/07/28 02:50:38 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -34,7 +34,4 @@ public final class NotNameClass extends NameClass {
 	}
 	
 	public String toString()	{ return "~"+child.toString(); }
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

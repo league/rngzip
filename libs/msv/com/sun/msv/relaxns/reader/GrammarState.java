@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: GrammarState.java,v 1.4 2003/01/09 21:00:15 kk122374 Exp $
+ * @(#)$Id: GrammarState.java,v 1.3 2001/05/01 18:13:24 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,9 +9,9 @@
  */
 package com.sun.msv.relaxns.reader;
 
-import com.sun.msv.reader.SimpleState;
-import com.sun.msv.reader.State;
 import com.sun.msv.util.StartTagInfo;
+import com.sun.msv.grammar.Expression;
+import com.sun.msv.reader.*;
 
 /**
  * parses &lt;grammar&gt; element.
@@ -39,7 +39,7 @@ public class GrammarState extends SimpleState
 		{// check relaxNamespaceVersion
 			final String nsVersion = startTag.getAttribute("relaxNamespaceVersion");
 			if( nsVersion==null )
-				reader.reportWarning( RELAXNSReader.ERR_MISSING_ATTRIBUTE, "module", "relaxNamespaceVersion" );
+				reader.reportWarning( reader.ERR_MISSING_ATTRIBUTE, "module", "relaxNamespaceVersion" );
 			else
 			if(!"1.0".equals(nsVersion))
 				reader.reportWarning( RELAXNSReader.WRN_ILLEGAL_RELAXNAMESPACE_VERSION, nsVersion );

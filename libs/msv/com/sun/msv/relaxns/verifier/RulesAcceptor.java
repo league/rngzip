@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: RulesAcceptor.java,v 1.10 2003/01/09 21:00:16 kk122374 Exp $
+ * @(#)$Id: RulesAcceptor.java,v 1.9 2001/08/08 19:43:04 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,13 +9,14 @@
  */
 package com.sun.msv.relaxns.verifier;
 
-import org.iso_relax.dispatcher.ElementDecl;
-
 import com.sun.msv.grammar.Expression;
 import com.sun.msv.grammar.ExpressionPool;
-import com.sun.msv.relaxns.grammar.DeclImpl;
 import com.sun.msv.verifier.Acceptor;
 import com.sun.msv.verifier.regexp.REDocumentDeclaration;
+import com.sun.msv.relaxns.grammar.DeclImpl;
+import com.sun.msv.util.StringRef;
+//import com.sun.msv.util.DatatypeRef;
+import org.iso_relax.dispatcher.ElementDecl;
 
 /**
  * Acceptor that is used to validate root node of the island.

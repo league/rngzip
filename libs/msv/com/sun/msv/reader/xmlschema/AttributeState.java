@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: AttributeState.java,v 1.23 2003/01/09 21:00:12 kk122374 Exp $
+ * @(#)$Id: AttributeState.java,v 1.22 2002/10/06 18:07:06 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,23 +9,25 @@
  */
 package com.sun.msv.reader.xmlschema;
 
-import org.relaxng.datatype.DatatypeException;
-import org.xml.sax.Locator;
-
-import com.sun.msv.grammar.AttributeExp;
+import com.sun.msv.datatype.xsd.XSDatatype;
 import com.sun.msv.grammar.Expression;
 import com.sun.msv.grammar.ReferenceContainer;
+import com.sun.msv.grammar.AttributeExp;
 import com.sun.msv.grammar.SimpleNameClass;
-import com.sun.msv.grammar.relax.NoneType;
 import com.sun.msv.grammar.xmlschema.AttributeDeclExp;
 import com.sun.msv.grammar.xmlschema.XMLSchemaSchema;
-import com.sun.msv.reader.ExpressionWithChildState;
+import com.sun.msv.grammar.relax.NoneType;
+import com.sun.msv.util.StartTagInfo;
+import com.sun.msv.util.StringPair;
 import com.sun.msv.reader.State;
+import com.sun.msv.reader.ExpressionWithChildState;
+import com.sun.msv.reader.datatype.TypeOwner;
 import com.sun.msv.reader.datatype.xsd.XSDatatypeExp;
 import com.sun.msv.reader.datatype.xsd.XSTypeIncubator;
 import com.sun.msv.reader.datatype.xsd.XSTypeOwner;
-import com.sun.msv.util.StartTagInfo;
-import com.sun.msv.util.StringPair;
+
+import org.xml.sax.Locator;
+import org.relaxng.datatype.DatatypeException;
 
 
 /**
@@ -47,7 +49,7 @@ public class AttributeState extends ExpressionWithChildState implements XSTypeOw
 		
 		if( startTag.containsAttribute("ref") ) {
 			if( isGlobal() ) {
-				reader.reportError( XMLSchemaReader.ERR_DISALLOWED_ATTRIBUTE,
+				reader.reportError( reader.ERR_DISALLOWED_ATTRIBUTE,
 					startTag.qName, "ref" );
 				return Expression.epsilon;
 			}
@@ -83,7 +85,7 @@ public class AttributeState extends ExpressionWithChildState implements XSTypeOw
 		if( halfCastedExpression!=null )
 			// only one child is allowed.
 			// recover by ignoring previously found child expressions.
-			reader.reportError( XMLSchemaReader.ERR_MORE_THAN_ONE_CHILD_EXPRESSION );
+			reader.reportError( reader.ERR_MORE_THAN_ONE_CHILD_EXPRESSION );
 		
 		return newChildExpression;
 	}
@@ -99,7 +101,7 @@ public class AttributeState extends ExpressionWithChildState implements XSTypeOw
 		
 		if( startTag.containsAttribute("ref") ) {
 			if( fixed!=null )
-				reader.reportWarning( XMLSchemaReader.ERR_UNIMPLEMENTED_FEATURE,
+				reader.reportWarning( reader.ERR_UNIMPLEMENTED_FEATURE,
 					"<attribute> element with both 'ref' and 'fixed' attributes" );
 			
 			exp = contentType;
@@ -109,7 +111,7 @@ public class AttributeState extends ExpressionWithChildState implements XSTypeOw
             
             // @name is mandatory
             if( name==null ) {
-                reader.reportError( XMLSchemaReader.ERR_MISSING_ATTRIBUTE,
+                reader.reportError( reader.ERR_MISSING_ATTRIBUTE,
                     "attribute","name");
                 return Expression.nullSet;
             }
@@ -128,11 +130,11 @@ public class AttributeState extends ExpressionWithChildState implements XSTypeOw
                     
                     try {
                         XSTypeIncubator inc = baseType.createIncubator();
-                        inc.addFacet("enumeration",fixed,false,reader);
+                        inc.addFacet("enumeration",fixed,reader);
                     
                         contentType = inc.derive(null,null);
                     } catch( DatatypeException e ) {
-                        reader.reportError( e, XMLSchemaReader.ERR_BAD_TYPE, e.getMessage() );
+                        reader.reportError( e, reader.ERR_BAD_TYPE, e.getMessage() );
                         return Expression.nullSet;
                     }
                 } else {
@@ -166,7 +168,7 @@ public class AttributeState extends ExpressionWithChildState implements XSTypeOw
 			if(decl.exp!=null)
 				reader.reportError( 
 					new Locator[]{this.location,reader.getDeclaredLocationOf(decl)},
-                    XMLSchemaReader.ERR_DUPLICATE_ATTRIBUTE_DEFINITION,
+					reader.ERR_DUPLICATE_ATTRIBUTE_DEFINITION,
 					new Object[]{name} );
 			reader.setDeclaredLocationOf(decl);
 			if( exp instanceof AttributeExp )
@@ -186,7 +188,7 @@ public class AttributeState extends ExpressionWithChildState implements XSTypeOw
 				exp = reader.pool.createOptional(exp);
 			else
 			if( !"required".equals(use) )
-				reader.reportError( XMLSchemaReader.ERR_BAD_ATTRIBUTE_VALUE, "use", use );
+				reader.reportError( reader.ERR_BAD_ATTRIBUTE_VALUE, "use", use );
 				// recover by assuming "required" (i.e., do nothing)
 		}
 		

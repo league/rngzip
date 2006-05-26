@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: AnyOtherElementVerifier.java,v 1.7 2003/01/09 21:00:16 kk122374 Exp $
+ * @(#)$Id: AnyOtherElementVerifier.java,v 1.6 2001/05/01 18:13:26 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,17 +9,18 @@
  */
 package com.sun.msv.relaxns.verifier;
 
+import org.iso_relax.dispatcher.IslandVerifier;
+import org.iso_relax.dispatcher.IslandSchema;
 import org.iso_relax.dispatcher.Dispatcher;
 import org.iso_relax.dispatcher.ElementDecl;
-import org.iso_relax.dispatcher.IslandSchema;
-import org.iso_relax.dispatcher.IslandVerifier;
+import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.Attributes;
-import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.xml.sax.helpers.DefaultHandler;
-
+import org.xml.sax.Locator;
+import com.sun.msv.verifier.Verifier;
 import com.sun.msv.relaxns.grammar.relax.AnyOtherElementExp;
+import java.util.Set;
 
 /**
  * IslandVerifier that validates &lt;anyOtherElement /&gt; of RELAX.

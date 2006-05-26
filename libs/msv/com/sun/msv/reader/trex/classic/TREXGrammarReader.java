@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: TREXGrammarReader.java,v 1.14 2003/01/09 21:00:10 kk122374 Exp $
+ * @(#)$Id: TREXGrammarReader.java,v 1.13 2002/03/04 00:53:49 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -11,31 +11,28 @@ package com.sun.msv.reader.trex.classic;
 
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
-
+import java.util.Map;
 import javax.xml.parsers.SAXParserFactory;
-
-import org.relaxng.datatype.Datatype;
-import org.relaxng.datatype.DatatypeException;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
-
+import org.xml.sax.XMLReader;
+import org.xml.sax.SAXException;
+import org.relaxng.datatype.DatatypeException;
 import com.sun.msv.datatype.xsd.StringType;
 import com.sun.msv.datatype.xsd.XSDatatype;
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.ExpressionPool;
-import com.sun.msv.grammar.trex.TREXGrammar;
-import com.sun.msv.reader.GrammarReaderController;
-import com.sun.msv.reader.IgnoreState;
-import com.sun.msv.reader.RunAwayExpressionChecker;
-import com.sun.msv.reader.State;
-import com.sun.msv.reader.TerminalState;
-import com.sun.msv.reader.datatype.DataTypeVocabulary;
-import com.sun.msv.reader.datatype.xsd.XSDatatypeExp;
-import com.sun.msv.reader.datatype.xsd.XSDatatypeResolver;
+import com.sun.msv.grammar.*;
+import com.sun.msv.grammar.trex.*;
+import com.sun.msv.reader.*;
+import com.sun.msv.reader.trex.TREXBaseReader;
 import com.sun.msv.reader.trex.IncludePatternState;
 import com.sun.msv.reader.trex.RootState;
-import com.sun.msv.reader.trex.TREXBaseReader;
 import com.sun.msv.reader.trex.TREXSequencedStringChecker;
+import com.sun.msv.reader.datatype.DataTypeVocabulary;
+import com.sun.msv.reader.datatype.xsd.XSDatatypeResolver;
+import com.sun.msv.reader.datatype.xsd.XSDatatypeExp;
 import com.sun.msv.util.StartTagInfo;
+import org.relaxng.datatype.Datatype;
 
 /**
  * reads TREX grammar from SAX2 and constructs abstract grammar model.

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: AttributePruner.java,v 1.9 2003/01/09 21:00:21 kk122374 Exp $
+ * @(#)$Id: AttributePruner.java,v 1.8 2001/08/08 19:42:37 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,13 +9,7 @@
  */
 package com.sun.msv.verifier.regexp;
 
-import com.sun.msv.grammar.AttributeExp;
-import com.sun.msv.grammar.ElementExp;
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.ExpressionCloner;
-import com.sun.msv.grammar.ExpressionPool;
-import com.sun.msv.grammar.OtherExp;
-import com.sun.msv.grammar.ReferenceExp;
+import com.sun.msv.grammar.*;
 
 /**
  * Creates an expression whose AttributeExp is completely replaced by nullSet.

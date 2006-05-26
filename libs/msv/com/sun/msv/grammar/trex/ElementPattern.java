@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ElementPattern.java,v 1.8 2003/01/16 21:51:19 kk122374 Exp $
+ * @(#)$Id: ElementPattern.java,v 1.6 2001/05/16 21:33:18 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,9 +9,7 @@
  */
 package com.sun.msv.grammar.trex;
 
-import com.sun.msv.grammar.ElementExp;
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.NameClass;
+import com.sun.msv.grammar.*;
 
 /**
  * &lt;element&gt; pattern of TREX.
@@ -26,7 +24,4 @@ public class ElementPattern extends ElementExp {
 		super(contentModel,false);
 		this.nameClass = nameClass;
 	}
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

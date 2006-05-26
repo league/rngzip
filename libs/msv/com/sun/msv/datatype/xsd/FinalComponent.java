@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: FinalComponent.java,v 1.22 2003/01/16 23:47:00 ryans Exp $
+ * @(#)$Id: FinalComponent.java,v 1.20 2002/06/24 19:57:28 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,6 +9,9 @@
  */
 package com.sun.msv.datatype.xsd;
 
+import org.relaxng.datatype.DatatypeException;
+import org.relaxng.datatype.ValidationContext;
+import com.sun.msv.datatype.SerializationContext;
 
 /**
  * "final" component.
@@ -32,7 +35,4 @@ public final class FinalComponent extends Proxy {
 		if( (finalValue&derivationType) != 0 )	return true;
 		return super.isFinal(derivationType);
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

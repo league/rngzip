@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: InterleaveState.java,v 1.2 2003/01/09 21:00:05 kk122374 Exp $
+ * @(#)$Id: InterleaveState.java,v 1.1 2001/05/18 19:45:35 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,6 +10,7 @@
 package com.sun.msv.reader;
 
 import com.sun.msv.grammar.Expression;
+import com.sun.msv.reader.ExpressionWithChildState;
 
 /**
  * state that creates an InterleaveExp.

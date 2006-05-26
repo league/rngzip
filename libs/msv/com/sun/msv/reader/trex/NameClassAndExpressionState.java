@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: NameClassAndExpressionState.java,v 1.14 2003/01/09 21:00:09 kk122374 Exp $
+ * @(#)$Id: NameClassAndExpressionState.java,v 1.13 2001/10/18 23:52:13 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,12 +9,11 @@
  */
 package com.sun.msv.reader.trex;
 
-import com.sun.msv.grammar.AnyNameClass;
-import com.sun.msv.grammar.NameClass;
-import com.sun.msv.grammar.SimpleNameClass;
-import com.sun.msv.reader.SequenceState;
-import com.sun.msv.reader.State;
 import com.sun.msv.util.StartTagInfo;
+import com.sun.msv.reader.State;
+import com.sun.msv.reader.SequenceState;
+import com.sun.msv.grammar.*;
+import com.sun.msv.grammar.AnyNameClass;
 
 /**
  * Base implementation for ElementState and AttributeState

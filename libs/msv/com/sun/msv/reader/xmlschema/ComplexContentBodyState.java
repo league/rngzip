@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ComplexContentBodyState.java,v 1.11 2003/01/09 21:00:13 kk122374 Exp $
+ * @(#)$Id: ComplexContentBodyState.java,v 1.10 2001/10/10 23:19:46 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,10 +10,12 @@
 package com.sun.msv.reader.xmlschema;
 
 import com.sun.msv.grammar.Expression;
+import com.sun.msv.grammar.ReferenceContainer;
 import com.sun.msv.grammar.xmlschema.AttributeWildcard;
 import com.sun.msv.grammar.xmlschema.ComplexTypeExp;
-import com.sun.msv.reader.SequenceState;
+import com.sun.msv.grammar.xmlschema.XMLSchemaSchema;
 import com.sun.msv.reader.State;
+import com.sun.msv.reader.SequenceState;
 import com.sun.msv.util.StartTagInfo;
 
 /**
@@ -70,14 +72,14 @@ public class ComplexContentBodyState extends SequenceState implements AnyAttribu
 		
 		String refQName = startTag.getAttribute("base");
 		if( refQName==null ) {
-			reader.reportError( XMLSchemaReader.ERR_MISSING_ATTRIBUTE, startTag.qName, "base" );
+			reader.reportError( reader.ERR_MISSING_ATTRIBUTE, startTag.qName, "base" );
 			return exp;
 			// recover by abandoning proper derivation processing
 		}
 		
 		String[] r = reader.splitQName(refQName);
 		if(r==null) {
-			reader.reportError( XMLSchemaReader.ERR_UNDECLARED_PREFIX, refQName );
+			reader.reportError( reader.ERR_UNDECLARED_PREFIX, refQName );
 			return exp;
 			// recover by abandoning proper derivation processing
 		}
@@ -105,7 +107,7 @@ public class ComplexContentBodyState extends SequenceState implements AnyAttribu
 											parentDecl.selfWType );
 */		
 		// set other fields of the ComplexTypeExp.
-		parentDecl.derivationMethod = extension?ComplexTypeExp.EXTENSION:ComplexTypeExp.RESTRICTION;
+		parentDecl.derivationMethod = extension?parentDecl.EXTENSION:parentDecl.RESTRICTION;
 		parentDecl.complexBaseType = baseType;
 		
 		return combineToBaseType( baseType, exp );

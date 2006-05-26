@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ComplexAcceptor.java,v 1.7 2003/01/09 21:00:22 kk122374 Exp $
+ * @(#)$Id: ComplexAcceptor.java,v 1.6 2001/10/09 00:05:13 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,9 +9,9 @@
  */
 package com.sun.msv.verifier.regexp;
 
-import com.sun.msv.grammar.ElementExp;
 import com.sun.msv.grammar.Expression;
 import com.sun.msv.grammar.ExpressionPool;
+import com.sun.msv.grammar.ElementExp;
 import com.sun.msv.verifier.Acceptor;
 
 /**

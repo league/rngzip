@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: IgnoreController.java,v 1.7 2003/01/09 21:00:12 kk122374 Exp $
+ * @(#)$Id: IgnoreController.java,v 1.6 2001/05/01 18:13:17 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,10 +9,9 @@
  */
 package com.sun.msv.reader.util;
 
-import org.xml.sax.InputSource;
-import org.xml.sax.Locator;
-
 import com.sun.msv.reader.GrammarReaderController;
+import org.xml.sax.Locator;
+import org.xml.sax.InputSource;
 
 /**
  * Default implementation of GrammarReaderController.

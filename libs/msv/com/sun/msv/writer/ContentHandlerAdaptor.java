@@ -1,16 +1,15 @@
 package com.sun.msv.writer;
 
-import java.util.Enumeration;
-
-import org.xml.sax.AttributeList;
-import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.DocumentHandler;
+import org.xml.sax.AttributeList;
+import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.NamespaceSupport;
+import org.xml.sax.helpers.AttributesImpl;
+import java.util.Enumeration;
 
 /**
  * Adapt SAX2 ContentHandler as a SAX1 DocumentHandler.

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: RootGrammarMergeState.java,v 1.4 2003/01/09 21:00:15 kk122374 Exp $
+ * @(#)$Id: RootGrammarMergeState.java,v 1.3 2001/05/01 18:13:25 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,9 +9,9 @@
  */
 package com.sun.msv.relaxns.reader;
 
-import com.sun.msv.reader.SimpleState;
-import com.sun.msv.reader.State;
 import com.sun.msv.util.StartTagInfo;
+import com.sun.msv.reader.State;
+import com.sun.msv.reader.SimpleState;
 
 /**
  * invokes State object that parses the document element.

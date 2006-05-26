@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: TimeType.java,v 1.15 2003/01/16 23:47:03 ryans Exp $
+ * @(#)$Id: TimeType.java,v 1.13 2001/07/31 22:40:05 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,12 +9,14 @@
  */
 package com.sun.msv.datatype.xsd;
 
-import java.util.Calendar;
-
-import com.sun.msv.datatype.SerializationContext;
-import com.sun.msv.datatype.xsd.datetime.BigDateTimeValueType;
-import com.sun.msv.datatype.xsd.datetime.IDateTimeValueType;
 import com.sun.msv.datatype.xsd.datetime.ISO8601Parser;
+import com.sun.msv.datatype.xsd.datetime.IDateTimeValueType;
+import com.sun.msv.datatype.xsd.datetime.BigDateTimeValueType;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.SimpleTimeZone;
+import org.relaxng.datatype.ValidationContext;
+import com.sun.msv.datatype.SerializationContext;
 
 /**
  * "time" type.
@@ -56,9 +58,9 @@ public class TimeType extends DateTimeBaseType {
 		
 		StringBuffer result = new StringBuffer();
 
-		result.append(formatTwoDigits(cal.get(Calendar.HOUR_OF_DAY)));
+		result.append(formatTwoDigits(cal.get(cal.HOUR_OF_DAY)));
 		result.append(':');
-		result.append(formatTwoDigits(cal.get(Calendar.MINUTE)));
+		result.append(formatTwoDigits(cal.get(cal.MINUTE)));
 		result.append(':');
 		result.append(formatSeconds(cal));
 		
@@ -66,7 +68,4 @@ public class TimeType extends DateTimeBaseType {
 		
 		return result.toString();
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

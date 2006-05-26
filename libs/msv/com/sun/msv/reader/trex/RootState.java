@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: RootState.java,v 1.16 2003/01/09 21:00:10 kk122374 Exp $
+ * @(#)$Id: RootState.java,v 1.15 2001/10/12 01:37:30 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -11,7 +11,9 @@ package com.sun.msv.reader.trex;
 
 import com.sun.msv.grammar.Expression;
 import com.sun.msv.reader.State;
+import com.sun.msv.reader.SimpleState;
 import com.sun.msv.util.StartTagInfo;
+import com.sun.msv.grammar.trex.TREXGrammar;
 
 /**
  * invokes State object that parses the document element.

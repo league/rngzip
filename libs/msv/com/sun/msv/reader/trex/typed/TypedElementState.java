@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: TypedElementState.java,v 1.6 2003/01/09 21:00:12 kk122374 Exp $
+ * @(#)$Id: TypedElementState.java,v 1.5 2001/05/01 18:13:16 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,8 +10,8 @@
 package com.sun.msv.reader.trex.typed;
 
 import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.trex.typed.TypedElementPattern;
 import com.sun.msv.reader.trex.ElementState;
+import com.sun.msv.grammar.trex.typed.TypedElementPattern;
 
 /**
  * reads &lt;element&gt; element with 'label' annotation.

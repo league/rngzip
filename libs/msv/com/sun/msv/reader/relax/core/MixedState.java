@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: MixedState.java,v 1.3 2003/01/09 21:00:08 kk122374 Exp $
+ * @(#)$Id: MixedState.java,v 1.2 2001/05/01 18:13:09 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -23,7 +23,7 @@ public class MixedState extends ExpressionWithChildState
 	{
 		if( current!=null )
 		{// mixed has more than one child.
-			reader.reportError( RELAXCoreReader.ERR_MORE_THAN_ONE_CHILD_EXPRESSION );
+			reader.reportError( reader.ERR_MORE_THAN_ONE_CHILD_EXPRESSION );
 			// recover by ignoring previous expression
 		}
 		return child;

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: DeclImpl.java,v 1.5 2003/01/09 21:00:14 kk122374 Exp $
+ * @(#)$Id: DeclImpl.java,v 1.4 2001/08/08 19:43:04 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,10 +9,9 @@
  */
 package com.sun.msv.relaxns.grammar;
 
-import org.xml.sax.SAXNotRecognizedException;
-
 import com.sun.msv.grammar.Expression;
 import com.sun.msv.grammar.ReferenceExp;
+import org.xml.sax.SAXNotRecognizedException;
 
 /**
  * Implementation of ElementDecl interface by MSV grammar model.

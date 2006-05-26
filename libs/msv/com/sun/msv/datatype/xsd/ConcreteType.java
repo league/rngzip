@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ConcreteType.java,v 1.28 2003/01/16 23:47:00 ryans Exp $
+ * @(#)$Id: ConcreteType.java,v 1.26 2002/06/24 19:57:27 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,9 +9,8 @@
  */
 package com.sun.msv.datatype.xsd;
 
-import org.relaxng.datatype.DatatypeException;
 import org.relaxng.datatype.ValidationContext;
-
+import org.relaxng.datatype.DatatypeException;
 import com.sun.msv.datatype.SerializationContext;
 
 /**
@@ -63,7 +62,4 @@ public abstract class ConcreteType extends XSDatatypeImpl {
 		else
 			return literal;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

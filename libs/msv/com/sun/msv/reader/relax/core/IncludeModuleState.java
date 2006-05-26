@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: IncludeModuleState.java,v 1.5 2003/01/09 21:00:08 kk122374 Exp $
+ * @(#)$Id: IncludeModuleState.java,v 1.4 2002/03/04 02:12:04 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,8 +9,8 @@
  */
 package com.sun.msv.reader.relax.core;
 
-import com.sun.msv.reader.AbortException;
 import com.sun.msv.reader.ChildlessState;
+import com.sun.msv.reader.AbortException;
 
 /**
  * parses &lt;include&gt; element of RELAX Core.

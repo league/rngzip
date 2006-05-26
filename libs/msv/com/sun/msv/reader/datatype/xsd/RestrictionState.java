@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: RestrictionState.java,v 1.14 2003/01/09 21:00:06 kk122374 Exp $
+ * @(#)$Id: RestrictionState.java,v 1.13 2002/06/24 19:57:58 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,13 +9,15 @@
  */
 package com.sun.msv.reader.datatype.xsd;
 
-import org.relaxng.datatype.DatatypeException;
-
-import com.sun.msv.datatype.xsd.StringType;
 import com.sun.msv.reader.GrammarReader;
 import com.sun.msv.reader.IgnoreState;
 import com.sun.msv.reader.State;
+import com.sun.msv.datatype.xsd.XSDatatype;
+import com.sun.msv.datatype.xsd.StringType;
+import com.sun.msv.datatype.xsd.TypeIncubator;
 import com.sun.msv.util.StartTagInfo;
+import org.relaxng.datatype.Datatype;
+import org.relaxng.datatype.DatatypeException;
 
 /**
  * state that parses &lt;restriction&gt; element.
@@ -68,7 +70,7 @@ public class RestrictionState extends TypeWithOneChildState implements FacetStat
 		if( tag.localName.equals("simpleType") )	return new SimpleTypeState();
 		if( FacetState.facetNames.contains(tag.localName) ) {
 			if( incubator==null ) {
-				reader.reportError( GrammarReader.ERR_MISSING_ATTRIBUTE, "restriction", "base" );
+				reader.reportError( reader.ERR_MISSING_ATTRIBUTE, "restriction", "base" );
                 onEndChild(new XSDatatypeExp(StringType.theInstance,reader.pool));
 			}
 			return new FacetState();

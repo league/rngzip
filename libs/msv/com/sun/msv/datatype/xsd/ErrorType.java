@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ErrorType.java,v 1.3 2003/01/16 23:47:00 ryans Exp $
+ * @(#)$Id: ErrorType.java,v 1.2 2002/07/25 00:19:13 kk122374 Exp $
  *
  * Copyright 2002 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -57,7 +57,4 @@ public class ErrorType extends BuiltinAtomicType {
         return this.getClass();
     }
 
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

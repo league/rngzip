@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: AbstractVerifier.java,v 1.6 2003/01/09 21:00:18 kk122374 Exp $
+ * @(#)$Id: AbstractVerifier.java,v 1.5 2001/09/26 01:51:56 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,18 +9,19 @@
  */
 package com.sun.msv.verifier;
 
-import java.util.Set;
-import java.util.StringTokenizer;
-
-import org.relaxng.datatype.Datatype;
-import org.xml.sax.Attributes;
-import org.xml.sax.ContentHandler;
-import org.xml.sax.DTDHandler;
-import org.xml.sax.Locator;
-import org.xml.sax.SAXException;
+import org.xml.sax.*;
 import org.xml.sax.helpers.NamespaceSupport;
-
+import org.relaxng.datatype.Datatype;
+import java.util.Set;
+import java.util.Map;
+import java.util.Iterator;
+import java.util.StringTokenizer;
+import com.sun.msv.datatype.xsd.StringType;
 import com.sun.msv.grammar.IDContextProvider;
+import com.sun.msv.util.StartTagInfo;
+import com.sun.msv.util.StringRef;
+import com.sun.msv.util.StringPair;
+import com.sun.msv.util.DatatypeRef;
 
 /**
  * Base implementation for various Verifier implementations.
@@ -130,18 +131,18 @@ public abstract class AbstractVerifier implements
 		if(!performIDcheck)		return;
 		
 		int idType = dt.getIdType();
-		if(idType==Datatype.ID_TYPE_ID) {
+		if(idType==dt.ID_TYPE_ID) {
 			literal = literal.trim();
 			if(!ids.add(literal))
 				// duplicate id value
 				onDuplicateId(literal);
 			return;
 		}
-		if(idType==Datatype.ID_TYPE_IDREF) {
+		if(idType==dt.ID_TYPE_IDREF) {
 			idrefs.add(literal.trim());
 			return;
 		}
-		if(idType==Datatype.ID_TYPE_IDREFS) {
+		if(idType==dt.ID_TYPE_IDREFS) {
 			StringTokenizer tokens = new StringTokenizer(literal);
 			while(tokens.hasMoreTokens())
 				idrefs.add(tokens.nextToken());

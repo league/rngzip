@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: TimeDurationFactory.java,v 1.8 2003/01/07 00:17:06 kk122374 Exp $
+ * @(#)$Id: TimeDurationFactory.java,v 1.7 2001/06/19 22:42:36 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,8 +9,8 @@
  */
 package com.sun.msv.datatype.xsd.datetime;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.BigDecimal;
 
 /**
  * Utility functions to create TimeDurationValueType objects.

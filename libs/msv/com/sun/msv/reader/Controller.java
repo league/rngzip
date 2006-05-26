@@ -1,15 +1,13 @@
 package com.sun.msv.reader;
 
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
-import org.xml.sax.Locator;
+import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+import org.xml.sax.Locator;
 import org.xml.sax.helpers.LocatorImpl;
+import java.io.IOException;
+import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * Internal view of GrammarReaderController.
@@ -47,10 +45,6 @@ public class Controller implements GrammarReaderController,ErrorHandler
     public void error( Locator[] locs, String errorMessage, Exception nestedException ) {
         setErrorFlag();
         core.error(locs,errorMessage,nestedException);
-    }
-
-    public void error( String errorMessage, Exception nestedException ) {
-        error( new Locator[0], errorMessage, nestedException );
     }
     
 	public void fatalError( SAXParseException spe ) {

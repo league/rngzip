@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: XMLSchemaTypeExp.java,v 1.3 2003/01/16 21:51:21 kk122374 Exp $
+ * @(#)$Id: XMLSchemaTypeExp.java,v 1.2 2001/08/07 00:03:38 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -32,7 +32,4 @@ public abstract class XMLSchemaTypeExp extends RedefinableExp {
 	// defined in the ElementDeclExp.
 	public static final int RESTRICTION	= 0x1;
 	public static final int EXTENSION	= 0x2;
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

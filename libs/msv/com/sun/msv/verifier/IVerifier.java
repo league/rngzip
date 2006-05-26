@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: IVerifier.java,v 1.8 2003/01/09 21:00:18 kk122374 Exp $
+ * @(#)$Id: IVerifier.java,v 1.7 2001/11/19 19:57:24 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,10 +9,10 @@
  */
 package com.sun.msv.verifier;
 
-import org.iso_relax.verifier.VerifierHandler;
 import org.relaxng.datatype.Datatype;
-import org.xml.sax.ErrorHandler;
 import org.xml.sax.Locator;
+import org.xml.sax.ErrorHandler;
+import org.iso_relax.verifier.VerifierHandler;
 
 /**
  * Interface of verifier.

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: NumberType.java,v 1.21 2003/01/16 23:47:02 ryans Exp $
+ * @(#)$Id: NumberType.java,v 1.19 2002/10/08 22:01:27 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -11,9 +11,7 @@ package com.sun.msv.datatype.xsd;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-
 import org.relaxng.datatype.ValidationContext;
-
 import com.sun.msv.datatype.SerializationContext;
 
 /**
@@ -149,7 +147,4 @@ public class NumberType extends BuiltinAtomicType implements Comparator {
 		if(r>0)	return GREATER;
 		return EQUAL;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

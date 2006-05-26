@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: WhiteSpaceFacet.java,v 1.20 2003/02/12 19:58:15 kk122374 Exp $
+ * @(#)$Id: WhiteSpaceFacet.java,v 1.17 2002/06/24 19:57:29 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,6 +9,7 @@
  */
 package com.sun.msv.datatype.xsd;
 
+import org.relaxng.datatype.ValidationContext;
 import org.relaxng.datatype.DatatypeException;
 import org.relaxng.datatype.ValidationContext;
 
@@ -21,16 +22,8 @@ public class WhiteSpaceFacet extends DataTypeWithFacet {
 	
 	WhiteSpaceFacet( String nsUri, String typeName, XSDatatypeImpl baseType, TypeIncubator facets )
 		throws DatatypeException {
-		
-        this(nsUri,typeName, baseType,
-            WhiteSpaceProcessor.get( (String)facets.getFacet(FACET_WHITESPACE)),
-            facets.isFixed(FACET_WHITESPACE) );
-    }
-        
-    WhiteSpaceFacet( String nsUri, String typeName, XSDatatypeImpl baseType,
-        WhiteSpaceProcessor proc, boolean _isFixed ) throws DatatypeException {
-            
-        super(nsUri,typeName, baseType, FACET_WHITESPACE, _isFixed,proc);
+		super(nsUri,typeName, baseType, FACET_WHITESPACE, facets,
+			WhiteSpaceProcessor.get( (String)facets.getFacet(FACET_WHITESPACE)) );
 		
 		// loosened facet check
 		if( baseType.whiteSpace.tightness() > this.whiteSpace.tightness() ) {
@@ -56,7 +49,4 @@ public class WhiteSpaceFacet extends DataTypeWithFacet {
 	protected void diagnoseByFacet(String content, ValidationContext context) {
 		;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

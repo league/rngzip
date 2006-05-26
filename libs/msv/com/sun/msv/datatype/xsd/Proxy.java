@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: Proxy.java,v 1.6 2003/01/16 23:47:02 ryans Exp $
+ * @(#)$Id: Proxy.java,v 1.4 2002/07/26 14:59:18 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -11,7 +11,6 @@ package com.sun.msv.datatype.xsd;
 
 import org.relaxng.datatype.DatatypeException;
 import org.relaxng.datatype.ValidationContext;
-
 import com.sun.msv.datatype.SerializationContext;
 
 /**
@@ -89,7 +88,4 @@ public class Proxy extends XSDatatypeImpl {
 		baseType._checkValid(content,context);
 	}
 	
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

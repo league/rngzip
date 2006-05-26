@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: RELAXModule.java,v 1.9 2003/01/16 21:51:18 kk122374 Exp $
+ * @(#)$Id: RELAXModule.java,v 1.7 2001/11/21 22:15:17 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -8,7 +8,7 @@
  * 
  */
 /*
- * @(#)$Id: RELAXModule.java,v 1.9 2003/01/16 21:51:18 kk122374 Exp $
+ * @(#)$Id: RELAXModule.java,v 1.7 2001/11/21 22:15:17 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -18,14 +18,13 @@
  */
 package com.sun.msv.grammar.relax;
 
-import java.util.Map;
-
-import com.sun.msv.datatype.xsd.XSDatatype;
 import com.sun.msv.grammar.Expression;
 import com.sun.msv.grammar.ExpressionPool;
 import com.sun.msv.grammar.Grammar;
-import com.sun.msv.grammar.ReferenceContainer;
 import com.sun.msv.grammar.ReferenceExp;
+import com.sun.msv.grammar.ReferenceContainer;
+import com.sun.msv.datatype.xsd.XSDatatype;
+import java.util.Map;
 
 /**
  * "Module" of RELAX Core.
@@ -148,7 +147,4 @@ public class RELAXModule implements Grammar {
 		datatypes.add( EmptyStringType.theInstance );
 		datatypes.add( NoneType.theInstance );
 	}
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

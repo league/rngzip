@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: TREXIslandSchema.java,v 1.8 2003/01/09 21:00:14 kk122374 Exp $
+ * @(#)$Id: TREXIslandSchema.java,v 1.7 2001/05/29 22:52:24 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,14 +9,18 @@
  */
 package com.sun.msv.relaxns.grammar.trex;
 
+import org.iso_relax.dispatcher.IslandSchema;
+import org.iso_relax.dispatcher.IslandVerifier;
 import org.iso_relax.dispatcher.SchemaProvider;
+import org.iso_relax.dispatcher.ElementDecl;
+import org.xml.sax.SAXParseException;
 import org.xml.sax.ErrorHandler;
-
-import com.sun.msv.grammar.Grammar;
-import com.sun.msv.grammar.ReferenceExp;
-import com.sun.msv.grammar.trex.TREXGrammar;
-import com.sun.msv.relaxns.grammar.DeclImpl;
 import com.sun.msv.relaxns.verifier.IslandSchemaImpl;
+import com.sun.msv.relaxns.grammar.DeclImpl;
+import com.sun.msv.grammar.*;
+import com.sun.msv.grammar.trex.*;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * IslandSchema implementation for TREX pattern.

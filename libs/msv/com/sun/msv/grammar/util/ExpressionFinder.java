@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ExpressionFinder.java,v 1.2 2003/01/09 21:00:04 kk122374 Exp $
+ * @(#)$Id: ExpressionFinder.java,v 1.1 2002/02/24 01:29:04 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,20 +9,7 @@
  */
 package com.sun.msv.grammar.util;
 
-import com.sun.msv.grammar.AttributeExp;
-import com.sun.msv.grammar.ChoiceExp;
-import com.sun.msv.grammar.ConcurExp;
-import com.sun.msv.grammar.DataExp;
-import com.sun.msv.grammar.ElementExp;
-import com.sun.msv.grammar.ExpressionVisitorBoolean;
-import com.sun.msv.grammar.InterleaveExp;
-import com.sun.msv.grammar.ListExp;
-import com.sun.msv.grammar.MixedExp;
-import com.sun.msv.grammar.OneOrMoreExp;
-import com.sun.msv.grammar.OtherExp;
-import com.sun.msv.grammar.ReferenceExp;
-import com.sun.msv.grammar.SequenceExp;
-import com.sun.msv.grammar.ValueExp;
+import com.sun.msv.grammar.*;
 
 /**
  * Base class for "finding" something from an expression.

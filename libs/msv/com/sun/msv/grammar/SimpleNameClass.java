@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: SimpleNameClass.java,v 1.10 2003/01/16 21:51:17 kk122374 Exp $
+ * @(#)$Id: SimpleNameClass.java,v 1.9 2001/10/11 02:12:17 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -45,7 +45,4 @@ public final class SimpleNameClass extends NameClass {
 		if( namespaceURI.length()==0 )	return localName;
 		else							return /*namespaceURI+":"+*/localName;
 	}
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

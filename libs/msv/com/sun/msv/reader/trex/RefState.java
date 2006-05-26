@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: RefState.java,v 1.12 2003/01/09 21:00:09 kk122374 Exp $
+ * @(#)$Id: RefState.java,v 1.11 2001/10/12 23:37:53 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,10 +9,10 @@
  */
 package com.sun.msv.reader.trex;
 
+import com.sun.msv.reader.ExpressionWithoutChildState;
 import com.sun.msv.grammar.Expression;
 import com.sun.msv.grammar.ReferenceExp;
 import com.sun.msv.grammar.trex.TREXGrammar;
-import com.sun.msv.reader.ExpressionWithoutChildState;
 														   
 /**
  * parses &lt;ref&gt; pattern.

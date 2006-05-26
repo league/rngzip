@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: IncludeGrammarState.java,v 1.5 2003/01/09 21:00:15 kk122374 Exp $
+ * @(#)$Id: IncludeGrammarState.java,v 1.4 2002/03/04 02:15:48 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -27,7 +27,7 @@ public class IncludeGrammarState extends ChildlessState
 
 		if(href==null) {
             // name attribute is required.
-			reader.reportError( RELAXNSReader.ERR_MISSING_ATTRIBUTE,
+			reader.reportError( reader.ERR_MISSING_ATTRIBUTE,
 				"include","grammarLocation");
 			// recover by ignoring this include element
 		} else

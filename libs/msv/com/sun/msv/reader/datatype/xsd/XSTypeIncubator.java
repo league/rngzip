@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: XSTypeIncubator.java,v 1.4 2003/01/09 21:00:06 kk122374 Exp $
+ * @(#)$Id: XSTypeIncubator.java,v 1.3 2002/10/06 18:07:05 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -20,7 +20,7 @@ import org.relaxng.datatype.ValidationContext;
  */
 public interface XSTypeIncubator
 {
-    void addFacet( String name, String value, boolean fixed, ValidationContext context )
+    void addFacet( String name, String value, ValidationContext context )
          throws DatatypeException;
     
     XSDatatypeExp derive( String newTypeNameUri, String newLocalName )

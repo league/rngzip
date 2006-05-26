@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: NameClassWithChildState.java,v 1.9 2003/01/09 21:00:09 kk122374 Exp $
+ * @(#)$Id: NameClassWithChildState.java,v 1.8 2001/07/13 00:30:14 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,8 +9,8 @@
  */
 package com.sun.msv.reader.trex;
 
-import com.sun.msv.grammar.AnyNameClass;
 import com.sun.msv.grammar.NameClass;
+import com.sun.msv.grammar.AnyNameClass;
 import com.sun.msv.reader.State;
 import com.sun.msv.util.StartTagInfo;
 

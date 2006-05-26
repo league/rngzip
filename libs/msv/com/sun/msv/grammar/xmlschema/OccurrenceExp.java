@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: OccurrenceExp.java,v 1.2 2003/01/16 21:51:21 kk122374 Exp $
+ * @(#)$Id: OccurrenceExp.java,v 1.1 2002/07/26 21:50:13 kk122374 Exp $
  *
  * Copyright 2002 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -70,7 +70,4 @@ public class OccurrenceExp extends OtherExp {
      * The unit of repetition.
      */
     public final Expression itemExp;
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: TREXIslandVerifier.java,v 1.4 2003/01/09 21:00:16 kk122374 Exp $
+ * @(#)$Id: TREXIslandVerifier.java,v 1.3 2001/05/18 00:06:06 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,24 +9,25 @@
  */
 package com.sun.msv.relaxns.verifier;
 
+import org.iso_relax.dispatcher.Dispatcher;
+import org.iso_relax.dispatcher.IslandSchema;
+import org.iso_relax.dispatcher.IslandVerifier;
+import org.iso_relax.dispatcher.ElementDecl;
+import org.xml.sax.SAXException;
+import org.xml.sax.Attributes;
+import com.sun.msv.relaxns.grammar.relax.AnyOtherElementExp;
+import com.sun.msv.relaxns.grammar.ExternalElementExp;
+import com.sun.msv.grammar.Expression;
+import com.sun.msv.grammar.ElementExp;
+import com.sun.msv.verifier.regexp.ElementToken;
+import com.sun.msv.verifier.regexp.REDocumentDeclaration;
+import com.sun.msv.verifier.regexp.ContentModelAcceptor;
+import com.sun.msv.verifier.regexp.ComplexAcceptor;
+import com.sun.msv.verifier.regexp.SimpleAcceptor;
+import com.sun.msv.util.StringRef;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
-
-import org.iso_relax.dispatcher.Dispatcher;
-import org.iso_relax.dispatcher.ElementDecl;
-import org.iso_relax.dispatcher.IslandSchema;
-import org.iso_relax.dispatcher.IslandVerifier;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-
-import com.sun.msv.grammar.ElementExp;
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.relaxns.grammar.ExternalElementExp;
-import com.sun.msv.relaxns.grammar.relax.AnyOtherElementExp;
-import com.sun.msv.verifier.regexp.ComplexAcceptor;
-import com.sun.msv.verifier.regexp.REDocumentDeclaration;
-import com.sun.msv.verifier.regexp.SimpleAcceptor;
 
 /**
  * IslandVerifier for RELAX Core and TREX.

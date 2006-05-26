@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: MinExclusiveFacet.java,v 1.12 2003/02/12 19:58:14 kk122374 Exp $
+ * @(#)$Id: MinExclusiveFacet.java,v 1.10 2002/06/24 19:57:28 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -17,15 +17,12 @@ import org.relaxng.datatype.DatatypeException;
  * @author <a href="mailto:kohsuke.kawaguchi@eng.sun.com">Kohsuke KAWAGUCHI</a>
  */
 public class MinExclusiveFacet extends RangeFacet {
-    protected MinExclusiveFacet( String nsUri, String typeName, XSDatatypeImpl baseType, Number limit, boolean _isFixed )
-        throws DatatypeException {
-        super( nsUri, typeName, baseType, FACET_MINEXCLUSIVE, limit, _isFixed );
-    }
+	protected MinExclusiveFacet( String nsUri, String typeName, XSDatatypeImpl baseType, TypeIncubator facets )
+		throws DatatypeException {
+		super( nsUri, typeName, baseType, FACET_MINEXCLUSIVE, facets );
+	}
 	
 	protected final boolean rangeCheck( int r ) {
 		return r==Comparator.LESS;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: SimpleState.java,v 1.10 2003/01/09 21:00:05 kk122374 Exp $
+ * @(#)$Id: SimpleState.java,v 1.9 2002/03/04 00:53:48 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,10 +9,12 @@
  */
 package com.sun.msv.reader;
 
+import org.xml.sax.ContentHandler;
+import org.xml.sax.helpers.NamespaceSupport;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 import org.xml.sax.helpers.AttributesImpl;
-
+import org.xml.sax.helpers.LocatorImpl;
 import com.sun.msv.util.StartTagInfo;
 
 /**

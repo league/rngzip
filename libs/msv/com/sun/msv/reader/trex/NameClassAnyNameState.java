@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: NameClassAnyNameState.java,v 1.7 2003/01/09 21:00:09 kk122374 Exp $
+ * @(#)$Id: NameClassAnyNameState.java,v 1.6 2001/06/19 22:34:17 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,8 +9,8 @@
  */
 package com.sun.msv.reader.trex;
 
-import com.sun.msv.grammar.AnyNameClass;
 import com.sun.msv.grammar.NameClass;
+import com.sun.msv.grammar.AnyNameClass;
 
 /**
  * parses &lt;anyName&gt; name class.

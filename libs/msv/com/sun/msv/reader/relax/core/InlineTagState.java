@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: InlineTagState.java,v 1.3 2003/01/09 21:00:08 kk122374 Exp $
+ * @(#)$Id: InlineTagState.java,v 1.2 2001/05/01 18:13:09 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,8 +9,9 @@
  */
 package com.sun.msv.reader.relax.core;
 
-import com.sun.msv.grammar.SimpleNameClass;
+import com.sun.msv.grammar.Expression;
 import com.sun.msv.grammar.relax.TagClause;
+import com.sun.msv.grammar.SimpleNameClass;
 
 /**
  * parses &lt;tag&gt; element inlined in &lt;elementRule&gt;

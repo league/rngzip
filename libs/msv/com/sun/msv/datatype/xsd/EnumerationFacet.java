@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: EnumerationFacet.java,v 1.22 2003/02/12 19:58:13 kk122374 Exp $
+ * @(#)$Id: EnumerationFacet.java,v 1.19 2002/06/24 19:57:28 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,9 +9,8 @@
  */
 package com.sun.msv.datatype.xsd;
 
-import java.util.Collection;
 import java.util.Set;
-
+import java.util.Vector;
 import org.relaxng.datatype.DatatypeException;
 import org.relaxng.datatype.ValidationContext;
 
@@ -21,10 +20,10 @@ import org.relaxng.datatype.ValidationContext;
  * @author <a href="mailto:kohsuke.kawaguchi@eng.sun.com">Kohsuke KAWAGUCHI</a>
  */
 public class EnumerationFacet extends DataTypeWithValueConstraintFacet {
-	protected EnumerationFacet( String nsUri, String typeName, XSDatatypeImpl baseType, Collection _values, boolean _isFixed )
+	protected EnumerationFacet( String nsUri, String typeName, XSDatatypeImpl baseType, TypeIncubator facets )
 		throws DatatypeException {
-		super(nsUri,typeName,baseType,FACET_ENUMERATION,_isFixed);
-		values = new java.util.HashSet( _values );
+		super(nsUri,typeName,baseType,FACET_ENUMERATION,facets);
+		values = new java.util.HashSet( facets.getVector(FACET_ENUMERATION) );
 	}
 	
 	/** set of valid values */
@@ -63,7 +62,4 @@ public class EnumerationFacet extends DataTypeWithValueConstraintFacet {
 			localize(ERR_ENUMERATION) );
 	}
 
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

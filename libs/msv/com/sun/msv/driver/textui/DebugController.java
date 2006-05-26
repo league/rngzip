@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: DebugController.java,v 1.19 2003/01/09 21:00:02 kk122374 Exp $
+ * @(#)$Id: DebugController.java,v 1.18 2001/08/30 21:05:08 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,14 +9,12 @@
  */
 package com.sun.msv.driver.textui;
 
-import java.io.PrintStream;
-
-import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
-
+import org.xml.sax.EntityResolver;
 import com.sun.msv.reader.GrammarReaderController;
+import java.io.PrintStream;
 
 /**
  * GrammarReaderController that prints all errors and warnings.

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: AttPoolState.java,v 1.4 2003/01/09 21:00:07 kk122374 Exp $
+ * @(#)$Id: AttPoolState.java,v 1.3 2001/05/16 19:31:27 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,7 +10,6 @@
 package com.sun.msv.reader.relax.core;
 
 import org.xml.sax.Locator;
-
 import com.sun.msv.grammar.Expression;
 import com.sun.msv.grammar.ReferenceExp;
 import com.sun.msv.grammar.relax.AttPoolClause;
@@ -28,7 +27,7 @@ public class AttPoolState extends ClauseState {
 		
 		final String role = startTag.getAttribute("role");
 		if(role==null) {
-			reader.reportError(RELAXCoreReader.ERR_MISSING_ATTRIBUTE, "attPool","role");
+			reader.reportError(reader.ERR_MISSING_ATTRIBUTE, "attPool","role");
 			return;	// recover by ignoring this declaration
 		}
 		
@@ -50,7 +49,7 @@ public class AttPoolState extends ClauseState {
 			// this attPool has @combine
 			
 			ReferenceExp e = getReader().combinedAttPools._getOrCreate(role);
-			if( e.exp==null )	e.exp = Expression.epsilon;
+			if( e.exp==null )	e.exp = exp.epsilon;
 			// append newly found attributes.
 			e.exp = reader.pool.createSequence( exp, e.exp );
 			reader.setDeclaredLocationOf(e);

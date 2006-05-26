@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ComplexContentState.java,v 1.6 2003/01/09 21:00:13 kk122374 Exp $
+ * @(#)$Id: ComplexContentState.java,v 1.5 2001/08/10 23:15:11 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,10 +9,10 @@
  */
 package com.sun.msv.reader.xmlschema;
 
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.xmlschema.ComplexTypeExp;
 import com.sun.msv.reader.ExpressionWithChildState;
 import com.sun.msv.reader.State;
+import com.sun.msv.grammar.Expression;
+import com.sun.msv.grammar.xmlschema.ComplexTypeExp;
 import com.sun.msv.util.StartTagInfo;
 
 /**

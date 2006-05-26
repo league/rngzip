@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: IntType.java,v 1.20 2003/02/24 18:43:13 kk122374 Exp $
+ * @(#)$Id: IntType.java,v 1.17 2001/11/27 01:54:52 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -21,14 +21,8 @@ import org.relaxng.datatype.ValidationContext;
  */
 public class IntType extends IntegerDerivedType {
 	
-	public static final IntType theInstance =
-        new IntType("int",createRangeFacet( LongType.theInstance,
-            new Integer(Integer.MIN_VALUE),
-            new Integer(Integer.MAX_VALUE)));
-	
-    protected IntType(String typeName,XSDatatypeImpl baseFacets) {
-        super(typeName,baseFacets);
-    }
+	public static final IntType theInstance = new IntType("int");
+	protected IntType(String typeName) { super(typeName); }
 	
 	public XSDatatype getBaseType() {
 		return LongType.theInstance;
@@ -54,7 +48,4 @@ public class IntType extends IntegerDerivedType {
 	public Class getJavaObjectType() {
 		return Integer.class;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

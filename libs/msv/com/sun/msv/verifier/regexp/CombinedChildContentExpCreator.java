@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: CombinedChildContentExpCreator.java,v 1.21 2003/01/09 21:00:21 kk122374 Exp $
+ * @(#)$Id: CombinedChildContentExpCreator.java,v 1.20 2001/10/18 23:52:17 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,24 +9,9 @@
  */
 package com.sun.msv.verifier.regexp;
 
-import com.sun.msv.grammar.AttributeExp;
-import com.sun.msv.grammar.ChoiceExp;
-import com.sun.msv.grammar.ConcurExp;
-import com.sun.msv.grammar.DataExp;
-import com.sun.msv.grammar.ElementExp;
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.ExpressionPool;
-import com.sun.msv.grammar.ExpressionVisitorVoid;
-import com.sun.msv.grammar.InterleaveExp;
-import com.sun.msv.grammar.ListExp;
-import com.sun.msv.grammar.MixedExp;
-import com.sun.msv.grammar.OneOrMoreExp;
-import com.sun.msv.grammar.OtherExp;
-import com.sun.msv.grammar.ReferenceExp;
-import com.sun.msv.grammar.SequenceExp;
-import com.sun.msv.grammar.ValueExp;
-import com.sun.msv.util.StartTagInfo;
+import com.sun.msv.grammar.*;
 import com.sun.msv.util.StringPair;
+import com.sun.msv.util.StartTagInfo;
 
 /**
  * creates "combined child content expression" and gathers "elements of concern"

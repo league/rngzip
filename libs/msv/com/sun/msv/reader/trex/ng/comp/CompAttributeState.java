@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: CompAttributeState.java,v 1.3 2003/01/09 21:00:11 kk122374 Exp $
+ * @(#)$Id: CompAttributeState.java,v 1.2 2001/10/18 23:52:14 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,8 +9,9 @@
  */
 package com.sun.msv.reader.trex.ng.comp;
 
-import com.sun.msv.grammar.AttributeExp;
 import com.sun.msv.grammar.Expression;
+import com.sun.msv.grammar.AttributeExp;
+//import com.sun.msv.grammar.SimpleNameClass;
 import com.sun.msv.reader.trex.ng.AttributeState;
 
 /**

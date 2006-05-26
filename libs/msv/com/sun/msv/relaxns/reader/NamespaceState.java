@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: NamespaceState.java,v 1.9 2003/01/09 21:00:15 kk122374 Exp $
+ * @(#)$Id: NamespaceState.java,v 1.8 2002/03/04 02:15:48 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,22 +9,22 @@
  */
 package com.sun.msv.relaxns.reader;
 
-import java.util.Vector;
-
+import com.sun.msv.reader.AbortException;
+import com.sun.msv.reader.State;
+import com.sun.msv.reader.IgnoreState;
+import com.sun.msv.reader.GrammarReader;
+import com.sun.msv.util.StartTagInfo;
+import com.sun.msv.grammar.relax.RELAXModule;
+import org.iso_relax.dispatcher.impl.IgnoredSchema;
 import org.iso_relax.dispatcher.IslandSchema;
 import org.iso_relax.dispatcher.IslandSchemaReader;
-import org.iso_relax.dispatcher.impl.IgnoredSchema;
+import org.xml.sax.SAXException;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
+import org.xml.sax.XMLFilter;
 import org.xml.sax.helpers.XMLFilterImpl;
-
-import com.sun.msv.reader.AbortException;
-import com.sun.msv.reader.GrammarReader;
-import com.sun.msv.reader.IgnoreState;
-import com.sun.msv.reader.State;
-import com.sun.msv.util.StartTagInfo;
+import java.util.Vector;
 
 /**
  * parses &lt;namespace&gt; element of RELAX Namespace.
@@ -143,7 +143,7 @@ public class NamespaceState extends State
 		
 		if(!inlineModuleExpected) {
 			// expecets nothing
-			reader.reportError(RELAXNSReader.ERR_MALPLACED_ELEMENT, qName );
+			reader.reportError(reader.ERR_MALPLACED_ELEMENT, qName );
 			bailOut=true;	// so that we don't issue errors for every child.
 			return;
 		}

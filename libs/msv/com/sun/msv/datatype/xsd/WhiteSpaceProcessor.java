@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: WhiteSpaceProcessor.java,v 1.19 2003/01/16 23:47:03 ryans Exp $
+ * @(#)$Id: WhiteSpaceProcessor.java,v 1.17 2001/10/08 23:58:38 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,9 +9,8 @@
  */
 package com.sun.msv.datatype.xsd;
 
-import java.io.InvalidObjectException;
 import java.io.Serializable;
-
+import java.io.InvalidObjectException;
 import org.relaxng.datatype.DatatypeException;
 
 /**
@@ -128,8 +127,5 @@ public abstract class WhiteSpaceProcessor implements Serializable {
 		int tightness() { return 2; }
 		public String getName() { return "collapse"; }
 	};
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }
 

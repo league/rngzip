@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: TotalDigitsFacet.java,v 1.16 2003/02/12 19:58:14 kk122374 Exp $
+ * @(#)$Id: TotalDigitsFacet.java,v 1.14 2002/10/18 03:14:11 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -23,11 +23,11 @@ public class TotalDigitsFacet extends DataTypeWithLexicalConstraintFacet {
 	/** maximum number of total digits. */
 	public final int		precision;
 
-    public TotalDigitsFacet( String nsUri, String typeName, XSDatatypeImpl baseType, int _precision, boolean _isFixed )
-        throws DatatypeException {
-		super( nsUri, typeName, baseType, FACET_TOTALDIGITS, _isFixed );
+	public TotalDigitsFacet( String nsUri, String typeName, XSDatatypeImpl baseType, TypeIncubator facets )
+		throws DatatypeException {
+		super( nsUri, typeName, baseType, FACET_TOTALDIGITS, facets );
 		
-		precision = _precision;
+		precision = facets.getPositiveInteger(FACET_TOTALDIGITS);
 		
 		// loosened facet check
 		DataTypeWithFacet o = baseType.getFacetObject(FACET_TOTALDIGITS);
@@ -84,7 +84,4 @@ public class TotalDigitsFacet extends DataTypeWithLexicalConstraintFacet {
 		
 		return count-trailingZero;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: XPath.java,v 1.5 2003/01/16 21:51:21 kk122374 Exp $
+ * @(#)$Id: XPath.java,v 1.4 2001/08/08 23:57:57 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -34,7 +34,4 @@ public class XPath implements java.io.Serializable {
 	 */
 	public NameClass		attributeStep;
 
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

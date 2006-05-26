@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ListValueType.java,v 1.10 2003/01/16 23:47:01 ryans Exp $
+ * @(#)$Id: ListValueType.java,v 1.9 2001/12/18 03:34:56 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -43,7 +43,4 @@ public class ListValueType implements java.io.Serializable
 		
 		return h;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

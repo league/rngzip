@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: DateTimeBaseType.java,v 1.26 2003/01/07 00:21:56 kk122374 Exp $
+ * @(#)$Id: DateTimeBaseType.java,v 1.24 2002/10/08 22:01:27 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,16 +9,16 @@
  */
 package com.sun.msv.datatype.xsd;
 
-import java.io.StringReader;
+import com.sun.msv.datatype.SerializationContext;
+import com.sun.msv.datatype.xsd.datetime.ISO8601Parser;
+import com.sun.msv.datatype.xsd.datetime.IDateTimeValueType;
+import com.sun.msv.datatype.xsd.datetime.BigDateTimeValueType;
+import com.sun.msv.datatype.xsd.datetime.TimeZone;
+import org.relaxng.datatype.ValidationContext;
+import java.io.ByteArrayInputStream;
 import java.math.BigInteger;
 import java.util.Calendar;
-
-import org.relaxng.datatype.ValidationContext;
-
-import com.sun.msv.datatype.SerializationContext;
-import com.sun.msv.datatype.xsd.datetime.IDateTimeValueType;
-import com.sun.msv.datatype.xsd.datetime.ISO8601Parser;
-import com.sun.msv.datatype.xsd.datetime.TimeZone;
+import java.util.SimpleTimeZone;
 
 /**
  * base implementation of dateTime and dateTime-truncated types.
@@ -37,7 +37,7 @@ abstract class DateTimeBaseType extends BuiltinAtomicType implements Comparator 
 	}
 	
 	private static final ISO8601Parser getParser( String content ) throws Exception {
-		return new ISO8601Parser( new StringReader(content) );
+		return new ISO8601Parser( new ByteArrayInputStream( content.getBytes("UTF8") ) );
 	}
 	
 	protected final boolean checkFormat( String content, ValidationContext context ) {
@@ -148,9 +148,9 @@ abstract class DateTimeBaseType extends BuiltinAtomicType implements Comparator 
 	
 	protected String formatSeconds( Calendar cal ) {
 		StringBuffer result = new StringBuffer();
-		result.append(formatTwoDigits(cal.get(Calendar.SECOND)));
-		if( cal.isSet(Calendar.MILLISECOND) ) {// milliseconds
-			String ms = Integer.toString(cal.get(Calendar.MILLISECOND));
+		result.append(formatTwoDigits(cal.get(cal.SECOND)));
+		if( cal.isSet(cal.MILLISECOND) ) {// milliseconds
+			String ms = Integer.toString(cal.get(cal.MILLISECOND));
 			while(ms.length()<3)	ms = "0"+ms;	// left 0 paddings.
 			
 			result.append('.');

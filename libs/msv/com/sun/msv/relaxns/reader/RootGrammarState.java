@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: RootGrammarState.java,v 1.10 2003/01/09 21:00:15 kk122374 Exp $
+ * @(#)$Id: RootGrammarState.java,v 1.9 2002/03/04 01:54:06 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,13 +9,17 @@
  */
 package com.sun.msv.relaxns.reader;
 
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.reader.ExpressionOwner;
-import com.sun.msv.reader.SimpleState;
-import com.sun.msv.reader.State;
-import com.sun.msv.relaxns.verifier.IslandSchemaImpl;
+import java.util.Iterator;
+import org.iso_relax.dispatcher.IslandSchema;
+import org.xml.sax.ErrorHandler;
 import com.sun.msv.relaxns.verifier.SchemaProviderImpl;
+import com.sun.msv.relaxns.verifier.IslandSchemaImpl;
+import com.sun.msv.relaxns.grammar.relax.RELAXIslandSchema;
 import com.sun.msv.util.StartTagInfo;
+import com.sun.msv.reader.State;
+import com.sun.msv.reader.SimpleState;
+import com.sun.msv.reader.ExpressionOwner;
+import com.sun.msv.grammar.Expression;
 
 /**
  * invokes State object that parses the document element.

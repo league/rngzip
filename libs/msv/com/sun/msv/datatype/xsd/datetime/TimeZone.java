@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: TimeZone.java,v 1.8 2003/01/16 23:47:04 ryans Exp $
+ * @(#)$Id: TimeZone.java,v 1.7 2001/06/19 22:42:36 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -43,7 +43,4 @@ public class TimeZone implements java.io.Serializable {
 	public boolean equals( Object o )  {
 		return ((TimeZone)o).minutes==this.minutes;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

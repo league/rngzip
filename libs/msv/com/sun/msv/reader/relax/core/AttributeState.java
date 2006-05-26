@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: AttributeState.java,v 1.10 2003/01/09 21:00:07 kk122374 Exp $
+ * @(#)$Id: AttributeState.java,v 1.9 2002/06/24 19:57:59 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,15 +9,16 @@
  */
 package com.sun.msv.reader.relax.core;
 
-import org.relaxng.datatype.DatatypeException;
-
+import com.sun.msv.datatype.xsd.XSDatatype;
 import com.sun.msv.grammar.Expression;
 import com.sun.msv.grammar.SimpleNameClass;
 import com.sun.msv.reader.ExpressionState;
 import com.sun.msv.reader.State;
 import com.sun.msv.reader.datatype.xsd.FacetStateParent;
+import com.sun.msv.reader.datatype.xsd.XSDatatypeExp;
 import com.sun.msv.reader.datatype.xsd.XSTypeIncubator;
 import com.sun.msv.util.StartTagInfo;
+import org.relaxng.datatype.DatatypeException;
 
 /**
  * parses &lt;attribute&gt; element.
@@ -46,7 +47,7 @@ public class AttributeState extends ExpressionState implements FacetStateParent
 			final String required	= startTag.getAttribute("required");
 			
 			if( name==null ) {
-				reader.reportError( RELAXCoreReader.ERR_MISSING_ATTRIBUTE, "attribute","name" );
+				reader.reportError( reader.ERR_MISSING_ATTRIBUTE, "attribute","name" );
 				// recover by ignoring this attribute.
 				// since attributes are combined by sequence, so epsilon is appropriate.
 				return Expression.epsilon;
@@ -63,7 +64,7 @@ public class AttributeState extends ExpressionState implements FacetStateParent
 			return exp;
 		} catch( DatatypeException e ) {
 			// derivation failed
-			reader.reportError( e, RELAXCoreReader.ERR_BAD_TYPE, e.getMessage() );
+			reader.reportError( e, reader.ERR_BAD_TYPE, e.getMessage() );
 			// recover by using harmless expression. anything will do.
 			return Expression.anyString;
 		}

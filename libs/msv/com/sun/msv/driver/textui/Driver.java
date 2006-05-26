@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: Driver.java,v 1.49 2003/02/06 16:18:53 kk122374 Exp $
+ * @(#)$Id: Driver.java,v 1.47 2002/03/21 14:21:25 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,37 +9,26 @@
  */
 package com.sun.msv.driver.textui;
 
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Vector;
-
-import javax.xml.parsers.SAXParserFactory;
-
-import org.iso_relax.dispatcher.Dispatcher;
-import org.iso_relax.dispatcher.SchemaProvider;
-import org.iso_relax.dispatcher.impl.DispatcherImpl;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.XMLReader;
-
-import com.sun.msv.grammar.Grammar;
-import com.sun.msv.grammar.ReferenceExp;
-import com.sun.msv.grammar.relax.RELAXModule;
-import com.sun.msv.grammar.trex.TREXGrammar;
+import javax.xml.parsers.*;
+import com.sun.msv.grammar.xmlschema.*;
+import com.sun.msv.grammar.trex.*;
+import com.sun.msv.grammar.relax.*;
+import com.sun.msv.grammar.*;
 import com.sun.msv.grammar.util.ExpressionPrinter;
-import com.sun.msv.grammar.xmlschema.ElementDeclExp;
-import com.sun.msv.grammar.xmlschema.XMLSchemaGrammar;
-import com.sun.msv.grammar.xmlschema.XMLSchemaSchema;
 import com.sun.msv.reader.util.GrammarLoader;
 import com.sun.msv.relaxns.grammar.RELAXGrammar;
 import com.sun.msv.relaxns.verifier.SchemaProviderImpl;
-import com.sun.msv.util.Util;
-import com.sun.msv.verifier.DocumentDeclaration;
-import com.sun.msv.verifier.Verifier;
+import com.sun.msv.verifier.*;
 import com.sun.msv.verifier.identity.IDConstraintChecker;
 import com.sun.msv.verifier.regexp.REDocumentDeclaration;
+import com.sun.msv.verifier.util.ErrorHandlerImpl;
+import com.sun.msv.util.Util;
+import com.sun.resolver.tools.CatalogResolver;
+import org.iso_relax.dispatcher.Dispatcher;
+import org.iso_relax.dispatcher.SchemaProvider;
+import org.iso_relax.dispatcher.impl.DispatcherImpl;
+import org.xml.sax.*;
+import java.util.*;
 
 /**
  * command line Verifier.
@@ -129,8 +118,10 @@ public class Driver {
 				// use Sun's "XML Entity and URI Resolvers" by Norman Walsh
 				// to resolve external entities.
 				// http://www.sun.com/xml/developers/resolver/
-                          // removing dependence on com.sun.resolver.tools.CatalogResolver
-                          throw new UnsupportedOperationException("catalog");
+				if(entityResolver!=null)
+					entityResolver = new CatalogResolver(true);
+				
+				((CatalogResolver)entityResolver).getCatalog().parseCatalog(args[++i]);
 			}
 			else
 			if( args[i].equalsIgnoreCase("-version") ) {
@@ -275,12 +266,10 @@ public class Driver {
 			} catch( com.sun.msv.verifier.ValidationUnrecoverableException vv ) {
 				System.out.println(localize(MSG_BAILOUT));
 			} catch( SAXParseException se ) {
-                if( se.getException()!=null )
-				    se.getException().printStackTrace();
+				  se.getException().printStackTrace();
 				; // error is already reported by ErrorHandler
 			} catch( SAXException e ) {
-                if( e.getException()!=null )
-    				  e.getException().printStackTrace();
+				  e.getException().printStackTrace();
 			}
 			
 			if(result)

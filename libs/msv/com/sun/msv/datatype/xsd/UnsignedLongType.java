@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: UnsignedLongType.java,v 1.15 2003/02/12 19:58:15 kk122374 Exp $
+ * @(#)$Id: UnsignedLongType.java,v 1.13 2001/08/14 22:17:59 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -21,12 +21,7 @@ import org.relaxng.datatype.ValidationContext;
  */
 public class UnsignedLongType extends IntegerType {
 	public static final UnsignedLongType theInstance = new UnsignedLongType();
-	private UnsignedLongType() {
-        super("unsignedLong",createRangeFacet(
-            NonNegativeIntegerType.theInstance,
-            null,
-            IntegerValueType.create("18446744073709551615")));
-    }
+	private UnsignedLongType() { super("unsignedLong"); }
 	
 	final public XSDatatype getBaseType() {
 		return NonNegativeIntegerType.theInstance;
@@ -44,7 +39,4 @@ public class UnsignedLongType extends IntegerType {
 		if( upperBound.compareTo(v)<0 )     return null;
 		return v;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ElementRules.java,v 1.8 2003/01/16 21:51:18 kk122374 Exp $
+ * @(#)$Id: ElementRules.java,v 1.6 2001/05/16 21:33:17 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,9 +9,7 @@
  */
 package com.sun.msv.grammar.relax;
 
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.ExpressionPool;
-import com.sun.msv.grammar.ReferenceExp;
+import com.sun.msv.grammar.*;
 
 /**
  * Set of ElementRule objects that share the label name.
@@ -65,7 +63,4 @@ public class ElementRules extends ReferenceExp implements Exportable {
 	
 	/** RELAXModule object to which this object belongs */
 	public final RELAXModule ownerModule;
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

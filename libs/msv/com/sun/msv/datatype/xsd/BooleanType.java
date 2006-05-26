@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: BooleanType.java,v 1.25 2003/01/16 23:47:00 ryans Exp $
+ * @(#)$Id: BooleanType.java,v 1.23 2002/10/08 22:01:27 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,7 +10,6 @@
 package com.sun.msv.datatype.xsd;
 
 import org.relaxng.datatype.ValidationContext;
-
 import com.sun.msv.datatype.SerializationContext;
 
 /**
@@ -70,7 +69,4 @@ public class BooleanType extends BuiltinAtomicType {
 	public Class getJavaObjectType() {
 		return Boolean.class;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

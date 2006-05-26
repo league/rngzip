@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: StringState.java,v 1.5 2003/01/09 21:00:10 kk122374 Exp $
+ * @(#)$Id: StringState.java,v 1.4 2001/10/18 23:52:14 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,12 +9,12 @@
  */
 package com.sun.msv.reader.trex.classic;
 
-import com.sun.msv.datatype.xsd.StringType;
-import com.sun.msv.datatype.xsd.TokenType;
-import com.sun.msv.datatype.xsd.WhiteSpaceProcessor;
 import com.sun.msv.grammar.Expression;
 import com.sun.msv.reader.ExpressionWithoutChildState;
 import com.sun.msv.util.StringPair;
+import com.sun.msv.datatype.xsd.StringType;
+import com.sun.msv.datatype.xsd.TokenType;
+import com.sun.msv.datatype.xsd.WhiteSpaceProcessor;
 
 /**
  * parses &lt;string&gt; pattern.

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ExportedAttPoolGenerator.java,v 1.4 2003/01/09 21:00:14 kk122374 Exp $
+ * @(#)$Id: ExportedAttPoolGenerator.java,v 1.3 2001/06/27 23:59:36 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,20 +9,8 @@
  */
 package com.sun.msv.relaxns.grammar.relax;
 
-import com.sun.msv.grammar.AttributeExp;
-import com.sun.msv.grammar.ElementExp;
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.ExpressionCloner;
-import com.sun.msv.grammar.ExpressionPool;
-import com.sun.msv.grammar.OtherExp;
-import com.sun.msv.grammar.ReferenceExp;
-import com.sun.msv.grammar.SimpleNameClass;
-import com.sun.msv.grammar.relax.AttPoolClause;
-import com.sun.msv.grammar.relax.ElementRules;
-import com.sun.msv.grammar.relax.HedgeRules;
-import com.sun.msv.grammar.relax.RELAXExpressionVisitorExpression;
-import com.sun.msv.grammar.relax.RELAXModule;
-import com.sun.msv.grammar.relax.TagClause;
+import com.sun.msv.grammar.*;
+import com.sun.msv.grammar.relax.*;
 
 /**
  * creates Expression that validates exported attPool.

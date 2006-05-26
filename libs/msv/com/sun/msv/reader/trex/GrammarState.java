@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: GrammarState.java,v 1.12 2003/01/09 21:00:09 kk122374 Exp $
+ * @(#)$Id: GrammarState.java,v 1.11 2001/10/12 01:37:30 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,6 +9,8 @@
  */
 package com.sun.msv.reader.trex;
 
+import com.sun.msv.util.StartTagInfo;
+import com.sun.msv.reader.State;
 import com.sun.msv.grammar.Expression;
 import com.sun.msv.grammar.trex.TREXGrammar;
 
@@ -50,7 +52,7 @@ public class GrammarState extends DivInGrammarState {
 
 		// is start pattern defined?
 		if( grammar.exp==null ) {
-			reader.reportError( TREXBaseReader.ERR_MISSING_TOPLEVEL );
+			reader.reportError( reader.ERR_MISSING_TOPLEVEL );
 			grammar.exp = Expression.nullSet;	// recover by assuming a valid pattern
 		}
 		

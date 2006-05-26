@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: DocumentBuilderFactoryImpl.java,v 1.3 2003/01/09 21:00:19 kk122374 Exp $
+ * @(#)$Id: DocumentBuilderFactoryImpl.java,v 1.2 2001/11/19 19:57:42 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -11,16 +11,15 @@ package com.sun.msv.verifier.jaxp;
 
 import java.io.File;
 import java.io.InputStream;
-
+import java.io.IOException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
-import org.iso_relax.verifier.Schema;
-import org.iso_relax.verifier.VerifierFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
+import org.iso_relax.verifier.VerifierFactory;
+//import org.iso_relax.verifier.VerifierConfigurationException;
+import org.iso_relax.verifier.Schema;
 import com.sun.msv.verifier.jarv.TheFactoryImpl;
 
 /**
@@ -165,14 +164,6 @@ public class DocumentBuilderFactoryImpl extends DocumentBuilderFactory {
 	}
 	public void setValidating( boolean newVal ) {
 		core.setValidating(newVal);
-	}
-	public boolean getFeature( String name ) 
-          throws ParserConfigurationException {
-		return core.getFeature(name);
-	}
-	public void setFeature( String name, boolean newVal ) 
-	  throws ParserConfigurationException {
-		core.setFeature(name, newVal);
 	}
 	
 }

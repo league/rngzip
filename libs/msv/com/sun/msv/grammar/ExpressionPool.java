@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ExpressionPool.java,v 1.23 2003/01/16 21:51:17 kk122374 Exp $
+ * @(#)$Id: ExpressionPool.java,v 1.21 2002/08/01 22:10:43 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,8 +9,8 @@
  */
 package com.sun.msv.grammar;
 
+import java.util.Hashtable;
 import org.relaxng.datatype.Datatype;
-
 import com.sun.msv.datatype.xsd.XSDatatype;
 import com.sun.msv.util.StringPair;
 
@@ -404,7 +404,4 @@ public class ExpressionPool implements java.io.Serializable {
 			count++;
 		}
 	}
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

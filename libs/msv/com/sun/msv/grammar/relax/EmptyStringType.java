@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: EmptyStringType.java,v 1.14 2003/01/16 21:51:18 kk122374 Exp $
+ * @(#)$Id: EmptyStringType.java,v 1.12 2001/11/22 01:03:56 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,12 +9,11 @@
  */
 package com.sun.msv.grammar.relax;
 
-import org.relaxng.datatype.ValidationContext;
-
 import com.sun.msv.datatype.SerializationContext;
 import com.sun.msv.datatype.xsd.BuiltinAtomicType;
-import com.sun.msv.datatype.xsd.SimpleURType;
 import com.sun.msv.datatype.xsd.XSDatatype;
+import com.sun.msv.datatype.xsd.SimpleURType;
+import org.relaxng.datatype.ValidationContext;
 
 /**
  * 'emptyString' type of RELAX.
@@ -54,7 +53,4 @@ public class EmptyStringType extends BuiltinAtomicType {
 	public Class getJavaObjectType() {
 		return String.class;
 	}
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

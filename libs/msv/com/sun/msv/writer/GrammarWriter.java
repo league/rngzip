@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: GrammarWriter.java,v 1.3 2003/01/09 21:00:23 kk122374 Exp $
+ * @(#)$Id: GrammarWriter.java,v 1.2 2001/10/20 03:05:43 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,10 +9,9 @@
  */
 package com.sun.msv.writer;
 
+import com.sun.msv.grammar.Grammar;
 import org.xml.sax.DocumentHandler;
 import org.xml.sax.SAXException;
-
-import com.sun.msv.grammar.Grammar;
 
 /**
  * Converter from AGM to the XML representation.

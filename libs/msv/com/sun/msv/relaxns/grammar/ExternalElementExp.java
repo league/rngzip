@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ExternalElementExp.java,v 1.7 2003/01/09 21:00:14 kk122374 Exp $
+ * @(#)$Id: ExternalElementExp.java,v 1.6 2001/05/24 16:52:35 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,14 +9,14 @@
  */
 package com.sun.msv.relaxns.grammar;
 
-import org.iso_relax.dispatcher.ElementDecl;
-import org.xml.sax.Locator;
-
-import com.sun.msv.grammar.ElementExp;
 import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.ExpressionPool;
+import com.sun.msv.grammar.ElementExp;
 import com.sun.msv.grammar.NameClass;
 import com.sun.msv.grammar.NamespaceNameClass;
+import com.sun.msv.grammar.ExpressionPool;
+import com.sun.msv.grammar.ReferenceExp;
+import org.iso_relax.dispatcher.ElementDecl;
+import org.xml.sax.Locator;
 
 /**
  * place holder for imported element declaration.

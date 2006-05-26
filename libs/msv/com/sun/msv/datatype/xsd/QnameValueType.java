@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: QnameValueType.java,v 1.11 2003/01/16 23:47:03 ryans Exp $
+ * @(#)$Id: QnameValueType.java,v 1.10 2002/07/31 21:43:49 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -35,7 +35,4 @@ public class QnameValueType implements java.io.Serializable {
 		this.namespaceURI	= uri;
 		this.localPart		= localPart;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: AttributeExp.java,v 1.13 2003/01/16 21:51:17 kk122374 Exp $
+ * @(#)$Id: AttributeExp.java,v 1.12 2001/10/19 23:30:09 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -49,7 +49,4 @@ public class AttributeExp extends Expression implements NameClassAndExpression {
 	protected boolean calcEpsilonReducibility() {
 		return false;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

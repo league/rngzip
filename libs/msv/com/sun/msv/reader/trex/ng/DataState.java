@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: DataState.java,v 1.13 2003/01/09 21:00:10 kk122374 Exp $
+ * @(#)$Id: DataState.java,v 1.12 2001/10/18 23:52:14 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,16 +9,14 @@
  */
 package com.sun.msv.reader.trex.ng;
 
-import org.relaxng.datatype.DatatypeBuilder;
-import org.relaxng.datatype.DatatypeException;
-
 import com.sun.msv.datatype.ErrorDatatypeLibrary;
 import com.sun.msv.grammar.Expression;
-import com.sun.msv.reader.ExpressionOwner;
-import com.sun.msv.reader.ExpressionState;
 import com.sun.msv.reader.State;
+import com.sun.msv.reader.ExpressionState;
+import com.sun.msv.reader.ExpressionOwner;
 import com.sun.msv.util.StartTagInfo;
 import com.sun.msv.util.StringPair;
+import org.relaxng.datatype.*;
 
 /**
  * parses &lt;data&gt; pattern.
@@ -50,14 +48,14 @@ public class DataState extends ExpressionState implements ExpressionOwner {
 		
 		final String localName = startTag.getCollapsedAttribute("type");
 		if( localName==null ) {
-			reader.reportError( RELAXNGReader.ERR_MISSING_ATTRIBUTE, "data", "type" );
+			reader.reportError( reader.ERR_MISSING_ATTRIBUTE, "data", "type" );
 		} else {
 			// create a type incubator
 			baseTypeName = new StringPair( reader.datatypeLibURI, localName );
 			try {
 				typeBuilder = reader.getCurrentDatatypeLibrary().createDatatypeBuilder(localName);
 			} catch( DatatypeException dte ) {
-				reader.reportError( RELAXNGReader.ERR_UNDEFINED_DATATYPE_1, localName, dte.getMessage() );
+				reader.reportError( reader.ERR_UNDEFINED_DATATYPE_1, localName, dte.getMessage() );
 			}
 		}
 		
@@ -77,7 +75,7 @@ public class DataState extends ExpressionState implements ExpressionOwner {
 		
 		// this method receives the 'except' clause, if any.
 		if( except!=null )
-			reader.reportError( RELAXNGReader.ERR_MULTIPLE_EXCEPT );
+			reader.reportError( reader.ERR_MULTIPLE_EXCEPT );
 		
 		except = child;
 	}
@@ -92,7 +90,7 @@ public class DataState extends ExpressionState implements ExpressionOwner {
 				typeBuilder.createDatatype(), baseTypeName, except );
 				
 		} catch( DatatypeException dte ) {
-			reader.reportError( RELAXNGReader.ERR_INVALID_PARAMETERS, dte.getMessage() );
+			reader.reportError( reader.ERR_INVALID_PARAMETERS, dte.getMessage() );
 			// recover by returning something.
 			return Expression.nullSet;
 		}

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: LocalNameClass.java,v 1.5 2003/01/16 21:51:18 kk122374 Exp $
+ * @(#)$Id: LocalNameClass.java,v 1.4 2001/06/29 18:32:29 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -35,7 +35,4 @@ public final class LocalNameClass extends NameClass {
 	public String toString() {
 		return localName;
 	}
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

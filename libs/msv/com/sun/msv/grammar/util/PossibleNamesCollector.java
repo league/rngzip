@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: PossibleNamesCollector.java,v 1.2 2003/01/09 21:00:04 kk122374 Exp $
+ * @(#)$Id: PossibleNamesCollector.java,v 1.1 2001/06/29 02:50:42 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,17 +9,9 @@
  */
 package com.sun.msv.grammar.util;
 
-import java.util.Set;
-
-import com.sun.msv.grammar.AnyNameClass;
-import com.sun.msv.grammar.ChoiceNameClass;
-import com.sun.msv.grammar.DifferenceNameClass;
-import com.sun.msv.grammar.NameClass;
-import com.sun.msv.grammar.NameClassVisitor;
-import com.sun.msv.grammar.NamespaceNameClass;
-import com.sun.msv.grammar.NotNameClass;
-import com.sun.msv.grammar.SimpleNameClass;
+import com.sun.msv.grammar.*;
 import com.sun.msv.util.StringPair;
+import java.util.Set;
 
 /**
  * computes the possible names.

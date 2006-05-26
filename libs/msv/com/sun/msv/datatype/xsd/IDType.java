@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: IDType.java,v 1.4 2003/01/16 23:47:01 ryans Exp $
+ * @(#)$Id: IDType.java,v 1.2 2002/04/07 15:42:37 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,6 +9,8 @@
  */
 package com.sun.msv.datatype.xsd;
 
+import com.sun.msv.datatype.xsd.NmtokenType;
+import org.relaxng.datatype.ValidationContext;
 
 /**
  * very limited 'ID' type of XML Schema Part 2.
@@ -35,7 +37,4 @@ public class IDType extends NcnameType {
 	}
 	
 	public int getIdType() { return ID_TYPE_ID; }
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

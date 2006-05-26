@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ExpressionAcceptor.java,v 1.45 2003/01/09 21:00:22 kk122374 Exp $
+ * @(#)$Id: ExpressionAcceptor.java,v 1.44 2002/10/18 02:50:05 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,30 +9,15 @@
  */
 package com.sun.msv.verifier.regexp;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.Vector;
-
-import org.relaxng.datatype.DatatypeException;
-
-import com.sun.msv.grammar.AttributeExp;
-import com.sun.msv.grammar.ChoiceExp;
-import com.sun.msv.grammar.DataOrValueExp;
-import com.sun.msv.grammar.ElementExp;
-import com.sun.msv.grammar.Expression;
+import com.sun.msv.grammar.*;
 import com.sun.msv.grammar.IDContextProvider;
-import com.sun.msv.grammar.NameClass;
-import com.sun.msv.grammar.NamespaceNameClass;
-import com.sun.msv.grammar.NotNameClass;
-import com.sun.msv.grammar.SimpleNameClass;
-import com.sun.msv.grammar.ValueExp;
-import com.sun.msv.util.DatatypeRef;
+import com.sun.msv.verifier.*;
 import com.sun.msv.util.StartTagInfo;
 import com.sun.msv.util.StringRef;
-import com.sun.msv.verifier.Acceptor;
+import com.sun.msv.util.DatatypeRef;
+import org.relaxng.datatype.Datatype;
+import org.relaxng.datatype.DatatypeException;
+import java.util.*;
 
 /**
  * {@link Acceptor} implementation.
@@ -144,7 +129,7 @@ public abstract class ExpressionAcceptor implements Acceptor {
 		if( errRef.str==null )
 			// no detailed error message was prepared.
 			// use some generic one.
-			errRef.str = docDecl.localizeMessage( REDocumentDeclaration.DIAG_BAD_TAGNAME_GENERIC, tag.qName );
+			errRef.str = docDecl.localizeMessage( docDecl.DIAG_BAD_TAGNAME_GENERIC, tag.qName );
 			
 		// prepare child acceptor.
 		return createRecoveryAcceptors();
@@ -210,14 +195,14 @@ public abstract class ExpressionAcceptor implements Acceptor {
 			if( this.expression==Expression.nullSet ) {
 				// the content model is equal to the nullSet.
 				refErr.str = docDecl.localizeMessage(
-                    REDocumentDeclaration.DIAG_CONTENT_MODEL_IS_NULLSET, null );
+					docDecl.DIAG_CONTENT_MODEL_IS_NULLSET, null );
 			} else {
 				// the content model is not equal to the nullSet.
 				
 				// this means that this attribute
 				// is not specified by the grammar.
 				refErr.str = docDecl.localizeMessage(
-                    REDocumentDeclaration.DIAG_UNDECLARED_ATTRIBUTE, token.qName );
+					docDecl.DIAG_UNDECLARED_ATTRIBUTE, token.qName );
 			}
 			
 			// recover by using the current expression.
@@ -232,7 +217,7 @@ public abstract class ExpressionAcceptor implements Acceptor {
 				// no detailed error message can be provided
 				// so use generic one.
 				refErr.str = docDecl.localizeMessage(
-                    REDocumentDeclaration.DIAG_BAD_ATTRIBUTE_VALUE_GENERIC, token.qName );
+					docDecl.DIAG_BAD_ATTRIBUTE_VALUE_GENERIC, token.qName );
 			}
 			
 			// now we know the reason.
@@ -262,14 +247,14 @@ public abstract class ExpressionAcceptor implements Acceptor {
 		if( this.expression==Expression.nullSet ) {
 			// the content model is equal to the nullSet.
 			refErr.str = docDecl.localizeMessage(
-                REDocumentDeclaration.DIAG_CONTENT_MODEL_IS_NULLSET, null );
+				docDecl.DIAG_CONTENT_MODEL_IS_NULLSET, null );
 		} else {
 			refErr.str = diagnoseMissingAttribute(sti);
 			if( refErr.str==null )
 				// no detailed error message can be provided
 				// so use generic one.
 				refErr.str = docDecl.localizeMessage(
-                    REDocumentDeclaration.DIAG_MISSING_ATTRIBUTE_GENERIC,
+					docDecl.DIAG_MISSING_ATTRIBUTE_GENERIC,
 					sti.qName );
 		}
 		
@@ -361,7 +346,7 @@ public abstract class ExpressionAcceptor implements Acceptor {
 		OptimizationTag ot = (OptimizationTag)expression.verifierTag;
 		if(ot==null)	expression.verifierTag = ot = new OptimizationTag();
 		
-		if(ot.stringCareLevel==OptimizationTag.STRING_NOTCOMPUTED)
+		if(ot.stringCareLevel==ot.STRING_NOTCOMPUTED)
 			ot.stringCareLevel = StringCareLevelCalculator.calc(expression);
 		
 		return ot.stringCareLevel;
@@ -505,7 +490,7 @@ public abstract class ExpressionAcceptor implements Acceptor {
 			
 		if( r==Expression.nullSet )
 			// no element is allowed here at all.
-			return docDecl.localizeMessage( REDocumentDeclaration.DIAG_ELEMENT_NOT_ALLOWED, sti.qName );
+			return docDecl.localizeMessage( docDecl.DIAG_ELEMENT_NOT_ALLOWED, sti.qName );
 		
 		
 		if( cccc.isComplex() ) {
@@ -553,19 +538,19 @@ public abstract class ExpressionAcceptor implements Acceptor {
 				}
 				
 				s.add( docDecl.localizeMessage(
-                    REDocumentDeclaration.DIAG_SIMPLE_NAMECLASS, nc.toString() ) );
+					docDecl.DIAG_SIMPLE_NAMECLASS, nc.toString() ) );
 				continue;
 			}
 			if( nc instanceof NamespaceNameClass ) {
 				s.add( docDecl.localizeMessage(
-                    REDocumentDeclaration.DIAG_NAMESPACE_NAMECLASS, ((NamespaceNameClass)nc).namespaceURI ) );
+					docDecl.DIAG_NAMESPACE_NAMECLASS, ((NamespaceNameClass)nc).namespaceURI ) );
 				continue;
 			}
 			if( nc instanceof NotNameClass ) {
 				NameClass ncc = ((NotNameClass)nc).child;
 				if( ncc instanceof NamespaceNameClass ) {
 					s.add( docDecl.localizeMessage(
-                        REDocumentDeclaration.DIAG_NOT_NAMESPACE_NAMECLASS, ((NamespaceNameClass)ncc).namespaceURI ) );
+						docDecl.DIAG_NOT_NAMESPACE_NAMECLASS, ((NamespaceNameClass)ncc).namespaceURI ) );
 					continue;
 				}
 			}
@@ -581,21 +566,21 @@ public abstract class ExpressionAcceptor implements Acceptor {
 			if( s.size()==1 )
 				// only one candidate.
 				return docDecl.localizeMessage(
-                    REDocumentDeclaration.DIAG_BAD_TAGNAME_WRONG_NAMESPACE, sti.localName, wrongNamespace );
+					docDecl.DIAG_BAD_TAGNAME_WRONG_NAMESPACE, sti.localName, wrongNamespace );
 			else
 				// probably wrong namespace,
 				// but show the user that he/she has other choices.
 				return docDecl.localizeMessage(
-                    REDocumentDeclaration.DIAG_BAD_TAGNAME_PROBABLY_WRONG_NAMESPACE, sti.localName, wrongNamespace );
+					docDecl.DIAG_BAD_TAGNAME_PROBABLY_WRONG_NAMESPACE, sti.localName, wrongNamespace );
 		}
 
 		
 		// there is no clue about user's intention.
 		return docDecl.localizeMessage(
-            REDocumentDeclaration.DIAG_BAD_TAGNAME_WRAPUP, sti.qName,
+			docDecl.DIAG_BAD_TAGNAME_WRAPUP, sti.qName,
 			concatenateMessages( s, more,
-                REDocumentDeclaration.DIAG_BAD_TAGNAME_SEPARATOR,
-                REDocumentDeclaration.DIAG_BAD_TAGNAME_MORE ) );
+				docDecl.DIAG_BAD_TAGNAME_SEPARATOR,
+				docDecl.DIAG_BAD_TAGNAME_MORE ) );
 	}
 
 
@@ -636,7 +621,7 @@ public abstract class ExpressionAcceptor implements Acceptor {
 				// if the underlying datatype is "none",
 				// this should be reported as unexpected attribute.
 				return docDecl.localizeMessage(
-                    REDocumentDeclaration.DIAG_UNDECLARED_ATTRIBUTE,
+					docDecl.DIAG_UNDECLARED_ATTRIBUTE,
 					rtoken.qName );
 			}
 			
@@ -644,7 +629,7 @@ public abstract class ExpressionAcceptor implements Acceptor {
 			if(dtMsg==null)		return null;
 			
 			return docDecl.localizeMessage(
-                        REDocumentDeclaration.DIAG_BAD_ATTRIBUTE_VALUE_DATATYPE,
+						docDecl.DIAG_BAD_ATTRIBUTE_VALUE_DATATYPE,
 						rtoken.qName, dtMsg );
 		}
 		if( constraint instanceof ChoiceExp ) {
@@ -681,11 +666,11 @@ public abstract class ExpressionAcceptor implements Acceptor {
 			
 			// at least we have one suggestion.
 			return docDecl.localizeMessage(
-                REDocumentDeclaration.DIAG_BAD_ATTRIBUTE_VALUE_WRAPUP,
+				docDecl.DIAG_BAD_ATTRIBUTE_VALUE_WRAPUP,
 				rtoken.qName,
 				concatenateMessages( items, more,
-                    REDocumentDeclaration.DIAG_BAD_ATTRIBUTE_VALUE_SEPARATOR,
-                    REDocumentDeclaration.DIAG_BAD_ATTRIBUTE_VALUE_MORE ) );
+					docDecl.DIAG_BAD_ATTRIBUTE_VALUE_SEPARATOR,
+					docDecl.DIAG_BAD_ATTRIBUTE_VALUE_MORE ) );
 		}
 		
 		return null;	// this constraint didn't fall into known patterns.
@@ -748,17 +733,17 @@ public abstract class ExpressionAcceptor implements Acceptor {
 		if( s.size()==1 && !more )
 		{// only one candidate
 			return docDecl.localizeMessage(
-                REDocumentDeclaration.DIAG_MISSING_ATTRIBUTE_SIMPLE,
+				docDecl.DIAG_MISSING_ATTRIBUTE_SIMPLE,
 				sti.qName,s.iterator().next() );
 		}
 		else
 			// list candidates
 			return docDecl.localizeMessage(
-                REDocumentDeclaration.DIAG_MISSING_ATTRIBUTE_WRAPUP,
+				docDecl.DIAG_MISSING_ATTRIBUTE_WRAPUP,
 				sti.qName,
 				concatenateMessages( s, more,
-                    REDocumentDeclaration.DIAG_MISSING_ATTRIBUTE_SEPARATOR,
-                    REDocumentDeclaration.DIAG_MISSING_ATTRIBUTE_MORE ) );
+					docDecl.DIAG_MISSING_ATTRIBUTE_SEPARATOR,
+					docDecl.DIAG_MISSING_ATTRIBUTE_MORE ) );
 	}
 	
 	/**
@@ -774,7 +759,7 @@ public abstract class ExpressionAcceptor implements Acceptor {
 		
 		if( recoveryResidual==Expression.nullSet )
 			// we now know that no string literal was expected at all.
-			return docDecl.localizeMessage( REDocumentDeclaration.DIAG_STRING_NOT_ALLOWED, null );
+			return docDecl.localizeMessage( docDecl.DIAG_STRING_NOT_ALLOWED, null );
 			// keep this.expression untouched. This is equivalent to ignore this token.
 		
 		// there are two possible "recovery" for this error.
@@ -797,7 +782,7 @@ public abstract class ExpressionAcceptor implements Acceptor {
                             vexp.dt.createValue(srt.literal,srt.context))) {
                         // incorrect value
                         return docDecl.localizeMessage(
-                            REDocumentDeclaration.DIAG_BAD_LITERAL_INCORRECT_VALUE,
+                            docDecl.DIAG_BAD_LITERAL_INCORRECT_VALUE,
                             vexp.value.toString() );
                     }
                 }
@@ -807,7 +792,7 @@ public abstract class ExpressionAcceptor implements Acceptor {
 					return de.getMessage();	// return the diagnosis.
 				
 				// we don't know the exact reason, but the value was wrong.
-				return docDecl.localizeMessage( REDocumentDeclaration.DIAG_BAD_LITERAL_GENERIC, null );
+				return docDecl.localizeMessage( docDecl.DIAG_BAD_LITERAL_GENERIC, null );
 			}
 		} else {
 			// there are multiple candidates.
@@ -833,10 +818,10 @@ public abstract class ExpressionAcceptor implements Acceptor {
 			
 			// at least we have one suggestion.
 			return docDecl.localizeMessage(
-                    REDocumentDeclaration.DIAG_BAD_LITERAL_WRAPUP,
+				docDecl.DIAG_BAD_LITERAL_WRAPUP,
 				concatenateMessages( items, more,
-                    REDocumentDeclaration.DIAG_BAD_LITERAL_SEPARATOR,
-                    REDocumentDeclaration.DIAG_BAD_LITERAL_MORE ) );
+					docDecl.DIAG_BAD_LITERAL_SEPARATOR,
+					docDecl.DIAG_BAD_LITERAL_MORE ) );
 		}
 		
 		// unable to diagnose the reason of error.
@@ -883,12 +868,12 @@ public abstract class ExpressionAcceptor implements Acceptor {
 						
 			if( nc instanceof SimpleNameClass ) {
 				s.add( docDecl.localizeMessage(
-                    REDocumentDeclaration.DIAG_SIMPLE_NAMECLASS, nc.toString() ) );
+					docDecl.DIAG_SIMPLE_NAMECLASS, nc.toString() ) );
 				continue;
 			}
 			if( nc instanceof NamespaceNameClass ) {
 				s.add( docDecl.localizeMessage(
-                    REDocumentDeclaration.DIAG_NAMESPACE_NAMECLASS,
+					docDecl.DIAG_NAMESPACE_NAMECLASS,
 					((NamespaceNameClass)nc).namespaceURI ) );
 				continue;
 			}
@@ -896,7 +881,7 @@ public abstract class ExpressionAcceptor implements Acceptor {
 				NameClass ncc = ((NotNameClass)nc).child;
 				if( ncc instanceof NamespaceNameClass ) {
 					s.add( docDecl.localizeMessage(
-                        REDocumentDeclaration.DIAG_NOT_NAMESPACE_NAMECLASS, ((NamespaceNameClass)ncc).namespaceURI ) );
+						docDecl.DIAG_NOT_NAMESPACE_NAMECLASS, ((NamespaceNameClass)ncc).namespaceURI ) );
 					continue;
 				}
 			}
@@ -911,9 +896,9 @@ public abstract class ExpressionAcceptor implements Acceptor {
 		
 
 		return docDecl.localizeMessage(
-            REDocumentDeclaration.DIAG_UNCOMPLETED_CONTENT_WRAPUP, null,
+			docDecl.DIAG_UNCOMPLETED_CONTENT_WRAPUP, null,
 			concatenateMessages( s, more,
-                REDocumentDeclaration.DIAG_UNCOMPLETED_CONTENT_SEPARATOR,
-                REDocumentDeclaration.DIAG_UNCOMPLETED_CONTENT_MORE ) );
+				docDecl.DIAG_UNCOMPLETED_CONTENT_SEPARATOR,
+				docDecl.DIAG_UNCOMPLETED_CONTENT_MORE ) );
 	}
 }

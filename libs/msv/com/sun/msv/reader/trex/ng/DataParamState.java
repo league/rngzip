@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: DataParamState.java,v 1.3 2003/01/09 21:00:10 kk122374 Exp $
+ * @(#)$Id: DataParamState.java,v 1.2 2001/06/19 22:34:29 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,9 +9,8 @@
  */
 package com.sun.msv.reader.trex.ng;
 
-import org.relaxng.datatype.DatatypeException;
-
 import com.sun.msv.reader.ChildlessState;
+import org.relaxng.datatype.DatatypeException;
 
 /**
  * parses &lt;param&gt; element inside &lt;data&gt; element.
@@ -31,7 +30,7 @@ public class DataParamState extends ChildlessState {
 	protected void endSelf() {
 		final String facet = startTag.getAttribute("name");
 		if(facet==null)
-			reader.reportError( RELAXNGReader.ERR_MISSING_ATTRIBUTE, startTag.qName, "name" );
+			reader.reportError( reader.ERR_MISSING_ATTRIBUTE, startTag.qName, "name" );
 		else {
 			try {
 				((DataState)parentState).typeBuilder.addParameter(

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ExportedHedgeRuleChecker.java,v 1.9 2003/01/09 21:00:09 kk122374 Exp $
+ * @(#)$Id: ExportedHedgeRuleChecker.java,v 1.8 2001/10/18 23:52:13 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,27 +9,9 @@
  */
 package com.sun.msv.reader.relax.core.checker;
 
+import com.sun.msv.grammar.*;
+import com.sun.msv.grammar.relax.*;
 import java.util.Stack;
-
-import com.sun.msv.grammar.AttributeExp;
-import com.sun.msv.grammar.ChoiceExp;
-import com.sun.msv.grammar.ConcurExp;
-import com.sun.msv.grammar.DataExp;
-import com.sun.msv.grammar.ElementExp;
-import com.sun.msv.grammar.InterleaveExp;
-import com.sun.msv.grammar.ListExp;
-import com.sun.msv.grammar.MixedExp;
-import com.sun.msv.grammar.OneOrMoreExp;
-import com.sun.msv.grammar.OtherExp;
-import com.sun.msv.grammar.ReferenceExp;
-import com.sun.msv.grammar.SequenceExp;
-import com.sun.msv.grammar.ValueExp;
-import com.sun.msv.grammar.relax.AttPoolClause;
-import com.sun.msv.grammar.relax.ElementRules;
-import com.sun.msv.grammar.relax.HedgeRules;
-import com.sun.msv.grammar.relax.RELAXExpressionVisitorBoolean;
-import com.sun.msv.grammar.relax.RELAXModule;
-import com.sun.msv.grammar.relax.TagClause;
 
 /**
  * the purpose of this function object is to make sure

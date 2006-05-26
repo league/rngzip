@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: NormalizedStringType.java,v 1.12 2003/01/16 23:47:02 ryans Exp $
+ * @(#)$Id: NormalizedStringType.java,v 1.11 2002/11/07 16:49:29 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -28,7 +28,4 @@ public class NormalizedStringType extends StringType {
 	public XSDatatype getBaseType() {
 		return StringType.theInstance;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

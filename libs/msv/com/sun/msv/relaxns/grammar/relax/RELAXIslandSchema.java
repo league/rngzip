@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: RELAXIslandSchema.java,v 1.9 2003/01/09 21:00:14 kk122374 Exp $
+ * @(#)$Id: RELAXIslandSchema.java,v 1.8 2001/05/24 16:53:32 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,25 +9,25 @@
  */
 package com.sun.msv.relaxns.grammar.relax;
 
-import java.util.Iterator;
-import java.util.Set;
-
 import org.iso_relax.dispatcher.ElementDecl;
 import org.iso_relax.dispatcher.IslandSchema;
 import org.iso_relax.dispatcher.SchemaProvider;
-import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
-
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.Grammar;
-import com.sun.msv.grammar.ReferenceExp;
-import com.sun.msv.grammar.relax.AttPoolClause;
-import com.sun.msv.grammar.relax.ElementRules;
-import com.sun.msv.grammar.relax.HedgeRules;
-import com.sun.msv.grammar.relax.RELAXModule;
+import org.xml.sax.ErrorHandler;
+import com.sun.msv.relaxns.verifier.IslandSchemaImpl;
 import com.sun.msv.relaxns.grammar.DeclImpl;
 import com.sun.msv.relaxns.grammar.ExternalElementExp;
-import com.sun.msv.relaxns.verifier.IslandSchemaImpl;
+import com.sun.msv.grammar.Expression;
+import com.sun.msv.grammar.ExpressionPool;
+import com.sun.msv.grammar.ReferenceExp;
+import com.sun.msv.grammar.Grammar;
+import com.sun.msv.grammar.relax.RELAXModule;
+import com.sun.msv.grammar.relax.ElementRules;
+import com.sun.msv.grammar.relax.HedgeRules;
+import com.sun.msv.grammar.relax.AttPoolClause;
+import com.sun.msv.verifier.regexp.REDocumentDeclaration;
+import java.util.Set;
+import java.util.Iterator;
 
 /**
  * IslandSchema implementation for RELXA module.

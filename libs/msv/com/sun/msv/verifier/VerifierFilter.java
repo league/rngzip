@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: VerifierFilter.java,v 1.14 2003/01/09 21:00:18 kk122374 Exp $
+ * @(#)$Id: VerifierFilter.java,v 1.13 2001/11/19 19:57:25 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,11 +10,11 @@
 package com.sun.msv.verifier;
 
 import org.relaxng.datatype.Datatype;
-import org.xml.sax.Attributes;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.Locator;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.XMLFilterImpl;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.Locator;
+import org.xml.sax.ErrorHandler;
 
 /**
  * SAX XMLFilter that verifies incoming SAX event stream.

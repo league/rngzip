@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: State.java,v 1.14 2003/01/09 21:00:05 kk122374 Exp $
+ * @(#)$Id: State.java,v 1.13 2002/07/26 15:55:21 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,10 +10,12 @@
 package com.sun.msv.reader;
 
 import org.xml.sax.ContentHandler;
+import org.xml.sax.helpers.NamespaceSupport;
+import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
-import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.LocatorImpl;
-
+import org.xml.sax.SAXException;
 import com.sun.msv.util.StartTagInfo;
 
 /**
@@ -171,7 +173,7 @@ public abstract class State implements ContentHandler
 			case ' ': case '\t': case '\n': case '\r':
 				break;
 			default:
-				reader.reportError( GrammarReader.ERR_CHARACTERS, new String(buffer,from,len).trim() );
+				reader.reportError( reader.ERR_CHARACTERS, new String(buffer,from,len).trim() );
 				return;
 			}
 	}

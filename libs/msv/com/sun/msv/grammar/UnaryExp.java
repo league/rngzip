@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: UnaryExp.java,v 1.7 2003/01/16 21:51:17 kk122374 Exp $
+ * @(#)$Id: UnaryExp.java,v 1.6 2001/05/16 21:33:16 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -31,7 +31,4 @@ public abstract class UnaryExp extends Expression {
 		// therefore, == is enough. (don't need to call equals)
 		return ((UnaryExp)o).exp == exp;
 	}
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

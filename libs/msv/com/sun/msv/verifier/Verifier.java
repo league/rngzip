@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: Verifier.java,v 1.36 2003/01/09 21:00:18 kk122374 Exp $
+ * @(#)$Id: Verifier.java,v 1.35 2001/11/19 19:57:24 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,18 +9,18 @@
  */
 package com.sun.msv.verifier;
 
-import java.util.Iterator;
-import java.util.Set;
-
+import org.xml.sax.*;
+import org.xml.sax.helpers.NamespaceSupport;
 import org.relaxng.datatype.Datatype;
-import org.xml.sax.Attributes;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXException;
-
+import java.util.Set;
+import java.util.Map;
+import java.util.Iterator;
 import com.sun.msv.datatype.xsd.StringType;
-import com.sun.msv.util.DatatypeRef;
-import com.sun.msv.util.StartTagInfo;
+import com.sun.msv.grammar.IDContextProvider;
 import com.sun.msv.util.StringRef;
+import com.sun.msv.util.StringPair;
+import com.sun.msv.util.StartTagInfo;
+import com.sun.msv.util.DatatypeRef;
 
 /**
  * SAX ContentHandler that verifies incoming SAX event stream.

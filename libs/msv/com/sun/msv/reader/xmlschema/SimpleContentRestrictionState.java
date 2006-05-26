@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: SimpleContentRestrictionState.java,v 1.6 2003/01/09 21:00:13 kk122374 Exp $
+ * @(#)$Id: SimpleContentRestrictionState.java,v 1.5 2002/09/27 04:16:22 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,26 +9,21 @@
  */
 package com.sun.msv.reader.xmlschema;
 
-import org.relaxng.datatype.DatatypeException;
-
-import com.sun.msv.datatype.xsd.StringType;
 import com.sun.msv.datatype.xsd.XSDatatype;
-import com.sun.msv.grammar.AttributeExp;
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.ReferenceExp;
+import com.sun.msv.datatype.xsd.TypeIncubator;
+import com.sun.msv.datatype.xsd.StringType;
+import com.sun.msv.grammar.*;
 import com.sun.msv.grammar.util.ExpressionWalker;
-import com.sun.msv.grammar.xmlschema.AttributeWildcard;
-import com.sun.msv.grammar.xmlschema.ComplexTypeExp;
-import com.sun.msv.grammar.xmlschema.SimpleTypeExp;
-import com.sun.msv.grammar.xmlschema.XMLSchemaSchema;
-import com.sun.msv.reader.GrammarReader;
-import com.sun.msv.reader.SequenceState;
+import com.sun.msv.grammar.xmlschema.*;
 import com.sun.msv.reader.State;
-import com.sun.msv.reader.datatype.xsd.FacetStateParent;
-import com.sun.msv.reader.datatype.xsd.XSDatatypeExp;
-import com.sun.msv.reader.datatype.xsd.XSTypeIncubator;
+import com.sun.msv.reader.SequenceState;
+import com.sun.msv.reader.GrammarReader;
 import com.sun.msv.reader.datatype.xsd.XSTypeOwner;
+import com.sun.msv.reader.datatype.xsd.XSTypeIncubator;
+import com.sun.msv.reader.datatype.xsd.XSDatatypeExp;
+import com.sun.msv.reader.datatype.xsd.FacetStateParent;
 import com.sun.msv.util.StartTagInfo;
+import org.relaxng.datatype.DatatypeException;
 
 /**
  * used to parse restriction/extension element as a child of &lt;simpleContent&gt; element.
@@ -119,7 +114,7 @@ public class SimpleContentRestrictionState extends SequenceState
                 if(dexp[0]==null) {
                     // we didn't find any XSDatatypeExp in it.
                     reader.reportError(
-                        XMLSchemaReader.ERR_INVALID_BASETYPE_FOR_SIMPLECONTENT, base );
+                        reader.ERR_INVALID_BASETYPE_FOR_SIMPLECONTENT, base );
                     return StringType.theInstance;
                 }
                 return dexp[0].getType(context);
@@ -193,13 +188,13 @@ public class SimpleContentRestrictionState extends SequenceState
 		base = startTag.getAttribute("base");
 		if(base==null) {
 			// in extension, base attribute is mandatory.
-			reader.reportError( XMLSchemaReader.ERR_MISSING_ATTRIBUTE, startTag.localName, "base");
+			reader.reportError( reader.ERR_MISSING_ATTRIBUTE, startTag.localName, "base");
             return;
 		}
         
         baseTypeName = reader.splitQName(base);
         if( baseTypeName==null ) {
-            reader.reportError( XMLSchemaReader.ERR_UNDECLARED_PREFIX, base );
+            reader.reportError( reader.ERR_UNDECLARED_PREFIX, base );
             return;
         }
         
@@ -209,7 +204,7 @@ public class SimpleContentRestrictionState extends SequenceState
 	protected Expression annealExpression( Expression exp ) {
 		final XMLSchemaReader reader = (XMLSchemaReader)this.reader;
 
-		parentDecl.derivationMethod = ComplexTypeExp.RESTRICTION;
+		parentDecl.derivationMethod = parentDecl.RESTRICTION;
 		
         try {
             XSDatatypeExp p = getIncubator().derive(null,null);
@@ -218,7 +213,7 @@ public class SimpleContentRestrictionState extends SequenceState
     		     p );
         } catch( DatatypeException e ) {
         	// derivation failed
-        	reader.reportError( e, XMLSchemaReader.ERR_BAD_TYPE, e.getMessage() );
+        	reader.reportError( e, reader.ERR_BAD_TYPE, e.getMessage() );
         	// recover by using harmless expression. anything will do.
         	return Expression.nullSet;
         }
@@ -258,7 +253,7 @@ public class SimpleContentRestrictionState extends SequenceState
                 }
                 
                 // there is no base type.
-                reader.reportError( XMLSchemaReader.ERR_UNDEFINED_COMPLEX_OR_SIMPLE_TYPE, base );
+                reader.reportError( reader.ERR_UNDEFINED_COMPLEX_OR_SIMPLE_TYPE, base );
             }
         });
         

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: StartState.java,v 1.3 2003/01/09 21:00:11 kk122374 Exp $
+ * @(#)$Id: StartState.java,v 1.2 2001/10/12 01:37:14 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,7 +9,10 @@
  */
 package com.sun.msv.reader.trex.ng;
 
+import com.sun.msv.grammar.Expression;
 import com.sun.msv.grammar.ReferenceExp;
+import com.sun.msv.reader.SequenceState;
+import org.xml.sax.Locator;
 
 /**
  * parses &lt;start&gt; declaration.
@@ -24,7 +27,7 @@ public class StartState extends DefineState {
 		if( startTag.containsAttribute("name") ) {
 			// since the name attribute is allowed to the certain point,
 			// it is useful to explicitly raise this as an error.
-			reader.reportError( RELAXNGReader.ERR_DISALLOWED_ATTRIBUTE, startTag.qName, "name" );
+			reader.reportError( reader.ERR_DISALLOWED_ATTRIBUTE, startTag.qName, "name" );
 			return null;
 		}
 			

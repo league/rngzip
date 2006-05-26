@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: VerifierImpl.java,v 1.16 2003/01/09 21:00:19 kk122374 Exp $
+ * @(#)$Id: VerifierImpl.java,v 1.15 2001/11/01 00:59:14 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,12 +9,21 @@
  */
 package com.sun.msv.verifier.jarv;
 
-import org.iso_relax.verifier.VerifierConfigurationException;
-import org.iso_relax.verifier.VerifierHandler;
+import org.iso_relax.verifier.*;
+import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.ErrorHandler;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
-
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+import org.w3c.dom.Node;
+import org.w3c.dom.Document;
+import com.sun.msv.verifier.ValidityViolation;
 import com.sun.msv.verifier.IVerifier;
+import com.sun.msv.verifier.util.ErrorHandlerImpl;
+import java.io.IOException;
+import jp.gr.xml.relax.sax.DOMSAXProducer;
 
 /**
  * Verifier implementation.

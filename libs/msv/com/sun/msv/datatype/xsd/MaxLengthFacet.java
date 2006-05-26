@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: MaxLengthFacet.java,v 1.23 2003/02/12 19:58:14 kk122374 Exp $
+ * @(#)$Id: MaxLengthFacet.java,v 1.21 2002/06/24 19:57:28 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -19,20 +19,13 @@ import org.relaxng.datatype.ValidationContext;
  */
 public class MaxLengthFacet extends DataTypeWithValueConstraintFacet
 {
-    public final int maxLength;
-
-    protected MaxLengthFacet( String nsUri, String typeName, XSDatatypeImpl baseType, TypeIncubator facets )
-        throws DatatypeException {
-        this(nsUri,typeName,baseType,
-            facets.getNonNegativeInteger(FACET_MAXLENGTH),
-            facets.isFixed(FACET_MAXLENGTH));
-    }
-
-    protected MaxLengthFacet( String nsUri, String typeName, XSDatatypeImpl baseType, int _maxLength, boolean _isFixed )
-        throws DatatypeException {
-        super(nsUri,typeName,baseType,FACET_MAXLENGTH,_isFixed);
-
-        this.maxLength = _maxLength;
+	public final int maxLength;
+	
+	protected MaxLengthFacet( String nsUri, String typeName, XSDatatypeImpl baseType, TypeIncubator facets )
+		throws DatatypeException {
+		super(nsUri,typeName,baseType,FACET_MAXLENGTH,facets);
+	
+		maxLength = facets.getNonNegativeInteger(FACET_MAXLENGTH);
 
 		// loosened facet check
 		DataTypeWithFacet o = baseType.getFacetObject(FACET_MAXLENGTH);
@@ -60,7 +53,4 @@ public class MaxLengthFacet extends DataTypeWithValueConstraintFacet
 			throw new DatatypeException( DatatypeException.UNKNOWN,
 				localize(ERR_MAXLENGTH, new Integer(cnt), new Integer(maxLength)) );
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

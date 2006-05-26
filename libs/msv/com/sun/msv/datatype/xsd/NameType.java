@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: NameType.java,v 1.16 2003/01/16 23:47:02 ryans Exp $
+ * @(#)$Id: NameType.java,v 1.15 2002/11/07 16:49:29 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -31,7 +31,4 @@ public class NameType extends TokenType {
 		if(XmlNames.isName(content))	return content;
 		else							return null;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

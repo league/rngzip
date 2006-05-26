@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ComplexAcceptorBaseImpl.java,v 1.8 2003/01/09 21:00:22 kk122374 Exp $
+ * @(#)$Id: ComplexAcceptorBaseImpl.java,v 1.7 2001/08/10 22:24:13 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,13 +9,18 @@
  */
 package com.sun.msv.verifier.regexp;
 
-import com.sun.msv.grammar.ElementExp;
 import com.sun.msv.grammar.Expression;
+import com.sun.msv.grammar.ElementExp;
 import com.sun.msv.grammar.IDContextProvider;
+import com.sun.msv.verifier.Acceptor;
+import com.sun.msv.verifier.regexp.StringToken;
+import com.sun.msv.verifier.regexp.Token;
+import com.sun.msv.verifier.regexp.AnyElementToken;
+import com.sun.msv.verifier.regexp.ElementToken;
+import com.sun.msv.verifier.regexp.ResidualCalculator;
+import com.sun.msv.util.StringRef;
 import com.sun.msv.util.DatatypeRef;
 import com.sun.msv.util.StartTagInfo;
-import com.sun.msv.util.StringRef;
-import com.sun.msv.verifier.Acceptor;
 
 /**
  * base implementation of ComplexAcceptor.

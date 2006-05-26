@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: IDContextProvider.java,v 1.9 2003/01/09 21:00:02 kk122374 Exp $
+ * @(#)$Id: IDContextProvider.java,v 1.8 2001/09/14 22:04:20 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,8 +9,8 @@
  */
 package com.sun.msv.grammar;
 
-import org.relaxng.datatype.Datatype;
 import org.relaxng.datatype.ValidationContext;
+import org.relaxng.datatype.Datatype;
 
 /**
  * ValidationContextProvider that supports limited ID/IDREF implementation.

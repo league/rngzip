@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: DatatypeBuilderImpl.java,v 1.6 2003/01/09 21:00:03 kk122374 Exp $
+ * @(#)$Id: DatatypeBuilderImpl.java,v 1.5 2001/09/06 23:07:09 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,10 +9,7 @@
  */
 package com.sun.msv.grammar.relaxng.datatype;
 
-import org.relaxng.datatype.Datatype;
-import org.relaxng.datatype.DatatypeBuilder;
-import org.relaxng.datatype.DatatypeException;
-import org.relaxng.datatype.ValidationContext;
+import org.relaxng.datatype.*;
 
 /**
  * DataTypeBuilder implementation.

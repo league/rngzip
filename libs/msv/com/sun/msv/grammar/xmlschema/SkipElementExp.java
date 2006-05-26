@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: SkipElementExp.java,v 1.4 2003/01/16 21:51:21 kk122374 Exp $
+ * @(#)$Id: SkipElementExp.java,v 1.2 2001/07/28 02:50:39 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,8 +9,8 @@
  */
 package com.sun.msv.grammar.xmlschema;
 
-import com.sun.msv.grammar.Expression;
 import com.sun.msv.grammar.NameClass;
+import com.sun.msv.grammar.Expression;
 
 /**
  * ElementExp that is used for &lt;any processContents="skip"/&gt;.
@@ -25,7 +25,4 @@ public class SkipElementExp extends com.sun.msv.grammar.trex.ElementPattern {
 	public SkipElementExp( NameClass nameClass, Expression contentModel ) {
 		super(nameClass,contentModel);
 	}
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

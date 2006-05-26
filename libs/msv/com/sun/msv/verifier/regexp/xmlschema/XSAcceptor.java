@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: XSAcceptor.java,v 1.12 2003/01/09 21:00:22 kk122374 Exp $
+ * @(#)$Id: XSAcceptor.java,v 1.11 2001/11/21 22:15:20 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,23 +9,18 @@
  */
 package com.sun.msv.verifier.regexp.xmlschema;
 
-import org.relaxng.datatype.DatatypeException;
-
 import com.sun.msv.datatype.xsd.DatatypeFactory;
+import com.sun.msv.datatype.xsd.XSDatatype;
 import com.sun.msv.datatype.xsd.QnameType;
-import com.sun.msv.grammar.ElementExp;
 import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.xmlschema.ComplexTypeExp;
-import com.sun.msv.grammar.xmlschema.ElementDeclExp;
-import com.sun.msv.grammar.xmlschema.SimpleTypeExp;
-import com.sun.msv.grammar.xmlschema.XMLSchemaSchema;
-import com.sun.msv.grammar.xmlschema.XMLSchemaTypeExp;
+import com.sun.msv.grammar.ElementExp;
+import com.sun.msv.grammar.xmlschema.*;
+import com.sun.msv.verifier.Acceptor;
+import com.sun.msv.verifier.regexp.*;
 import com.sun.msv.util.StartTagInfo;
 import com.sun.msv.util.StringRef;
-import com.sun.msv.verifier.Acceptor;
-import com.sun.msv.verifier.regexp.AttributeToken;
-import com.sun.msv.verifier.regexp.CombinedChildContentExpCreator;
-import com.sun.msv.verifier.regexp.SimpleAcceptor;
+import java.util.Vector;
+import org.relaxng.datatype.DatatypeException;
 
 /**
  * Acceptor implementation for XSREDocDecl.
@@ -150,7 +145,7 @@ public class XSAcceptor extends SimpleAcceptor {
 				// error
 				if( refErr==null ) return null;
 				
-				refErr.str = _docDecl.localizeMessage( XSREDocDecl.ERR_NON_NILLABLE_ELEMENT, sti.qName );
+				refErr.str = _docDecl.localizeMessage( _docDecl.ERR_NON_NILLABLE_ELEMENT, sti.qName );
 				return new XSAcceptor( _docDecl, Expression.epsilon, xe, null );
 			}
 			if( nil.trim().equals("true") ) {
@@ -219,14 +214,14 @@ public class XSAcceptor extends SimpleAcceptor {
 	private Acceptor onNotSubstitutableType( StartTagInfo sti, String type, StringRef refErr ) {
 		if(refErr==null)		return null;
 		
-		refErr.str = _docDecl.localizeMessage( XSREDocDecl.ERR_NOT_SUBSTITUTABLE_TYPE, type );
+		refErr.str = _docDecl.localizeMessage( _docDecl.ERR_NOT_SUBSTITUTABLE_TYPE, type );
 		return super.createChildAcceptor(sti,refErr);
 	}
 	
 	private Acceptor onTypeResolutionFailure( StartTagInfo sti, String type, StringRef refErr ) {
 		if(refErr==null)		return null;
 		
-		refErr.str = _docDecl.localizeMessage( XSREDocDecl.ERR_UNDEFINED_TYPE, type );
+		refErr.str = _docDecl.localizeMessage( _docDecl.ERR_UNDEFINED_TYPE, type );
 		return super.createChildAcceptor(sti,refErr);
 	}
 	

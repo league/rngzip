@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ExpressionWalker.java,v 1.7 2003/01/09 21:00:04 kk122374 Exp $
+ * @(#)$Id: ExpressionWalker.java,v 1.6 2001/10/18 23:52:11 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,21 +9,7 @@
  */
 package com.sun.msv.grammar.util;
 
-import com.sun.msv.grammar.AttributeExp;
-import com.sun.msv.grammar.BinaryExp;
-import com.sun.msv.grammar.ChoiceExp;
-import com.sun.msv.grammar.ConcurExp;
-import com.sun.msv.grammar.DataExp;
-import com.sun.msv.grammar.ElementExp;
-import com.sun.msv.grammar.ExpressionVisitorVoid;
-import com.sun.msv.grammar.InterleaveExp;
-import com.sun.msv.grammar.ListExp;
-import com.sun.msv.grammar.MixedExp;
-import com.sun.msv.grammar.OneOrMoreExp;
-import com.sun.msv.grammar.OtherExp;
-import com.sun.msv.grammar.ReferenceExp;
-import com.sun.msv.grammar.SequenceExp;
-import com.sun.msv.grammar.ValueExp;
+import com.sun.msv.grammar.*;
 
 /**
  * Visits all reachable expressions but do nothing.

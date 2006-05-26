@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: GroupDeclExp.java,v 1.6 2003/01/16 21:51:21 kk122374 Exp $
+ * @(#)$Id: GroupDeclExp.java,v 1.5 2001/05/01 18:13:00 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -26,7 +26,4 @@ public class GroupDeclExp extends RedefinableExp {
 		exp.redefine(this);
 		return exp;
 	}
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ImportState.java,v 1.8 2003/01/09 21:00:13 kk122374 Exp $
+ * @(#)$Id: ImportState.java,v 1.7 2002/03/04 02:12:05 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -28,7 +28,7 @@ public class ImportState extends ChildlessState {
 		if( namespace==null )   namespace="";
 		
 		if( namespace.equals(reader.currentSchema.targetNamespace) ) {
-			reader.reportError( XMLSchemaReader.ERR_IMPORTING_SAME_NAMESPACE );
+			reader.reportError( reader.ERR_IMPORTING_SAME_NAMESPACE );
 			return;
 		}
 		

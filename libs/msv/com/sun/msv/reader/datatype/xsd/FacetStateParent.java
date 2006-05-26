@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: FacetStateParent.java,v 1.7 2003/01/09 21:00:06 kk122374 Exp $
+ * @(#)$Id: FacetStateParent.java,v 1.6 2001/11/21 22:15:18 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,6 +9,7 @@
  */
 package com.sun.msv.reader.datatype.xsd;
 
+import com.sun.msv.datatype.xsd.TypeIncubator;
 
 /**
  * Interface implemented by the parent state of FacetState.

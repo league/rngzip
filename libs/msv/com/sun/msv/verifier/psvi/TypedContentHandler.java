@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: TypedContentHandler.java,v 1.4 2003/01/09 21:00:21 kk122374 Exp $
+ * @(#)$Id: TypedContentHandler.java,v 1.3 2001/07/30 21:01:21 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,12 +9,11 @@
  */
 package com.sun.msv.verifier.psvi;
 
+import com.sun.msv.grammar.AttributeExp;
+import com.sun.msv.grammar.ElementExp;
 import org.relaxng.datatype.Datatype;
 import org.relaxng.datatype.ValidationContext;
 import org.xml.sax.SAXException;
-
-import com.sun.msv.grammar.AttributeExp;
-import com.sun.msv.grammar.ElementExp;
 
 /**
  * Receives notification of the typed content of the document.

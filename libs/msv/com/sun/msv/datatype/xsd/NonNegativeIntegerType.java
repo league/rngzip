@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: NonNegativeIntegerType.java,v 1.16 2003/02/12 19:58:14 kk122374 Exp $
+ * @(#)$Id: NonNegativeIntegerType.java,v 1.14 2001/08/14 22:17:57 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -21,11 +21,7 @@ import org.relaxng.datatype.ValidationContext;
  */
 public class NonNegativeIntegerType extends IntegerType {
 	public static final NonNegativeIntegerType theInstance = new NonNegativeIntegerType();
-	private NonNegativeIntegerType() {
-        super("nonNegativeInteger",
-            createRangeFacet(IntegerType.theInstance,
-                IntegerValueType.create("0"),null));
-    }
+	private NonNegativeIntegerType() { super("nonNegativeInteger"); }
 	
 	final public XSDatatype getBaseType() {
 		return IntegerType.theInstance;
@@ -39,7 +35,4 @@ public class NonNegativeIntegerType extends IntegerType {
 		if( !v.isNonNegative() )	return null;
 		return v;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

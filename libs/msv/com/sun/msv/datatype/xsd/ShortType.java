@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ShortType.java,v 1.19 2003/02/24 18:43:13 kk122374 Exp $
+ * @(#)$Id: ShortType.java,v 1.16 2001/11/27 01:54:52 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -20,14 +20,8 @@ import org.relaxng.datatype.ValidationContext;
  * @author <a href="mailto:kohsuke.kawaguchi@eng.sun.com">Kohsuke KAWAGUCHI</a>
  */
 public class ShortType extends IntegerDerivedType {
-	public static final ShortType theInstance =
-        new ShortType("short",createRangeFacet(IntType.theInstance,
-            new Short(Short.MIN_VALUE),
-            new Short(Short.MAX_VALUE)));
-	
-    protected ShortType(String typeName,XSDatatypeImpl baseFacets) {
-        super(typeName,baseFacets);
-    }
+	public static final ShortType theInstance = new ShortType("short");
+	protected ShortType(String typeName) { super(typeName); }
 	
 	public XSDatatype getBaseType() {
 		return IntType.theInstance;
@@ -53,7 +47,4 @@ public class ShortType extends IntegerDerivedType {
 	public Class getJavaObjectType() {
 		return Short.class;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

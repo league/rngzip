@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: RELAXNGReader.java,v 1.36 2003/01/09 21:00:11 kk122374 Exp $
+ * @(#)$Id: RELAXNGReader.java,v 1.34 2002/09/27 04:17:09 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,42 +10,38 @@
 package com.sun.msv.reader.trex.ng;
 
 import java.text.MessageFormat;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.Iterator;
 import java.util.Vector;
-
 import javax.xml.parsers.SAXParserFactory;
-
-import org.iso_relax.verifier.Schema;
-import org.relaxng.datatype.Datatype;
-import org.relaxng.datatype.DatatypeException;
-import org.relaxng.datatype.DatatypeLibrary;
-import org.relaxng.datatype.DatatypeLibraryFactory;
-import org.xml.sax.Attributes;
+import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
-
+import org.xml.sax.Attributes;
+import org.relaxng.datatype.*;
+import org.relaxng.datatype.helpers.DatatypeLibraryLoader;
+import org.iso_relax.verifier.Schema;
 import com.sun.msv.datatype.ErrorDatatypeLibrary;
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.ExpressionPool;
-import com.sun.msv.grammar.ReferenceExp;
-import com.sun.msv.grammar.trex.TREXGrammar;
-import com.sun.msv.reader.ChoiceState;
-import com.sun.msv.reader.GrammarReaderController;
-import com.sun.msv.reader.State;
-import com.sun.msv.reader.TerminalState;
+import com.sun.msv.grammar.*;
+import com.sun.msv.grammar.trex.*;
+import com.sun.msv.grammar.util.ExpressionWalker;
+import com.sun.msv.grammar.relaxng.datatype.BuiltinDatatypeLibrary;
+import com.sun.msv.grammar.relaxng.datatype.CompatibilityDatatypeLibrary;
+import com.sun.msv.reader.*;
+import com.sun.msv.reader.datatype.xsd.XSDVocabulary;
+import com.sun.msv.reader.trex.TREXBaseReader;
+import com.sun.msv.reader.trex.RootState;
+import com.sun.msv.reader.trex.NameClassChoiceState;
 import com.sun.msv.reader.trex.DivInGrammarState;
 import com.sun.msv.reader.trex.IncludePatternState;
-import com.sun.msv.reader.trex.NameClassChoiceState;
-import com.sun.msv.reader.trex.RootState;
-import com.sun.msv.reader.trex.TREXBaseReader;
 import com.sun.msv.reader.trex.TREXSequencedStringChecker;
-import com.sun.msv.util.LightStack;
+import com.sun.msv.reader.datatype.DataTypeVocabulary;
 import com.sun.msv.util.StartTagInfo;
+import com.sun.msv.util.LightStack;
 import com.sun.msv.util.Util;
 
 /**
@@ -251,26 +247,6 @@ public class RELAXNGReader extends TREXBaseReader {
 		|| "http://relaxng.org/ns/structure/0.9".equals(tag.namespaceURI);
 	}
 	
-    /**
-     * DatatypeLibrary factory object.
-     */
-    private DatatypeLibraryFactory datatypeLibraryFactory = new DefaultDatatypeLibraryFactory();
-    
-    /**
-     * Returns the datatypeLibraryFactory.
-     */
-    public DatatypeLibraryFactory getDatatypeLibraryFactory() {
-        return datatypeLibraryFactory;
-    }
-
-    /**
-     * Sets the datatypeLibraryFactory.
-     */
-    public void setDatatypeLibraryFactory(DatatypeLibraryFactory datatypeLibraryFactory) {
-        this.datatypeLibraryFactory = datatypeLibraryFactory;
-    }
-    
-    
 	/**
 	 * creates various State object, which in turn parses grammar.
 	 * parsing behavior can be customized by implementing custom StateFactory.
@@ -298,16 +274,44 @@ public class RELAXNGReader extends TREXBaseReader {
 		public State ref			( State parent, StartTagInfo tag ) { return new RefState(false); }
 		public State parentRef		( State parent, StartTagInfo tag ) { return new RefState(true); }
 
-        /**
-         * to cause errors if someone is deriving this method.
-         * this method is no longer used.
-         * 
-         * @deprecated
-         */
-        protected final DatatypeLibrary getDatatypeLibrary( String namespaceURI ) throws Exception {
-            // unused
-            throw new UnsupportedOperationException();
-        }
+		/**
+		 * gets DataTypeLibrary object that is specified by the namespace URI.
+		 * 
+		 * If no vocabulary is known to have that namespace URI, then simply
+		 * return null without issuing an error message.
+		 * 
+		 * It is also possible to throw an exception to indicate
+		 * that the resolution was failed.
+		 */
+		public DatatypeLibrary getDatatypeLibrary( String namespaceURI ) throws Exception {
+			
+			if( namespaceURI.equals("") )
+				return BuiltinDatatypeLibrary.theInstance;
+			
+			// We have the built-in support for XML Schema Part 2.
+			if( namespaceURI.equals(XSDVocabulary.XMLSchemaNamespace)
+			||  namespaceURI.equals(XSDVocabulary.XMLSchemaNamespace2) ) {
+				if(xsdlib==null)
+					xsdlib = new com.sun.msv.datatype.xsd.ngimpl.DataTypeLibraryImpl();
+				return xsdlib;
+			}
+			
+			// RELAX NG compatibiltiy datatypes library is also supported
+			if( namespaceURI.equals(CompatibilityDatatypeLibrary.namespaceURI) ) {
+				if( compatibilityLib==null )
+					compatibilityLib = new CompatibilityDatatypeLibrary();
+				return compatibilityLib;
+			}
+			
+			// search the implementation from the classpath
+			if(loader==null)
+				loader = new DatatypeLibraryLoader();
+			
+			return loader.createDatatypeLibrary(namespaceURI);
+		}
+		private DatatypeLibraryFactory loader;
+		private DatatypeLibrary xsdlib;
+		private DatatypeLibrary compatibilityLib;
 	}
 	protected StateFactory getStateFactory() {
 		return (StateFactory)super.sfactory;
@@ -353,7 +357,7 @@ public class RELAXNGReader extends TREXBaseReader {
 	 */
 	public DatatypeLibrary resolveDataTypeLibrary( String uri ) {
 		try {
-			DatatypeLibrary lib = datatypeLibraryFactory.createDatatypeLibrary(uri);
+			DatatypeLibrary lib = getStateFactory().getDatatypeLibrary(uri);
 			if(lib!=null)		return lib;
 		
 			// issue an error
@@ -567,5 +571,4 @@ public class RELAXNGReader extends TREXBaseReader {
 		"RELAXNGReader.XmlnsAttribute";
 	public static final String ERR_NAKED_INFINITE_ATTRIBUTE_NAMECLASS = //arg:0
 		"RELAXNGReader.NakedInfiniteAttributeNameClass";
-
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: StringRecoveryToken.java,v 1.13 2003/01/09 21:00:22 kk122374 Exp $
+ * @(#)$Id: StringRecoveryToken.java,v 1.12 2001/10/19 23:59:21 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,12 +9,11 @@
  */
 package com.sun.msv.verifier.regexp;
 
-import java.util.Set;
-
 import com.sun.msv.grammar.DataExp;
-import com.sun.msv.grammar.ListExp;
 import com.sun.msv.grammar.ValueExp;
+import com.sun.msv.grammar.ListExp;
 import com.sun.msv.util.DatatypeRef;
+import java.util.Set;
 
 /**
  * special StringToken that acts as a wild card.

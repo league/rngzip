@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: InterfaceStateEx.java,v 1.3 2003/01/09 21:00:15 kk122374 Exp $
+ * @(#)$Id: InterfaceStateEx.java,v 1.2 2001/05/01 18:13:25 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,11 +9,12 @@
  */
 package com.sun.msv.relaxns.reader.relax;
 
-import com.sun.msv.grammar.relax.RELAXModule;
-import com.sun.msv.reader.ChildlessState;
+import com.sun.msv.util.StartTagInfo;
 import com.sun.msv.reader.State;
 import com.sun.msv.reader.relax.core.InterfaceState;
-import com.sun.msv.util.StartTagInfo;
+import com.sun.msv.grammar.relax.RELAXModule;
+import com.sun.msv.grammar.Expression;
+import com.sun.msv.reader.ChildlessState;
 
 /**
  * parses &lt;interface&gt; element and &lt;div&gt; in interface.
@@ -25,7 +26,7 @@ class InterfaceStateEx extends InterfaceState
 	protected State createChildState( StartTagInfo tag )
 	{
 		RELAXCoreIslandSchemaReader reader = (RELAXCoreIslandSchemaReader)this.reader;
-		if(!tag.namespaceURI.equals(RELAXCoreIslandSchemaReader.RELAXCoreNamespace))	return null;
+		if(!tag.namespaceURI.equals(reader.RELAXCoreNamespace))	return null;
 		
 		if(tag.localName.equals("div"))		return new InterfaceStateEx();
 		
@@ -47,7 +48,7 @@ class InterfaceStateEx extends InterfaceState
 		{
 			final String label = tag.getAttribute("label");
 			if(label==null)
-				reader.reportError(RELAXCoreIslandSchemaReader.ERR_MISSING_ATTRIBUTE,"hedgeExport","label");
+				reader.reportError(reader.ERR_MISSING_ATTRIBUTE,"hedgeExport","label");
 				// recover by ignoring this hedgeExport
 			else
 				module.hedgeRules.getOrCreate(label).exported = true;

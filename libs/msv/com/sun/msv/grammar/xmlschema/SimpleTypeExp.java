@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: SimpleTypeExp.java,v 1.18 2003/01/16 21:51:21 kk122374 Exp $
+ * @(#)$Id: SimpleTypeExp.java,v 1.16 2002/02/15 16:27:37 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -11,6 +11,8 @@ package com.sun.msv.grammar.xmlschema;
 
 import com.sun.msv.datatype.xsd.XSDatatype;
 import com.sun.msv.reader.datatype.xsd.XSDatatypeExp;
+import com.sun.msv.grammar.ReferenceExp;
+import com.sun.msv.grammar.ExpressionPool;
 
 /**
  * Simple type declaration.
@@ -79,8 +81,5 @@ public class SimpleTypeExp extends XMLSchemaTypeExp {
         }
 	}
 	
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 
 }

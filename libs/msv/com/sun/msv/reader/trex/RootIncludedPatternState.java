@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: RootIncludedPatternState.java,v 1.9 2003/01/09 21:00:10 kk122374 Exp $
+ * @(#)$Id: RootIncludedPatternState.java,v 1.8 2001/07/26 20:43:22 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,11 +9,12 @@
  */
 package com.sun.msv.reader.trex;
 
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.reader.ExpressionOwner;
-import com.sun.msv.reader.SimpleState;
-import com.sun.msv.reader.State;
 import com.sun.msv.util.StartTagInfo;
+import com.sun.msv.grammar.Expression;
+import com.sun.msv.grammar.trex.TREXGrammar;
+import com.sun.msv.reader.State;
+import com.sun.msv.reader.SimpleState;
+import com.sun.msv.reader.ExpressionOwner;
 
 /**
  * parses the root state of a grammar included as a pattern.

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: BigTimeDurationValueType.java,v 1.11 2003/01/16 23:47:04 ryans Exp $
+ * @(#)$Id: BigTimeDurationValueType.java,v 1.9 2001/06/19 22:42:36 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,9 +9,8 @@
  */
 package com.sun.msv.datatype.xsd.datetime;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
-
+import java.math.BigDecimal;
 import com.sun.msv.datatype.xsd.Comparator;
 
 /**
@@ -124,7 +123,4 @@ public class BigTimeDurationValueType implements ITimeDurationValueType {
 	public static BigTimeDurationValueType fromMinutes( BigInteger minutes )
 	{ return new BigTimeDurationValueType(null,null,null,null,minutes,null); }
 	
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

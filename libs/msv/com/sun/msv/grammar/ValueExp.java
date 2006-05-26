@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ValueExp.java,v 1.3 2003/01/16 21:51:17 kk122374 Exp $
+ * @(#)$Id: ValueExp.java,v 1.1 2001/10/18 23:52:10 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,7 +10,7 @@
 package com.sun.msv.grammar;
 
 import org.relaxng.datatype.Datatype;
-
+import org.relaxng.datatype.ValidationContext;
 import com.sun.msv.util.StringPair;
 
 /**
@@ -67,7 +67,4 @@ public final class ValueExp extends Expression implements DataOrValueExp {
 	protected boolean calcEpsilonReducibility() {
 		return false;
 	}
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

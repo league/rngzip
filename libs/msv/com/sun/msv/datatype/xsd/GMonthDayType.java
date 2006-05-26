@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: GMonthDayType.java,v 1.12 2003/01/16 23:47:01 ryans Exp $
+ * @(#)$Id: GMonthDayType.java,v 1.10 2001/08/14 21:47:12 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,12 +9,11 @@
  */
 package com.sun.msv.datatype.xsd;
 
-import java.util.Calendar;
-
 import com.sun.msv.datatype.SerializationContext;
-import com.sun.msv.datatype.xsd.datetime.BigDateTimeValueType;
-import com.sun.msv.datatype.xsd.datetime.IDateTimeValueType;
 import com.sun.msv.datatype.xsd.datetime.ISO8601Parser;
+import com.sun.msv.datatype.xsd.datetime.IDateTimeValueType;
+import com.sun.msv.datatype.xsd.datetime.BigDateTimeValueType;
+import java.util.Calendar;
 
 /**
  * "gMonthDay" type.
@@ -57,14 +56,11 @@ public class GMonthDayType extends DateTimeBaseType {
 		StringBuffer result = new StringBuffer();
 
 		result.append("--");
-		result.append(formatTwoDigits(cal.get(Calendar.MONTH)+1));
+		result.append(formatTwoDigits(cal.get(cal.MONTH)+1));
 		result.append('-');
-		result.append(formatTwoDigits(cal.get(Calendar.DAY_OF_MONTH)));
+		result.append(formatTwoDigits(cal.get(cal.DAY_OF_MONTH)));
 		result.append(formatTimeZone(cal));
 		
 		return result.toString();
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

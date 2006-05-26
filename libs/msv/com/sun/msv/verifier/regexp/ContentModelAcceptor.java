@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ContentModelAcceptor.java,v 1.7 2003/01/09 21:00:22 kk122374 Exp $
+ * @(#)$Id: ContentModelAcceptor.java,v 1.6 2001/08/08 19:42:38 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,10 +9,17 @@
  */
 package com.sun.msv.verifier.regexp;
 
-import com.sun.msv.grammar.ElementExp;
 import com.sun.msv.grammar.Expression;
+import com.sun.msv.grammar.ElementExp;
+import com.sun.msv.verifier.*;
+import com.sun.msv.verifier.regexp.ExpressionAcceptor;
+import com.sun.msv.verifier.regexp.ElementToken;
+import com.sun.msv.verifier.regexp.CombinedChildContentExpCreator;
+import com.sun.msv.util.StartTagInfo;
 import com.sun.msv.util.StringRef;
-import com.sun.msv.verifier.Acceptor;
+import java.util.Set;
+import java.util.List;
+import java.util.Iterator;
 
 /**
  * base implementation for SimpleAcceptor and ComplexAcceptor

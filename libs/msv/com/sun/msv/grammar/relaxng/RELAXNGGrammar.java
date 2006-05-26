@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: RELAXNGGrammar.java,v 1.3 2003/01/16 21:51:18 kk122374 Exp $
+ * @(#)$Id: RELAXNGGrammar.java,v 1.1 2001/09/14 22:04:20 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -11,6 +11,9 @@ package com.sun.msv.grammar.relaxng;
 
 import com.sun.msv.grammar.ExpressionPool;
 import com.sun.msv.grammar.trex.TREXGrammar;
+import com.sun.msv.util.StringPair;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * Grammar for RELAX NG (with DTD compatibility annotation).
@@ -115,7 +118,4 @@ public class RELAXNGGrammar extends TREXGrammar {
 	}
 	
 */
-        
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

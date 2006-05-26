@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: RedefinableExp.java,v 1.6 2003/01/16 21:51:21 kk122374 Exp $
+ * @(#)$Id: RedefinableExp.java,v 1.5 2001/07/28 02:50:39 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -43,7 +43,4 @@ public abstract class RedefinableExp extends ReferenceExp {
 		
 		this.exp = rhs.exp;
 	}
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

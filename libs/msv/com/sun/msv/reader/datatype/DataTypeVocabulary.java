@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: DataTypeVocabulary.java,v 1.8 2003/01/09 21:00:06 kk122374 Exp $
+ * @(#)$Id: DataTypeVocabulary.java,v 1.7 2001/08/14 22:18:03 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,11 +9,10 @@
  */
 package com.sun.msv.reader.datatype;
 
-import org.relaxng.datatype.Datatype;
-import org.relaxng.datatype.DatatypeException;
-
 import com.sun.msv.reader.State;
 import com.sun.msv.util.StartTagInfo;
+import org.relaxng.datatype.Datatype;
+import org.relaxng.datatype.DatatypeException;
 
 /**
  * this class is used to parse foreign datatype vocabulary.

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: GrammarLoader.java,v 1.19 2003/01/09 21:00:12 kk122374 Exp $
+ * @(#)$Id: GrammarLoader.java,v 1.18 2002/03/04 00:53:49 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,40 +9,38 @@
  */
 package com.sun.msv.reader.util;
 
-import java.util.Vector;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.iso_relax.verifier.Schema;
-import org.iso_relax.verifier.Verifier;
-import org.iso_relax.verifier.VerifierConfigurationException;
-import org.iso_relax.verifier.VerifierFilter;
-import org.xml.sax.Attributes;
-import org.xml.sax.ContentHandler;
-import org.xml.sax.InputSource;
-import org.xml.sax.Locator;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.DefaultHandler;
-
-import com.sun.msv.grammar.ExpressionPool;
-import com.sun.msv.grammar.Grammar;
-import com.sun.msv.grammar.xmlschema.XMLSchemaGrammar;
-import com.sun.msv.reader.Controller;
-import com.sun.msv.reader.GrammarReader;
-import com.sun.msv.reader.GrammarReaderController;
 import com.sun.msv.reader.dtd.DTDReader;
 import com.sun.msv.reader.relax.core.RELAXCoreReader;
 import com.sun.msv.reader.trex.classic.TREXGrammarReader;
 import com.sun.msv.reader.trex.ng.comp.RELAXNGCompReader;
 import com.sun.msv.reader.xmlschema.XMLSchemaReader;
+import com.sun.msv.reader.Controller;
+import com.sun.msv.reader.GrammarReader;
+import com.sun.msv.reader.GrammarReaderController;
+import com.sun.msv.relaxns.grammar.RELAXGrammar;
 import com.sun.msv.relaxns.reader.RELAXNSReader;
+import com.sun.msv.grammar.ExpressionPool;
+import com.sun.msv.grammar.Grammar;
+import com.sun.msv.grammar.xmlschema.XMLSchemaGrammar;
 import com.sun.msv.util.Util;
 import com.sun.msv.verifier.jaxp.SAXParserFactoryImpl;
 import com.sun.msv.verifier.regexp.REDocumentDeclaration;
 import com.sun.msv.verifier.regexp.xmlschema.XSREDocDecl;
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.Attributes;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.Locator;
+import org.xml.sax.helpers.DefaultHandler;
+import org.iso_relax.verifier.Schema;
+import org.iso_relax.verifier.Verifier;
+import org.iso_relax.verifier.VerifierFilter;
+import org.iso_relax.verifier.VerifierConfigurationException;
+import java.util.Vector;
 
 
 /**

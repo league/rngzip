@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: DurationType.java,v 1.22 2003/01/16 23:47:00 ryans Exp $
+ * @(#)$Id: DurationType.java,v 1.19 2002/10/08 22:01:27 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,13 +9,11 @@
  */
 package com.sun.msv.datatype.xsd;
 
-import java.io.StringReader;
-
-import org.relaxng.datatype.ValidationContext;
-
 import com.sun.msv.datatype.SerializationContext;
 import com.sun.msv.datatype.xsd.datetime.ISO8601Parser;
 import com.sun.msv.datatype.xsd.datetime.ITimeDurationValueType;
+import java.io.ByteArrayInputStream;
+import org.relaxng.datatype.ValidationContext;
 
 /**
  * "duration" type.
@@ -35,7 +33,7 @@ public final class DurationType extends BuiltinAtomicType implements Comparator 
 	}
 
 	private final ISO8601Parser getParser( String content ) throws Exception {
-		return new ISO8601Parser( new StringReader( content ) );
+		return new ISO8601Parser( new ByteArrayInputStream( content.getBytes("UTF8") ) );
 	}
 	
 	protected boolean checkFormat( String content, ValidationContext context ) {
@@ -82,8 +80,5 @@ public final class DurationType extends BuiltinAtomicType implements Comparator 
 		
 		return ((ITimeDurationValueType)value).getBigValue().toString();
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }
 

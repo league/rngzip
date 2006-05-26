@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: LengthFacet.java,v 1.24 2003/02/12 19:58:13 kk122374 Exp $
+ * @(#)$Id: LengthFacet.java,v 1.21 2002/06/24 19:57:28 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,6 +9,7 @@
  */
 package com.sun.msv.datatype.xsd;
 
+import java.util.Hashtable;
 import org.relaxng.datatype.DatatypeException;
 import org.relaxng.datatype.ValidationContext;
 
@@ -25,16 +26,9 @@ public class LengthFacet extends DataTypeWithValueConstraintFacet {
 	
 	protected LengthFacet( String nsUri, String typeName, XSDatatypeImpl baseType, TypeIncubator facets )
 		throws DatatypeException {
-        this(nsUri,typeName,baseType,
-            facets.getNonNegativeInteger(FACET_LENGTH),
-            facets.isFixed(FACET_LENGTH));
-    }
-                
-    protected LengthFacet( String nsUri, String typeName, XSDatatypeImpl baseType, int _length, boolean _isFixed )
-        throws DatatypeException {
-		super(nsUri,typeName,baseType,FACET_LENGTH,_isFixed);
+		super(nsUri,typeName,baseType,FACET_LENGTH,facets);
 	
-		length = _length;
+		length = facets.getNonNegativeInteger(FACET_LENGTH);
 		
 		// loosened facet check
 		DataTypeWithFacet o = baseType.getFacetObject(FACET_LENGTH);
@@ -62,7 +56,4 @@ public class LengthFacet extends DataTypeWithValueConstraintFacet {
 			throw new DatatypeException( DatatypeException.UNKNOWN,
 				localize(ERR_LENGTH, new Integer(cnt), new Integer(length)) );
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

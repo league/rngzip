@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: UnsignedShortType.java,v 1.16 2003/02/12 19:58:15 kk122374 Exp $
+ * @(#)$Id: UnsignedShortType.java,v 1.14 2001/08/14 22:17:59 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -25,12 +25,7 @@ import org.relaxng.datatype.ValidationContext;
  */
 public class UnsignedShortType extends IntType {
 	public static final UnsignedShortType theInstance = new UnsignedShortType();
-	private UnsignedShortType() {
-        super("unsignedShort",createRangeFacet(
-            UnsignedIntType.theInstance,
-            null,
-            new Integer(65535)));
-    }
+	private UnsignedShortType() { super("unsignedShort"); }
 	
 	public XSDatatype getBaseType() {
 		return UnsignedIntType.theInstance;
@@ -51,7 +46,4 @@ public class UnsignedShortType extends IntType {
 			return null;
 		}
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

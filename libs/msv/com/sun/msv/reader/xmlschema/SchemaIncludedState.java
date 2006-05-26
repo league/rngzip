@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: SchemaIncludedState.java,v 1.10 2003/01/21 17:58:23 kk122374 Exp $
+ * @(#)$Id: SchemaIncludedState.java,v 1.8 2001/10/15 23:17:15 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,9 +10,8 @@
 package com.sun.msv.reader.xmlschema;
 
 import java.util.Set;
-
-import com.sun.msv.reader.IgnoreState;
 import com.sun.msv.reader.State;
+import com.sun.msv.reader.IgnoreState;
 import com.sun.msv.util.StartTagInfo;
 
 /**
@@ -87,7 +86,7 @@ public class SchemaIncludedState extends GlobalDeclState {
 		} else {
 			if( expectedTargetNamespace!=null
 			&& !expectedTargetNamespace.equals(targetNs) )
-				reader.reportError( XMLSchemaReader.ERR_INCONSISTENT_TARGETNAMESPACE, targetNs, expectedTargetNamespace );
+				reader.reportError( reader.ERR_INCONSISTENT_TARGETNAMESPACE, targetNs, expectedTargetNamespace );
 				// recover by adopting the one specified in the schema.
 		}
 
@@ -113,7 +112,7 @@ public class SchemaIncludedState extends GlobalDeclState {
 		else {
 			reader.elementFormDefault = "";
 			if( !form.equals("unqualified") )
-				reader.reportError( XMLSchemaReader.ERR_BAD_ATTRIBUTE_VALUE, "elementFormDefault", form );
+				reader.reportError( reader.ERR_BAD_ATTRIBUTE_VALUE, "elementFormDefault", form );
 		}
 		
 		form = startTag.getDefaultedAttribute("attributeFormDefault","unqualified");
@@ -122,7 +121,7 @@ public class SchemaIncludedState extends GlobalDeclState {
 		else {
 			reader.attributeFormDefault = "";
 			if( !form.equals("unqualified") )
-				reader.reportError( XMLSchemaReader.ERR_BAD_ATTRIBUTE_VALUE, "attributeFormDefault", form );
+				reader.reportError( reader.ERR_BAD_ATTRIBUTE_VALUE, "attributeFormDefault", form );
 		}
 		
 		reader.finalDefault = startTag.getAttribute("finalDefault");
@@ -140,7 +139,6 @@ public class SchemaIncludedState extends GlobalDeclState {
 		reader.attributeFormDefault = previousAttributeFormDefault;
 		reader.finalDefault = previousFinalDefault;
 		reader.blockDefault = previousBlockDefault;
-        reader.chameleonTargetNamespace = previousChameleonTargetNamespace;
 		
 		super.endSelf();
 	}

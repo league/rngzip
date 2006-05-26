@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: BinaryBaseType.java,v 1.16 2003/01/07 00:17:03 kk122374 Exp $
+ * @(#)$Id: BinaryBaseType.java,v 1.15 2002/10/08 22:01:27 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,7 +10,6 @@
 package com.sun.msv.datatype.xsd;
 
 import org.relaxng.datatype.ValidationContext;
-
 import com.sun.msv.datatype.SerializationContext;
 
 /**

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: FacetState.java,v 1.9 2003/01/09 21:00:06 kk122374 Exp $
+ * @(#)$Id: FacetState.java,v 1.8 2002/10/06 18:07:05 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,12 +9,10 @@
  */
 package com.sun.msv.reader.datatype.xsd;
 
-import java.util.Set;
-
-import org.relaxng.datatype.DatatypeException;
-
 import com.sun.msv.reader.ChildlessState;
 import com.sun.msv.reader.GrammarReader;
+import org.relaxng.datatype.DatatypeException;
+import java.util.Set;
 
 /**
  * state that reads facets.
@@ -56,7 +54,7 @@ public class FacetState extends ChildlessState
 		} else {
 			try {
 				((FacetStateParent)parentState).getIncubator().addFacet(
-					startTag.localName, value, "true".equals(startTag.getAttribute("fixed")), reader );
+					startTag.localName, value, reader );
 			} catch( DatatypeException e ) {
 				reader.reportError( e, GrammarReader.ERR_BAD_TYPE, e.getMessage() );
 				// recover by ignoring this facet

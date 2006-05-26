@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: DataOrValueExp.java,v 1.2 2003/01/09 21:00:02 kk122374 Exp $
+ * @(#)$Id: DataOrValueExp.java,v 1.1 2001/10/18 23:52:09 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,7 +10,6 @@
 package com.sun.msv.grammar;
 
 import org.relaxng.datatype.Datatype;
-
 import com.sun.msv.util.StringPair;
 
 /**

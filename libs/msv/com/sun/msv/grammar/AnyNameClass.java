@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: AnyNameClass.java,v 1.9 2003/01/16 21:51:16 kk122374 Exp $
+ * @(#)$Id: AnyNameClass.java,v 1.8 2001/07/28 02:50:37 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -29,8 +29,4 @@ public final class AnyNameClass extends NameClass {
 	private AnyNameClass() {}
 	
 	public String toString()	{ return "*:*"; }
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
-    private Object readResolve() { return theInstance; }
 }

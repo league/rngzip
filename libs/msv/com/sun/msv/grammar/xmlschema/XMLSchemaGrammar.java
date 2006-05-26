@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: XMLSchemaGrammar.java,v 1.9 2003/01/16 21:51:21 kk122374 Exp $
+ * @(#)$Id: XMLSchemaGrammar.java,v 1.7 2001/08/03 19:59:50 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,12 +9,11 @@
  */
 package com.sun.msv.grammar.xmlschema;
 
-import java.util.Iterator;
-import java.util.Map;
-
+import com.sun.msv.grammar.Grammar;
 import com.sun.msv.grammar.Expression;
 import com.sun.msv.grammar.ExpressionPool;
-import com.sun.msv.grammar.Grammar;
+import java.util.Map;
+import java.util.Iterator;
 
 /**
  * set of XML Schema. This set can be used to validate a document.
@@ -61,7 +60,4 @@ public class XMLSchemaGrammar implements Grammar {
 		return schemata.values().iterator();
 	}
 	
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

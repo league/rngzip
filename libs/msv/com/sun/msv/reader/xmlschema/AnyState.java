@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: AnyState.java,v 1.15 2003/01/09 21:00:12 kk122374 Exp $
+ * @(#)$Id: AnyState.java,v 1.14 2002/08/08 22:55:22 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,21 +9,21 @@
  */
 package com.sun.msv.reader.xmlschema;
 
-import java.util.Iterator;
-import java.util.StringTokenizer;
-
-import com.sun.msv.grammar.AnyNameClass;
-import com.sun.msv.grammar.ChoiceNameClass;
-import com.sun.msv.grammar.DifferenceNameClass;
 import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.NameClass;
-import com.sun.msv.grammar.NamespaceNameClass;
-import com.sun.msv.grammar.NotNameClass;
 import com.sun.msv.grammar.ReferenceExp;
+import com.sun.msv.grammar.NameClass;
+import com.sun.msv.grammar.NotNameClass;
+import com.sun.msv.grammar.NamespaceNameClass;
+import com.sun.msv.grammar.ChoiceNameClass;
+import com.sun.msv.grammar.AnyNameClass;
 import com.sun.msv.grammar.SimpleNameClass;
+import com.sun.msv.grammar.DifferenceNameClass;
+import com.sun.msv.grammar.xmlschema.ElementDeclExp;
 import com.sun.msv.grammar.xmlschema.LaxDefaultNameClass;
 import com.sun.msv.grammar.xmlschema.XMLSchemaSchema;
 import com.sun.msv.reader.ExpressionWithoutChildState;
+import java.util.StringTokenizer;
+import java.util.Iterator;
 
 /**
  * base implementation of AnyAttributeState and AnyElementState.
@@ -84,7 +84,7 @@ public abstract class AnyState extends ExpressionWithoutChildState {
 		
 		if( choices==null ) {
 			// no item was found.
-			reader.reportError( XMLSchemaReader.ERR_BAD_ATTRIBUTE_VALUE, "namespace", namespace );
+			reader.reportError( reader.ERR_BAD_ATTRIBUTE_VALUE, "namespace", namespace );
 			return AnyNameClass.theInstance;
 		}
 		

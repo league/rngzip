@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: TREXSequencedStringChecker.java,v 1.15 2003/01/09 21:00:10 kk122374 Exp $
+ * @(#)$Id: TREXSequencedStringChecker.java,v 1.14 2001/10/31 19:54:28 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,23 +9,11 @@
  */
 package com.sun.msv.reader.trex;
 
-import java.util.Map;
+import com.sun.msv.reader.RunAwayExpressionChecker;
+import com.sun.msv.grammar.*;
+import com.sun.msv.grammar.trex.*;
 import java.util.Set;
-
-import com.sun.msv.grammar.AttributeExp;
-import com.sun.msv.grammar.ChoiceExp;
-import com.sun.msv.grammar.ConcurExp;
-import com.sun.msv.grammar.DataExp;
-import com.sun.msv.grammar.ElementExp;
-import com.sun.msv.grammar.ExpressionVisitor;
-import com.sun.msv.grammar.InterleaveExp;
-import com.sun.msv.grammar.ListExp;
-import com.sun.msv.grammar.MixedExp;
-import com.sun.msv.grammar.OneOrMoreExp;
-import com.sun.msv.grammar.OtherExp;
-import com.sun.msv.grammar.ReferenceExp;
-import com.sun.msv.grammar.SequenceExp;
-import com.sun.msv.grammar.ValueExp;
+import java.util.Map;
 
 /**
  * makes sure that there is no sequenced string.
@@ -111,13 +99,13 @@ public class TREXSequencedStringChecker implements ExpressionVisitor
 		
 		if(isError(l,r)) {
 			// where is the source of error?
-			reader.reportError( TREXBaseReader.ERR_INTERLEAVED_STRING );
+			reader.reportError( reader.ERR_INTERLEAVED_STRING );
 			return intPool[0];
 		}
 		if( rejectTextInInterleave
 		&&  (toInt(l)&HAS_ANYSTRING)!=0
 		&&  (toInt(r)&HAS_ANYSTRING)!=0 ) {
-			reader.reportError( TREXBaseReader.ERR_INTERLEAVED_ANYSTRING );
+			reader.reportError( reader.ERR_INTERLEAVED_ANYSTRING );
 			return intPool[0];
 		}
 		
@@ -130,7 +118,7 @@ public class TREXSequencedStringChecker implements ExpressionVisitor
 		
 		if(isError(l,r)) {
 			// where is the source of error?
-			reader.reportError( TREXBaseReader.ERR_SEQUENCED_STRING );
+			reader.reportError( reader.ERR_SEQUENCED_STRING );
 			return intPool[0];
 		}
 		
@@ -184,7 +172,7 @@ public class TREXSequencedStringChecker implements ExpressionVisitor
 	public Object onOneOrMore( OneOrMoreExp exp ) {
 		Object o = exp.exp.visit(this);
 		if( (toInt(o)&HAS_DATA) !=0 ) {
-			reader.reportError(TREXBaseReader.ERR_REPEATED_STRING);
+			reader.reportError(reader.ERR_REPEATED_STRING);
 			return intPool[0];
 		}
 		return o;
@@ -195,7 +183,7 @@ public class TREXSequencedStringChecker implements ExpressionVisitor
 		
 		if( rejectTextInInterleave
 		&&  (toInt(o)&HAS_ANYSTRING)!=0 ) {
-			reader.reportError( TREXBaseReader.ERR_INTERLEAVED_ANYSTRING );
+			reader.reportError( reader.ERR_INTERLEAVED_ANYSTRING );
 			return intPool[0];
 		}
 		

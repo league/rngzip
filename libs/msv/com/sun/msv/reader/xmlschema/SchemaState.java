@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: SchemaState.java,v 1.7 2003/01/09 21:00:13 kk122374 Exp $
+ * @(#)$Id: SchemaState.java,v 1.6 2001/05/01 18:13:20 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -34,7 +34,7 @@ public class SchemaState extends SchemaIncludedState {
 		reader.currentSchema = reader.getOrCreateSchema(targetNs);
 		
 		if( reader.isSchemaDefined(reader.currentSchema) )  {
-			reader.reportError( XMLSchemaReader.ERR_DUPLICATE_SCHEMA_DEFINITION, targetNs );
+			reader.reportError( reader.ERR_DUPLICATE_SCHEMA_DEFINITION, targetNs );
 			// recover by providing dummy grammar object.
 			// this object is not registered to the map,
 			// so it cannot be referenced.

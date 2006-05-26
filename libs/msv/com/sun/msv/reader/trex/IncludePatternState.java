@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: IncludePatternState.java,v 1.11 2003/01/09 21:00:09 kk122374 Exp $
+ * @(#)$Id: IncludePatternState.java,v 1.10 2002/03/04 02:12:04 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,9 +10,10 @@
 package com.sun.msv.reader.trex;
 
 import com.sun.msv.grammar.Expression;
-import com.sun.msv.reader.AbortException;
-import com.sun.msv.reader.ExpressionOwner;
+import com.sun.msv.grammar.trex.TREXGrammar;
 import com.sun.msv.reader.ExpressionWithoutChildState;
+import com.sun.msv.reader.ExpressionOwner;
+import com.sun.msv.reader.AbortException;
 
 /**
  * &lt;include&gt; element in the pattern. (&lt;externalRef&gt; of RELAX NG).

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: TheFactoryImpl.java,v 1.4 2003/01/09 21:00:19 kk122374 Exp $
+ * @(#)$Id: TheFactoryImpl.java,v 1.3 2001/08/16 02:04:34 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,14 +9,13 @@
  */
 package com.sun.msv.verifier.jarv;
 
-import javax.xml.parsers.SAXParserFactory;
-
-import org.iso_relax.verifier.VerifierConfigurationException;
-import org.xml.sax.InputSource;
-
+import org.iso_relax.verifier.*;
 import com.sun.msv.grammar.Grammar;
-import com.sun.msv.reader.GrammarReaderController;
 import com.sun.msv.reader.util.GrammarLoader;
+import com.sun.msv.reader.GrammarReaderController;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import javax.xml.parsers.SAXParserFactory;
 
 /**
  * VerifierFactory implementation that automatically detects the schema language.

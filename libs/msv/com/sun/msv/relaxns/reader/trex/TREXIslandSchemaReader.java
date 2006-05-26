@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: TREXIslandSchemaReader.java,v 1.6 2003/01/09 21:00:15 kk122374 Exp $
+ * @(#)$Id: TREXIslandSchemaReader.java,v 1.5 2001/05/29 22:53:03 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,13 +9,12 @@
  */
 package com.sun.msv.relaxns.reader.trex;
 
-import org.iso_relax.dispatcher.IslandSchema;
-import org.iso_relax.dispatcher.IslandSchemaReader;
-import org.xml.sax.helpers.XMLFilterImpl;
-
 import com.sun.msv.grammar.trex.TREXGrammar;
 import com.sun.msv.reader.trex.classic.TREXGrammarReader;
 import com.sun.msv.relaxns.grammar.trex.TREXIslandSchema;
+import org.iso_relax.dispatcher.IslandSchemaReader;
+import org.iso_relax.dispatcher.IslandSchema;
+import org.xml.sax.helpers.XMLFilterImpl;
 
 /**
  * reads extended-TREX grammar (extended by RELAX Namespace)

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: SAXParserImpl.java,v 1.2 2003/01/09 21:00:19 kk122374 Exp $
+ * @(#)$Id: SAXParserImpl.java,v 1.1 2001/10/01 19:29:21 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -11,20 +11,11 @@ package com.sun.msv.verifier.jaxp;
 
 import java.io.File;
 import java.io.InputStream;
-
-import javax.xml.parsers.SAXParser;
-
-import org.iso_relax.verifier.Schema;
-import org.iso_relax.verifier.Verifier;
-import org.iso_relax.verifier.VerifierFactory;
-import org.xml.sax.InputSource;
-import org.xml.sax.Parser;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXNotRecognizedException;
-import org.xml.sax.SAXNotSupportedException;
-import org.xml.sax.XMLFilter;
-import org.xml.sax.XMLReader;
+import javax.xml.parsers.*;
+import org.xml.sax.*;
+import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderAdapter;
+import org.iso_relax.verifier.*;
 
 /**
  * SAXParser implementation that supports validation.

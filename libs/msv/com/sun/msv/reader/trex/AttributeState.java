@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: AttributeState.java,v 1.8 2003/01/09 21:00:09 kk122374 Exp $
+ * @(#)$Id: AttributeState.java,v 1.7 2001/11/28 01:49:59 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,8 +9,8 @@
  */
 package com.sun.msv.reader.trex;
 
-import com.sun.msv.grammar.AttributeExp;
 import com.sun.msv.grammar.Expression;
+import com.sun.msv.grammar.AttributeExp;
 
 /**
  * parses &lt;attribute&gt; pattern.

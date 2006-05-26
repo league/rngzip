@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: UnionType.java,v 1.24 2003/01/16 23:47:03 ryans Exp $
+ * @(#)$Id: UnionType.java,v 1.22 2002/06/24 19:57:29 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -11,7 +11,6 @@ package com.sun.msv.datatype.xsd;
 
 import org.relaxng.datatype.DatatypeException;
 import org.relaxng.datatype.ValidationContext;
-
 import com.sun.msv.datatype.SerializationContext;
 
 /**
@@ -130,7 +129,4 @@ final public class UnionType extends ConcreteType {
 		else	throw new DatatypeException();
 	}
 
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

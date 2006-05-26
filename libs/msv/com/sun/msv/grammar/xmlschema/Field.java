@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: Field.java,v 1.5 2003/01/16 21:51:21 kk122374 Exp $
+ * @(#)$Id: Field.java,v 1.3 2001/08/08 23:57:57 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,6 +9,7 @@
  */
 package com.sun.msv.grammar.xmlschema;
 
+import com.sun.msv.grammar.NameClass;
 
 /**
  * represents one field of an identity constraint.
@@ -22,7 +23,4 @@ public class Field implements java.io.Serializable {
 	 * 'A|B' is represented by using two FieldPath objects.
 	 */
 	public XPath[]	paths;
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: PatternFacet.java,v 1.24 2003/02/12 19:58:14 kk122374 Exp $
+ * @(#)$Id: PatternFacet.java,v 1.21 2002/09/08 16:13:02 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -13,10 +13,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Vector;
 
-import java.util.regex.PatternSyntaxException;
-import java.util.regex.Pattern;
-import org.relaxng.datatype.DatatypeException;
+import org.apache.xerces.impl.xpath.regex.ParseException;
+import org.apache.xerces.impl.xpath.regex.RegularExpression;
 import org.relaxng.datatype.ValidationContext;
+import org.relaxng.datatype.DatatypeException;
 
 /**
  * "pattern" facet validator
@@ -32,9 +32,9 @@ public final class PatternFacet extends DataTypeWithLexicalConstraintFacet {
 	 * actual object that performs regular expression validation.
 	 * one of the item has to match
 	 */
-	private transient Pattern[] exps;
+	private transient RegularExpression[] exps;
     
-    public Pattern[] getRegExps() { return exps; }
+    public RegularExpression[] getRegExps() { return exps; }
 	
 	/**
 	 * string representations of the above RegularExpressions.
@@ -53,7 +53,7 @@ public final class PatternFacet extends DataTypeWithLexicalConstraintFacet {
 	 */
 	public PatternFacet( String nsUri, String typeName, XSDatatypeImpl baseType, TypeIncubator facets )
 		throws DatatypeException {
-		super( nsUri, typeName, baseType, FACET_PATTERN, facets.isFixed(FACET_PATTERN) );
+		super( nsUri, typeName, baseType, FACET_PATTERN, facets );
 		
 		
 		// TODO : am I supposed to implement my own regexp validator?
@@ -64,7 +64,7 @@ public final class PatternFacet extends DataTypeWithLexicalConstraintFacet {
         
         try {
             compileRegExps();
-        } catch( PatternSyntaxException pe ) {
+        } catch( ParseException pe ) {
             // in case regularExpression is not a correct pattern
             throw new DatatypeException( localize( ERR_PARSE_ERROR,
                 pe.getMessage() ) );
@@ -72,10 +72,10 @@ public final class PatternFacet extends DataTypeWithLexicalConstraintFacet {
     }
     
     /** Compiles all the regular expressions. */
-    private void compileRegExps() throws PatternSyntaxException {
-		exps = new Pattern[patterns.length];
+    private void compileRegExps() throws ParseException {
+		exps = new RegularExpression[patterns.length];
 		for(int i=0;i<exps.length;i++)
-			exps[i] = Pattern.compile(patterns[i]);
+			exps[i] = new RegularExpression(patterns[i],"X");
 		
 		// loosened facet check is almost impossible for pattern facet.
 		// ignore it for now.
@@ -99,7 +99,7 @@ public final class PatternFacet extends DataTypeWithLexicalConstraintFacet {
         // at any given time.
         synchronized(this) {
     		for( int i=0; i<exps.length; i++ )
-                  if(exps[i].matcher(literal).matches())
+    			if(exps[i].matches(literal))
     				return true;
         }
 		// otherwise fail
@@ -113,7 +113,4 @@ public final class PatternFacet extends DataTypeWithLexicalConstraintFacet {
         compileRegExps();
     }
     
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

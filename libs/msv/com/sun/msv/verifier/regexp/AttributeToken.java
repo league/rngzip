@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: AttributeToken.java,v 1.15 2003/01/09 21:00:21 kk122374 Exp $
+ * @(#)$Id: AttributeToken.java,v 1.14 2001/10/31 19:53:27 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,8 +9,7 @@
  */
 package com.sun.msv.verifier.regexp;
 
-import com.sun.msv.grammar.AttributeExp;
-import com.sun.msv.grammar.IDContextProvider;
+import com.sun.msv.grammar.*;
 import com.sun.msv.util.DatatypeRef;
 
 /**

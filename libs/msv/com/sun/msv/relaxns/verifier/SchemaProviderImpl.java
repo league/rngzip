@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: SchemaProviderImpl.java,v 1.9 2003/01/09 21:00:16 kk122374 Exp $
+ * @(#)$Id: SchemaProviderImpl.java,v 1.8 2001/05/24 16:53:51 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,20 +9,20 @@
  */
 package com.sun.msv.relaxns.verifier;
 
-import java.util.Iterator;
-
-import org.iso_relax.dispatcher.IslandSchema;
-import org.iso_relax.dispatcher.IslandVerifier;
-import org.iso_relax.dispatcher.impl.AbstractSchemaProviderImpl;
-import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.ExpressionPool;
-import com.sun.msv.grammar.Grammar;
-import com.sun.msv.relaxns.grammar.DeclImpl;
+import org.xml.sax.ErrorHandler;
+import org.iso_relax.dispatcher.IslandVerifier;
+import org.iso_relax.dispatcher.IslandSchema;
+import org.iso_relax.dispatcher.impl.AbstractSchemaProviderImpl;
 import com.sun.msv.relaxns.grammar.RELAXGrammar;
+import com.sun.msv.relaxns.grammar.DeclImpl;
+import com.sun.msv.grammar.Grammar;
+import com.sun.msv.grammar.Expression;
+import com.sun.msv.grammar.ReferenceExp;
+import com.sun.msv.grammar.ExpressionPool;
+//import com.sun.msv.verifier.regexp.REDocumentDeclaration;
+import java.util.Iterator;
 
 /**
  * implementation of SchemaProvider by using RELAX Grammar.

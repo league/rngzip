@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: XSDatatypeImpl.java,v 1.23 2003/02/24 18:42:27 kk122374 Exp $
+ * @(#)$Id: XSDatatypeImpl.java,v 1.18 2002/11/07 16:49:29 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,12 +9,13 @@
  */
 package com.sun.msv.datatype.xsd;
 
+import java.io.Serializable;
 import java.util.Vector;
-
+import org.relaxng.datatype.ValidationContext;
 import org.relaxng.datatype.DatatypeException;
 import org.relaxng.datatype.DatatypeStreamingValidator;
-import org.relaxng.datatype.ValidationContext;
 import org.relaxng.datatype.helpers.StreamingValidatorImpl;
+import com.sun.msv.datatype.SerializationContext;
 
 /**
  * base implementaion for XSDatatype interface.
@@ -97,9 +98,7 @@ public abstract class XSDatatypeImpl implements XSDatatype {
 	 *		if no such facet object exists.
 	 */
 	public DataTypeWithFacet getFacetObject( String facetName ) {
-        XSDatatype dt = getBaseType();
-        if(dt!=null)    return dt.getFacetObject(facetName);
-		else              return null;
+		return null;
 	}
 
     public String[] getApplicableFacetNames() {
@@ -174,15 +173,6 @@ public abstract class XSDatatypeImpl implements XSDatatype {
 		
 		return false;
 	}
-    
-    public XSDatatype getAncestorBuiltinType() {
-        XSDatatype dt = this;
-        
-        while( !XMLSCHEMA_NSURI.equals(dt.getNamespaceUri()) )
-            dt = dt.getBaseType();
-        return dt;
-    }
-
 	
 	/**
 	 * A property for RELAX NG DTD compatibility datatypes.
@@ -291,7 +281,4 @@ public abstract class XSDatatypeImpl implements XSDatatype {
 	public static final String ERR_EMPTY_UNION =
 		"BadTypeException.EmptyUnion";
 
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

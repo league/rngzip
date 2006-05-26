@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ListState.java,v 1.12 2003/01/09 21:00:06 kk122374 Exp $
+ * @(#)$Id: ListState.java,v 1.11 2002/06/24 19:57:58 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,11 +9,13 @@
  */
 package com.sun.msv.reader.datatype.xsd;
 
-import org.relaxng.datatype.DatatypeException;
-
+import com.sun.msv.reader.GrammarReader;
 import com.sun.msv.reader.IgnoreState;
 import com.sun.msv.reader.State;
+import com.sun.msv.datatype.xsd.XSDatatype;
+import com.sun.msv.datatype.xsd.DatatypeFactory;
 import com.sun.msv.util.StartTagInfo;
+import org.relaxng.datatype.DatatypeException;
 
 /**
  * state that parses &lt;list&gt; element of XSD.

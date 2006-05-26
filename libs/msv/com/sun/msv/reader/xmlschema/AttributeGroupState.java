@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: AttributeGroupState.java,v 1.10 2003/01/09 21:00:12 kk122374 Exp $
+ * @(#)$Id: AttributeGroupState.java,v 1.9 2001/10/10 23:19:46 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,15 +9,15 @@
  */
 package com.sun.msv.reader.xmlschema;
 
-import org.xml.sax.Locator;
-
+import com.sun.msv.datatype.xsd.XSDatatype;
 import com.sun.msv.grammar.Expression;
 import com.sun.msv.grammar.ReferenceContainer;
 import com.sun.msv.grammar.xmlschema.AttributeGroupExp;
 import com.sun.msv.grammar.xmlschema.AttributeWildcard;
 import com.sun.msv.grammar.xmlschema.XMLSchemaSchema;
-import com.sun.msv.reader.State;
 import com.sun.msv.util.StartTagInfo;
+import com.sun.msv.reader.State;
+import org.xml.sax.Locator;
 
 /**
  * parses &lt;attributeGroup /&gt; element.
@@ -61,7 +61,7 @@ public class AttributeGroupState extends RedefinableDeclState implements AnyAttr
 	
 	protected Expression castExpression( Expression halfCastedExpression, Expression newChildExpression ) {
 		if( startTag.containsAttribute("ref") )
-			reader.reportError( XMLSchemaReader.ERR_MORE_THAN_ONE_CHILD_EXPRESSION );
+			reader.reportError( reader.ERR_MORE_THAN_ONE_CHILD_EXPRESSION );
 		if( halfCastedExpression==null )
 			return newChildExpression;	// the first one.
 		return reader.pool.createSequence( newChildExpression, halfCastedExpression );
@@ -75,7 +75,7 @@ public class AttributeGroupState extends RedefinableDeclState implements AnyAttr
 		// if this is a global declaration register it.
 		String name = startTag.getAttribute("name");
 		if( name==null ) {
-			reader.reportError( XMLSchemaReader.ERR_MISSING_ATTRIBUTE, "attributeGroup", "name" );
+			reader.reportError( reader.ERR_MISSING_ATTRIBUTE, "attributeGroup", "name" );
 			return Expression.epsilon;
 			// recover by returning something meaningless.
 			// the parent state will ignore this.
@@ -88,7 +88,7 @@ public class AttributeGroupState extends RedefinableDeclState implements AnyAttr
 			if( exp.exp!=null )
 				reader.reportError( 
 					new Locator[]{this.location,reader.getDeclaredLocationOf(exp)},
-                    XMLSchemaReader.ERR_DUPLICATE_ATTRIBUTE_GROUP_DEFINITION,
+					reader.ERR_DUPLICATE_ATTRIBUTE_GROUP_DEFINITION,
 					new Object[]{name} );
 		}
 		reader.setDeclaredLocationOf(exp);

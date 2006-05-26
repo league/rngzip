@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: RestrictionChecker.java,v 1.14 2003/01/09 21:00:11 kk122374 Exp $
+ * @(#)$Id: RestrictionChecker.java,v 1.13 2001/11/28 01:47:56 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,29 +9,12 @@
  */
 package com.sun.msv.reader.trex.ng;
 
-import org.xml.sax.Locator;
-
-import com.sun.msv.grammar.AnyNameClass;
-import com.sun.msv.grammar.AttributeExp;
-import com.sun.msv.grammar.ChoiceExp;
-import com.sun.msv.grammar.ChoiceNameClass;
-import com.sun.msv.grammar.DataExp;
-import com.sun.msv.grammar.DifferenceNameClass;
-import com.sun.msv.grammar.ElementExp;
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.InterleaveExp;
-import com.sun.msv.grammar.ListExp;
-import com.sun.msv.grammar.NameClass;
-import com.sun.msv.grammar.NameClassAndExpression;
-import com.sun.msv.grammar.NameClassVisitor;
-import com.sun.msv.grammar.NamespaceNameClass;
-import com.sun.msv.grammar.NotNameClass;
-import com.sun.msv.grammar.OneOrMoreExp;
-import com.sun.msv.grammar.SequenceExp;
-import com.sun.msv.grammar.SimpleNameClass;
-import com.sun.msv.grammar.ValueExp;
+import com.sun.msv.grammar.*;
 import com.sun.msv.grammar.util.ExpressionWalker;
 import com.sun.msv.grammar.util.NameClassCollisionChecker;
+import com.sun.msv.grammar.util.NameClassSimplifier;
+import org.xml.sax.Locator;
+import java.util.Vector;
 
 /**
  * Checks RELAX NG contextual restrictions defined in the section 7.

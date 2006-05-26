@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: NameClass.java,v 1.16 2003/01/16 21:51:17 kk122374 Exp $
+ * @(#)$Id: NameClass.java,v 1.12 2002/09/05 15:39:06 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,10 +9,9 @@
  */
 package com.sun.msv.grammar;
 
-import com.sun.msv.grammar.util.NameClassCollisionChecker;
-import com.sun.msv.grammar.util.NameClassComparator;
-import com.sun.msv.grammar.util.NameClassSimplifier;
 import com.sun.msv.util.StringPair;
+import com.sun.msv.grammar.util.NameClassCollisionChecker;
+import com.sun.msv.grammar.util.NameClassSimplifier;
 
 /**
  * validator of (namespaceURI,localPart) pair.
@@ -44,31 +43,6 @@ public abstract class NameClass implements java.io.Serializable {
 	public final boolean accepts( StringPair name ) {
 		return accepts( name.namespaceURI, name.localName );
 	}
-    
-    /** Returns true if this name class is a superset of another name class. */
-    public final boolean includes( NameClass rhs ) {
-        boolean r = new NameClassComparator() {
-            protected void probe(String uri, String local) {
-                if( !nc1.accepts(uri,local) && nc2.accepts(uri,local) )
-                    throw eureka;   // this is not a super-set!
-            }
-        }.check(this,rhs);
-        
-        return !r;
-    }
-    
-    /** Returns true if this name class doesn't accept anything. */
-    public boolean isNull() {
-        return !new NameClassCollisionChecker().check(this,AnyNameClass.theInstance);
-    }
-
-    /**
-     * Computes the equivalent but simple name class.
-     */
-    public NameClass simplify() {
-        return NameClassSimplifier.simplify(this);
-    }
-    
 	
 	/**
 	 * visitor pattern support
@@ -92,6 +66,8 @@ public abstract class NameClass implements java.io.Serializable {
 			new ChoiceNameClass(lhs,rhs) );
 	}
     
-    // serialization support
-    private static final long serialVersionUID = 1;    
+    /** Returns true if this name class doesn't accept anything. */
+    public boolean isNull() {
+        return !new NameClassCollisionChecker().check(this,AnyNameClass.theInstance);
+    }
 }

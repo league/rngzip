@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: MinLengthFacet.java,v 1.23 2003/02/12 19:58:14 kk122374 Exp $
+ * @(#)$Id: MinLengthFacet.java,v 1.21 2002/06/24 19:57:28 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -20,18 +20,11 @@ import org.relaxng.datatype.ValidationContext;
 public class MinLengthFacet extends DataTypeWithValueConstraintFacet {
 	public final int minLength;
 	
-    protected MinLengthFacet( String nsUri, String typeName, XSDatatypeImpl baseType, TypeIncubator facets )
-        throws DatatypeException {
-        this(nsUri,typeName,baseType,
-            facets.getNonNegativeInteger(FACET_MINLENGTH),
-            facets.isFixed(FACET_MINLENGTH));
-    }
-    
-	protected MinLengthFacet( String nsUri, String typeName, XSDatatypeImpl baseType, int _minLength, boolean _isFixed )
+	protected MinLengthFacet( String nsUri, String typeName, XSDatatypeImpl baseType, TypeIncubator facets )
 		throws DatatypeException {
-		super(nsUri,typeName,baseType,FACET_MINLENGTH,_isFixed);
+		super(nsUri,typeName,baseType,FACET_MINLENGTH,facets);
 	
-		this.minLength = _minLength;
+		minLength = facets.getNonNegativeInteger(FACET_MINLENGTH);
 		
 		// loosened facet check
 		DataTypeWithFacet o = baseType.getFacetObject(FACET_MINLENGTH);
@@ -59,7 +52,4 @@ public class MinLengthFacet extends DataTypeWithValueConstraintFacet {
 			throw new DatatypeException( DatatypeException.UNKNOWN,
 				localize(ERR_MINLENGTH,	new Integer(cnt), new Integer(minLength)) );
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

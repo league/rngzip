@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: RedefinableDeclState.java,v 1.8 2003/01/09 21:00:13 kk122374 Exp $
+ * @(#)$Id: RedefinableDeclState.java,v 1.7 2002/02/15 16:27:37 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -118,7 +118,7 @@ public abstract class RedefinableDeclState extends ExpressionWithChildState {
 			
 			oldDecl = (RedefinableExp)getContainer()._get(name);
 			if(oldDecl==null) {
-				reader.reportError( XMLSchemaReader.ERR_REDEFINE_UNDEFINED, name );
+				reader.reportError( reader.ERR_REDEFINE_UNDEFINED, name );
 				// recover by creating a dummy object.
 				oldDecl = (RedefinableExp)getContainer()._getOrCreate(name);
 				return;

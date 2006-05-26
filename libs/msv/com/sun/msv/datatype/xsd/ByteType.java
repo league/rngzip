@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ByteType.java,v 1.22 2003/02/24 18:43:13 kk122374 Exp $
+ * @(#)$Id: ByteType.java,v 1.18 2001/11/27 01:54:52 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,7 +9,9 @@
  */
 package com.sun.msv.datatype.xsd;
 
+import java.math.BigInteger;
 import org.relaxng.datatype.ValidationContext;
+import com.sun.msv.datatype.SerializationContext;
 
 /**
  * "byte" type.
@@ -21,10 +23,7 @@ import org.relaxng.datatype.ValidationContext;
  */
 public class ByteType extends IntegerDerivedType {
 	public final static ByteType theInstance = new ByteType();
-	private ByteType() {
-        super("byte",createRangeFacet(ShortType.theInstance,
-            new Byte(Byte.MIN_VALUE), new Byte(Byte.MAX_VALUE)));
-    }
+	private ByteType() { super("byte"); }
 	
 	final public XSDatatype getBaseType() {
 		return ShortType.theInstance;
@@ -48,7 +47,4 @@ public class ByteType extends IntegerDerivedType {
 	public Class getJavaObjectType() {
 		return Byte.class;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

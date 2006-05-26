@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: XSDatatype.java,v 1.20 2003/02/24 18:40:45 kk122374 Exp $
+ * @(#)$Id: XSDatatype.java,v 1.16 2002/11/07 16:49:29 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,9 +10,10 @@
 package com.sun.msv.datatype.xsd;
 
 import java.io.Serializable;
-
+import java.util.Hashtable;
 import com.sun.msv.datatype.DatabindableDatatype;
 import com.sun.msv.datatype.SerializationContext;
+import org.relaxng.datatype.ValidationContext;
 
 /**
  * Publicly accesible interface of W3C XML Schema datatype (simple type).
@@ -126,12 +127,12 @@ public interface XSDatatype extends Serializable, DatabindableDatatype {
 	 * One of the possible return value from the isFacetApplicable method.
 	 */
 	static final int APPLICABLE = 0;
-	/**
-	 * indicates the specified facet is fixed in this type and
-	 * therefore not appliable.
-	 * One of the possible return value from the isFacetApplicable method.
-	 */
-	static final int FIXED		= -1;
+//	/**
+//	 * indicates the specified facet is fixed in this type and
+//	 * therefore not appliable.
+//	 * One of the possible return value from the isFacetApplicable method.
+//	 */
+//	static final int FIXED		= -1;
 	/**
 	 * indicates the specified facet is not appliable to this type by definition.
 	 * One of the possible return value from the isFacetApplicable method.
@@ -143,7 +144,6 @@ public interface XSDatatype extends Serializable, DatabindableDatatype {
 	 * @return
 	 * <dl>
 	 *  <dt>APPLICABLE		<dd>if the facet is applicable
-	 *	<dt>FIXED			<dd>if the facet is already fixed (that is,not applicable)
 	 *	<dt>NOT_ALLOWED		<dd>if the facet is not applicable to this datatype at all.
 	 *							this value is also returned for unknown facets.
 	 */
@@ -200,23 +200,6 @@ public interface XSDatatype extends Serializable, DatabindableDatatype {
 	 * B.
 	 */
 	public XSDatatype getBaseType();
-    
-    /**
-     * Gets the nearest ancestor built-in type.
-     * 
-     * <p>
-     * This method traverses the inheritance chain from this datatype
-     * to the root type (anySimpleType) and return the first built-in
-     * type it finds.
-     * 
-     * <p>
-     * For example, if you derive a type Foo from NCName and Bar from Foo,
-     * then this method returns NCName. 
-     * 
-     * @return
-     *      Always return non-null valid object.
-     */
-    public XSDatatype getAncestorBuiltinType();
 	
 	/**
 	 * tests if this type is a derived type of the specified type.

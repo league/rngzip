@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: NameClassChoiceState.java,v 1.6 2003/01/09 21:00:09 kk122374 Exp $
+ * @(#)$Id: NameClassChoiceState.java,v 1.5 2001/05/29 23:06:37 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,8 +9,10 @@
  */
 package com.sun.msv.reader.trex;
 
-import com.sun.msv.grammar.ChoiceNameClass;
 import com.sun.msv.grammar.NameClass;
+import com.sun.msv.grammar.ChoiceNameClass;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * parses &lt;choice&gt; name class.

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ComplexTypeDeclState.java,v 1.19 2003/01/09 21:00:13 kk122374 Exp $
+ * @(#)$Id: ComplexTypeDeclState.java,v 1.18 2002/03/09 16:33:21 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,14 +9,15 @@
  */
 package com.sun.msv.reader.xmlschema;
 
-import org.xml.sax.Locator;
-
+import com.sun.msv.datatype.xsd.XSDatatype;
 import com.sun.msv.grammar.Expression;
+import com.sun.msv.grammar.SimpleNameClass;
 import com.sun.msv.grammar.ReferenceContainer;
 import com.sun.msv.grammar.xmlschema.AttributeWildcard;
 import com.sun.msv.grammar.xmlschema.ComplexTypeExp;
-import com.sun.msv.reader.State;
 import com.sun.msv.util.StartTagInfo;
+import com.sun.msv.reader.State;
+import org.xml.sax.Locator;
 
 /**
  * used to parse &lt;complexType&gt; element.
@@ -40,7 +41,7 @@ public class ComplexTypeDeclState extends RedefinableDeclState implements AnyAtt
 		String name = startTag.getAttribute("name");
 		if( name==null ) {
 			if( isGlobal() )
-				reader.reportError( XMLSchemaReader.ERR_MISSING_ATTRIBUTE, "complexType", "name" );
+				reader.reportError( reader.ERR_MISSING_ATTRIBUTE, "complexType", "name" );
 			decl = new ComplexTypeExp( reader.currentSchema, null );
 		} else {
 			if( isRedefine() )
@@ -59,7 +60,7 @@ public class ComplexTypeDeclState extends RedefinableDeclState implements AnyAtt
 				if( decl.body.exp!=null && reader.currentSchema!=reader.xsdSchema )
 					reader.reportError( 
 						new Locator[]{this.location,reader.getDeclaredLocationOf(decl)},
-                        XMLSchemaReader.ERR_DUPLICATE_COMPLEXTYPE_DEFINITION,
+						reader.ERR_DUPLICATE_COMPLEXTYPE_DEFINITION,
 						new Object[]{name} );
 			}
 		}
@@ -142,7 +143,7 @@ public class ComplexTypeDeclState extends RedefinableDeclState implements AnyAtt
 		else {
 			decl.setAbstract(true);
 			if( !"true".equals(abstract_) )
-				reader.reportError( XMLSchemaReader.ERR_BAD_ATTRIBUTE_VALUE, "abstract", abstract_ );
+				reader.reportError( reader.ERR_BAD_ATTRIBUTE_VALUE, "abstract", abstract_ );
 				// recover by ignoring this error.
 		}
 		
@@ -152,7 +153,7 @@ public class ComplexTypeDeclState extends RedefinableDeclState implements AnyAtt
 			contentType = reader.pool.createMixed(contentType);
 		else
 		if( mixed!=null && !"false".equals(mixed) )
-			reader.reportError( XMLSchemaReader.ERR_BAD_ATTRIBUTE_VALUE, "mixed", mixed );
+			reader.reportError( reader.ERR_BAD_ATTRIBUTE_VALUE, "mixed", mixed );
 			// recover by ignoring this error.
 
 		decl.body.exp = contentType;

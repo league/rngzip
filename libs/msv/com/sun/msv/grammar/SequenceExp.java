@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: SequenceExp.java,v 1.7 2003/01/16 21:51:17 kk122374 Exp $
+ * @(#)$Id: SequenceExp.java,v 1.6 2001/06/15 03:24:21 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -26,7 +26,4 @@ public final class SequenceExp extends BinaryExp {
 	protected boolean calcEpsilonReducibility() {
 		return exp1.isEpsilonReducible() && exp2.isEpsilonReducible();
 	}
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

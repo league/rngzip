@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: OtherExp.java,v 1.5 2003/01/16 21:51:17 kk122374 Exp $
+ * @(#)$Id: OtherExp.java,v 1.4 2001/08/16 02:45:07 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -90,7 +90,4 @@ public class OtherExp extends Expression {
 	public final Expression visit( ExpressionVisitorExpression visitor ){ return visitor.onOther(this); }
 	public final boolean visit( ExpressionVisitorBoolean visitor )		{ return visitor.onOther(this); }
 	public final void visit( ExpressionVisitorVoid visitor )			{ visitor.onOther(this); }
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

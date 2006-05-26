@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: LaxDefaultNameClass.java,v 1.10 2003/01/16 21:51:21 kk122374 Exp $
+ * @(#)$Id: LaxDefaultNameClass.java,v 1.8 2001/10/10 23:19:12 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,13 +9,13 @@
  */
 package com.sun.msv.grammar.xmlschema;
 
-import java.util.Set;
-
-import com.sun.msv.grammar.DifferenceNameClass;
 import com.sun.msv.grammar.NameClass;
-import com.sun.msv.grammar.NameClassVisitor;
+import com.sun.msv.grammar.AnyNameClass;
 import com.sun.msv.grammar.SimpleNameClass;
+import com.sun.msv.grammar.NameClassVisitor;
+import com.sun.msv.grammar.DifferenceNameClass;
 import com.sun.msv.util.StringPair;
+import java.util.Set;
 
 /**
  * Special name class implementation used for the wild card of the "lax" mode.
@@ -101,7 +101,4 @@ public class LaxDefaultNameClass extends NameClass {
 		names.add( new StringPair(namespaceURI,LOCALNAME_WILDCARD) );
 		names.add( new StringPair(NAMESPACE_WILDCARD,localName) );
 	}
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

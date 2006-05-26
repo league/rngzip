@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ListType.java,v 1.29 2003/01/16 23:47:01 ryans Exp $
+ * @(#)$Id: ListType.java,v 1.27 2002/06/24 19:57:28 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,11 +10,9 @@
 package com.sun.msv.datatype.xsd;
 
 import java.util.StringTokenizer;
-
+import com.sun.msv.datatype.SerializationContext;
 import org.relaxng.datatype.DatatypeException;
 import org.relaxng.datatype.ValidationContext;
-
-import com.sun.msv.datatype.SerializationContext;
 
 /**
  * List type.
@@ -156,7 +154,4 @@ public final class ListType extends ConcreteType implements Discrete {
 		}
 	}
 
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

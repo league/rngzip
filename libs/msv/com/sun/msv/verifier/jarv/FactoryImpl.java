@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: FactoryImpl.java,v 1.15 2002/12/10 04:32:00 kk122374 Exp $
+ * @(#)$Id: FactoryImpl.java,v 1.14 2001/11/19 19:57:35 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,27 +10,24 @@
 package com.sun.msv.verifier.jarv;
 
 import java.io.IOException;
-
 import javax.xml.parsers.SAXParserFactory;
-
-import org.iso_relax.verifier.Schema;
-import org.iso_relax.verifier.VerifierConfigurationException;
-import org.iso_relax.verifier.VerifierFactory;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
-import org.xml.sax.Locator;
-import org.xml.sax.SAXException;
+import javax.xml.parsers.ParserConfigurationException;
+import org.iso_relax.verifier.*;
 import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
+import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-
+import org.xml.sax.InputSource;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.Locator;
 import com.sun.msv.grammar.Grammar;
 import com.sun.msv.grammar.xmlschema.XMLSchemaGrammar;
 import com.sun.msv.reader.GrammarReaderController;
 import com.sun.msv.verifier.IVerifier;
+import com.sun.msv.verifier.util.ErrorHandlerImpl;
 import com.sun.msv.verifier.identity.IDConstraintChecker;
 import com.sun.msv.verifier.regexp.REDocumentDeclaration;
-import com.sun.msv.verifier.util.ErrorHandlerImpl;
+import com.sun.msv.verifier.regexp.xmlschema.XSREDocDecl;
 
 /**
  * base implementation of RELAXFactoryImpl and TREXFactoryImpl
@@ -153,4 +150,5 @@ public abstract class FactoryImpl extends VerifierFactory {
 			else					return resolver.resolveEntity(p,s);
 		}
 	}
+	
 }

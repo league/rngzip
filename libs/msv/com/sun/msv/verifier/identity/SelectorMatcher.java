@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: SelectorMatcher.java,v 1.5 2003/01/09 21:00:18 kk122374 Exp $
+ * @(#)$Id: SelectorMatcher.java,v 1.4 2001/09/06 02:41:41 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,10 +9,11 @@
  */
 package com.sun.msv.verifier.identity;
 
-import org.relaxng.datatype.Datatype;
-import org.xml.sax.SAXException;
-
 import com.sun.msv.grammar.xmlschema.IdentityConstraint;
+import com.sun.msv.grammar.xmlschema.XPath;
+import org.relaxng.datatype.Datatype;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 
 /**
  * XPath matcher that tests the selector of an identity constraint.

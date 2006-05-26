@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: CompatibilityDatatypeLibrary.java,v 1.5 2003/01/09 21:00:03 kk122374 Exp $
+ * @(#)$Id: CompatibilityDatatypeLibrary.java,v 1.4 2001/11/01 01:00:34 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,14 +9,10 @@
  */
 package com.sun.msv.grammar.relaxng.datatype;
 
-import org.relaxng.datatype.Datatype;
-import org.relaxng.datatype.DatatypeBuilder;
-import org.relaxng.datatype.DatatypeException;
-import org.relaxng.datatype.DatatypeLibrary;
-
-import com.sun.msv.datatype.xsd.DatatypeFactory;
-import com.sun.msv.datatype.xsd.IDREFType;
+import org.relaxng.datatype.*;
 import com.sun.msv.datatype.xsd.IDType;
+import com.sun.msv.datatype.xsd.IDREFType;
+import com.sun.msv.datatype.xsd.DatatypeFactory;
 
 /**
  * RELAX NG DTD compatibility datatype library.

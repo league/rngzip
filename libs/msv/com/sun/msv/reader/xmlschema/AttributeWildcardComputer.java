@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: AttributeWildcardComputer.java,v 1.4 2003/01/09 21:00:12 kk122374 Exp $
+ * @(#)$Id: AttributeWildcardComputer.java,v 1.3 2002/09/27 04:14:32 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,22 +9,12 @@
  */
 package com.sun.msv.reader.xmlschema;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Stack;
-
-import com.sun.msv.grammar.AttributeExp;
-import com.sun.msv.grammar.ChoiceExp;
-import com.sun.msv.grammar.ElementExp;
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.NameClass;
-import com.sun.msv.grammar.ReferenceExp;
-import com.sun.msv.grammar.SimpleNameClass;
+import com.sun.msv.grammar.*;
+import com.sun.msv.grammar.xmlschema.*;
 import com.sun.msv.grammar.util.ExpressionWalker;
-import com.sun.msv.grammar.xmlschema.AttWildcardExp;
-import com.sun.msv.grammar.xmlschema.AttributeGroupExp;
-import com.sun.msv.grammar.xmlschema.AttributeWildcard;
-import com.sun.msv.grammar.xmlschema.ComplexTypeExp;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Stack;
 
 /**
  * Processes the attribtue wildcard according to the spec.
@@ -145,7 +135,7 @@ public class AttributeWildcardComputer extends ExpressionWalker {
 						
 						// process the base type first.
 						cexp.complexBaseType.visit(this);
-						if(cexp.derivationMethod==ComplexTypeExp.EXTENSION)
+						if(cexp.derivationMethod==cexp.EXTENSION)
 							cexp.wildcard = calcComplexTypeWildcard(
 								cexp.wildcard,
 								cexp.complexBaseType.wildcard );
@@ -222,7 +212,7 @@ public class AttributeWildcardComputer extends ExpressionWalker {
 	private void propagateAttributes( final ComplexTypeExp cexp ) {
 		// propagation will be done only if this type is derived from
 		// another complex type by restriction.
-		if(cexp.derivationMethod!=ComplexTypeExp.RESTRICTION || cexp.complexBaseType==null)
+		if(cexp.derivationMethod!=cexp.RESTRICTION || cexp.complexBaseType==null)
 			return;
 
 		// strangely, this computation does not apply if the base type is

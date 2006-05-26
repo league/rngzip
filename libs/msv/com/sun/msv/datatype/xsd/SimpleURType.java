@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: SimpleURType.java,v 1.8 2003/01/16 23:47:03 ryans Exp $
+ * @(#)$Id: SimpleURType.java,v 1.5 2001/11/22 00:52:48 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,7 +10,6 @@
 package com.sun.msv.datatype.xsd;
 
 import org.relaxng.datatype.ValidationContext;
-
 import com.sun.msv.datatype.SerializationContext;
 
 /**
@@ -65,9 +64,6 @@ public class SimpleURType extends BuiltinAtomicType {
 	 * no facet is applicable to the simple ur-type.
 	 */
 	public final int isFacetApplicable( String facetName ) {
-		return APPLICABLE;
+		return NOT_ALLOWED;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

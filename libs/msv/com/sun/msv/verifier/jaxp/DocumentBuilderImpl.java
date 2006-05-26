@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: DocumentBuilderImpl.java,v 1.2 2003/01/09 21:00:19 kk122374 Exp $
+ * @(#)$Id: DocumentBuilderImpl.java,v 1.1 2001/10/01 19:29:20 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,20 +10,21 @@
 package com.sun.msv.verifier.jaxp;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-
+import java.io.IOException;
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.iso_relax.verifier.Schema;
-import org.iso_relax.verifier.Verifier;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.ErrorHandler;
+//import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.ErrorHandler;
+import org.iso_relax.verifier.Verifier;
+//import org.iso_relax.verifier.VerifierConfigurationException;
+import org.iso_relax.verifier.Schema;
+import com.sun.msv.verifier.jarv.TheFactoryImpl;
 
 /**
  * DocumentBuilder implementation that supports validation.

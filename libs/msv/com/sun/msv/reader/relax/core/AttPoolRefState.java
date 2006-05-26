@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: AttPoolRefState.java,v 1.3 2003/01/09 21:00:07 kk122374 Exp $
+ * @(#)$Id: AttPoolRefState.java,v 1.2 2001/05/01 18:13:07 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -24,7 +24,7 @@ public class AttPoolRefState extends ExpressionWithoutChildState
 		final String role = startTag.getAttribute("role");
 		if( role==null )
 		{
-			reader.reportError( RELAXCoreReader.ERR_MISSING_ATTRIBUTE, "ref", "role" );
+			reader.reportError( reader.ERR_MISSING_ATTRIBUTE, "ref", "role" );
 			return Expression.epsilon;
 		}
 		

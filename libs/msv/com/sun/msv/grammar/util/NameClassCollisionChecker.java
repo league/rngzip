@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: NameClassCollisionChecker.java,v 1.3 2003/01/15 23:59:30 kk122374 Exp $
+ * @(#)$Id: NameClassCollisionChecker.java,v 1.1 2001/10/11 19:25:31 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,12 +9,19 @@
  */
 package com.sun.msv.grammar.util;
 
+import com.sun.msv.grammar.*;
+
 /**
  * Computes if two name classes collide or not.
  * 
  * <p>
- * This comparator returns true if the intersection of two name classes
- * is non empty.
+ * To be more precise, this class works as a function that takes two name classes
+ * and computes if the intersection of them is empty or not.
+ * 
+ * <p>
+ * To compute, create an instance and call the check method. This class is not
+ * reentrant, so the caller is responsible not to reuse the same object by multiple
+ * threads.
  * 
  * <p>
  * The same thing can be computed by using the {@link NameClass#intersection} method,
@@ -22,11 +29,71 @@ package com.sun.msv.grammar.util;
  * 
  * @author <a href="mailto:kohsuke.kawaguchi@sun.com">Kohsuke KAWAGUCHI</a>
  */
-public class NameClassCollisionChecker extends NameClassComparator {
+public class NameClassCollisionChecker implements NameClassVisitor {
 			
-	protected void probe( String uri, String local ) {
+	/** Two name classes to be tested. */
+	NameClass nc1,nc2;
+			
+	/**
+	 * This exception will be thrown when a collision is found.
+	 */
+	private final RuntimeException eureka = new RuntimeException();
+			
+	/**
+	 * Returns true if two name classes collide.
+	 */
+	public boolean check( NameClass _new, NameClass _old ) {
+				
+		if( _new instanceof SimpleNameClass ) {
+			// short cut for 90% of the cases
+			SimpleNameClass nnc = (SimpleNameClass)_new;
+			return _old.accepts( nnc.namespaceURI, nnc.localName );
+		}
+				
+		try {
+			nc1 = _new;
+			nc2 = _old;
+			_old.visit(this);
+			_new.visit(this);
+			return false;
+		} catch( RuntimeException e ) {
+			if(e==eureka)	return true;	// the collision was found.
+			throw e;
+		}
+	}
+			
+	private void probe( String uri, String local ) {
 		if(nc1.accepts(uri,local) && nc2.accepts(uri,local))
 			// conflict is found.
 			throw eureka;
+	}
+			
+	private /*static*/ final String MAGIC = "\u0000";
+			
+	public Object onAnyName( AnyNameClass nc ) {
+		probe(MAGIC,MAGIC);
+		return null;
+	}
+	public Object onNsName( NamespaceNameClass nc ) {
+		probe(nc.namespaceURI,MAGIC);
+		return null;
+	}
+	public Object onSimple( SimpleNameClass nc ) {
+		probe(nc.namespaceURI,nc.localName);
+		return null;
+	}
+	public Object onNot( NotNameClass nc ) {
+		nc.child.visit(this);
+		return null;
+	}
+	public Object onDifference( DifferenceNameClass nc ) {
+		nc.nc1.visit(this);
+		nc.nc2.visit(this);
+		return null;
+	}
+	public Object onChoice( ChoiceNameClass nc ) {
+		nc.nc1.visit(this);
+		nc.nc2.visit(this);
+		return null;
 	}
 }

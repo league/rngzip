@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: DoubleType.java,v 1.20 2003/01/16 23:47:00 ryans Exp $
+ * @(#)$Id: DoubleType.java,v 1.18 2001/11/27 01:54:52 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,7 +10,6 @@
 package com.sun.msv.datatype.xsd;
 
 import org.relaxng.datatype.ValidationContext;
-
 import com.sun.msv.datatype.SerializationContext;
 
 /**
@@ -71,7 +70,4 @@ public class DoubleType extends FloatingNumberType {
 	public Class getJavaObjectType() {
 		return Double.class;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ConcurExp.java,v 1.4 2003/01/16 21:51:17 kk122374 Exp $
+ * @(#)$Id: ConcurExp.java,v 1.3 2001/10/18 23:52:08 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -43,7 +43,4 @@ public final class ConcurExp extends BinaryExp {
 	protected boolean calcEpsilonReducibility() {
 		return exp1.isEpsilonReducible() && exp2.isEpsilonReducible();
 	}
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

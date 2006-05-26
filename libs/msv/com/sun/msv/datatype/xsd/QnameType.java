@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: QnameType.java,v 1.31 2003/01/16 23:47:02 ryans Exp $
+ * @(#)$Id: QnameType.java,v 1.29 2002/10/08 22:01:27 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,7 +10,6 @@
 package com.sun.msv.datatype.xsd;
 
 import org.relaxng.datatype.ValidationContext;
-
 import com.sun.msv.datatype.SerializationContext;
 
 /**
@@ -149,7 +148,4 @@ public class QnameType extends BuiltinAtomicType implements Discrete {
 	public Class getJavaObjectType() {
 		return String[].class;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

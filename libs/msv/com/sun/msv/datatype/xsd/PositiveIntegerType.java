@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: PositiveIntegerType.java,v 1.16 2003/02/12 19:58:14 kk122374 Exp $
+ * @(#)$Id: PositiveIntegerType.java,v 1.14 2001/08/14 22:17:57 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -22,12 +22,7 @@ import org.relaxng.datatype.ValidationContext;
 public class PositiveIntegerType extends IntegerType {
 	
 	public static final PositiveIntegerType theInstance = new PositiveIntegerType();
-	private PositiveIntegerType() {
-        super("positiveInteger",createRangeFacet(
-            NonNegativeIntegerType.theInstance,
-            IntegerValueType.create("1"),
-            null));
-    }
+	private PositiveIntegerType() { super("positiveInteger"); }
 	
 	final public XSDatatype getBaseType() {
 		return NonNegativeIntegerType.theInstance;
@@ -41,7 +36,4 @@ public class PositiveIntegerType extends IntegerType {
 		if( !v.isPositive() )	return null;
 		return v;
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

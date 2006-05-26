@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ElementRule.java,v 1.9 2003/01/16 21:51:18 kk122374 Exp $
+ * @(#)$Id: ElementRule.java,v 1.7 2001/05/16 21:33:17 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,10 +9,7 @@
  */
 package com.sun.msv.grammar.relax;
 
-import com.sun.msv.grammar.ElementExp;
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.ExpressionPool;
-import com.sun.msv.grammar.NameClass;
+import com.sun.msv.grammar.*;
 
 /**
  * ElementRule declaration of RELAX.
@@ -44,7 +41,4 @@ public class ElementRule extends ElementExp {
 		this.clause = clause;
 		this.attributeFreeContentModel = contentModel;
 	}
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: XSFactoryImpl.java,v 1.5 2003/01/09 21:00:19 kk122374 Exp $
+ * @(#)$Id: XSFactoryImpl.java,v 1.4 2001/11/01 00:23:09 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,11 +9,11 @@
  */
 package com.sun.msv.verifier.jarv;
 
-import org.xml.sax.InputSource;
-
+import org.iso_relax.verifier.*;
 import com.sun.msv.grammar.Grammar;
 import com.sun.msv.reader.GrammarReaderController;
 import com.sun.msv.reader.xmlschema.XMLSchemaReader;
+import org.xml.sax.InputSource;
 
 /**
  * VerifierFactory implementation for XML Schema.

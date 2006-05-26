@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: IDConstraintChecker.java,v 1.12 2003/02/24 18:54:42 kk122374 Exp $
+ * @(#)$Id: IDConstraintChecker.java,v 1.10 2001/10/16 23:54:25 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,26 +9,30 @@
  */
 package com.sun.msv.verifier.identity;
 
+import java.util.Vector;
 import java.util.Map;
 import java.util.Set;
-import java.util.Vector;
-
-import org.relaxng.datatype.Datatype;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.Locator;
-import org.xml.sax.SAXException;
-
+import com.sun.msv.util.LightStack;
+import com.sun.msv.verifier.IVerifier;
+import com.sun.msv.verifier.ValidityViolation;
+import com.sun.msv.verifier.Verifier;
+import com.sun.msv.verifier.ErrorInfo;
+import com.sun.msv.verifier.Acceptor;
+import com.sun.msv.verifier.regexp.REDocumentDeclaration;
+import com.sun.msv.verifier.regexp.xmlschema.XSREDocDecl;
+import com.sun.msv.grammar.Expression;
+import com.sun.msv.grammar.ElementExp;
 import com.sun.msv.grammar.xmlschema.ElementDeclExp;
 import com.sun.msv.grammar.xmlschema.IdentityConstraint;
 import com.sun.msv.grammar.xmlschema.KeyRefConstraint;
 import com.sun.msv.grammar.xmlschema.XMLSchemaGrammar;
-import com.sun.msv.util.LightStack;
+import com.sun.msv.grammar.xmlschema.XMLSchemaTypeExp;
 import com.sun.msv.util.StartTagInfo;
-import com.sun.msv.verifier.Acceptor;
-import com.sun.msv.verifier.ErrorInfo;
-import com.sun.msv.verifier.ValidityViolation;
-import com.sun.msv.verifier.Verifier;
-import com.sun.msv.verifier.regexp.xmlschema.XSREDocDecl;
+import org.relaxng.datatype.Datatype;
+import org.xml.sax.SAXException;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.Attributes;
+import org.xml.sax.Locator;
 
 /**
  * Verifier with XML Schema-related enforcement.
@@ -212,7 +216,7 @@ public class IDConstraintChecker extends Verifier {
 		for( int i=0; i<len; i++ ) {
 			Matcher m = (Matcher)matchers.get(i);
 			m.onAttribute( uri, localName, value, 
-				(result==null || result.length==0)?null:result[0] );
+				(result==null)?null:result[0] );
 		}
 		
 		return result;

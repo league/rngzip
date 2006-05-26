@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: DataTypeWithFacet.java,v 1.32 2003/02/12 19:58:13 kk122374 Exp $
+ * @(#)$Id: DataTypeWithFacet.java,v 1.28 2002/11/07 16:50:03 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,9 +9,7 @@
  */
 package com.sun.msv.datatype.xsd;
 
-import org.relaxng.datatype.DatatypeException;
-import org.relaxng.datatype.ValidationContext;
-
+import org.relaxng.datatype.*;
 import com.sun.msv.datatype.SerializationContext;
 
 /**
@@ -32,9 +30,6 @@ public abstract class DataTypeWithFacet extends XSDatatypeImpl
 	/** name of this facet */
 	public final String facetName;
 	
-	/** a flag that indicates the facet is fixed (derived types cannot specify this value anymore) */
-	public final boolean isFacetFixed;
-	
 	/** a flag that indicates this type has value-constraint facet.
 	 * 
 	 * this value is used to cache this flag.
@@ -42,18 +37,17 @@ public abstract class DataTypeWithFacet extends XSDatatypeImpl
 	private final boolean needValueCheckFlag;
 	
 	/** constructor for facets other than WhiteSpaceFacet */
-	DataTypeWithFacet( String nsUri, String typeName, XSDatatypeImpl baseType, String facetName, boolean _isFixed )
+	DataTypeWithFacet( String nsUri, String typeName, XSDatatypeImpl baseType, String facetName, TypeIncubator facets )
 		throws DatatypeException {
-		this( nsUri, typeName, baseType, facetName, _isFixed, baseType.whiteSpace );
+		this( nsUri, typeName, baseType, facetName, facets, baseType.whiteSpace );
 	}
 	
 	/** constructor for WhiteSpaceFacet */
-	DataTypeWithFacet( String nsUri, String typeName, XSDatatypeImpl baseType, String facetName, boolean _isFixed, WhiteSpaceProcessor whiteSpace )
+	DataTypeWithFacet( String nsUri, String typeName, XSDatatypeImpl baseType, String facetName, TypeIncubator facets, WhiteSpaceProcessor whiteSpace )
 		throws DatatypeException {
 		super(nsUri,typeName, whiteSpace);
 		this.baseType = baseType;
 		this.facetName = facetName;
-		this.isFacetFixed = _isFixed;
 		this.concreteType = baseType.getConcreteType();
 		
 		needValueCheckFlag = baseType.needValueCheck();
@@ -64,8 +58,6 @@ public abstract class DataTypeWithFacet extends XSDatatypeImpl
 		case APPLICABLE:	return;	// this facet is applicable to this type. no problem.
 		case NOT_ALLOWED:
 			throw new DatatypeException( localize(ERR_NOT_APPLICABLE_FACET, facetName) );
-		case FIXED:
-			throw new DatatypeException( localize(ERR_OVERRIDING_FIXED_FACET, facetName) );
 		}
 	}
 	
@@ -83,11 +75,7 @@ public abstract class DataTypeWithFacet extends XSDatatypeImpl
 	}
 	
 	public final int isFacetApplicable( String facetName ) {
-		if( this.facetName.equals(facetName) ) {
-			if( isFacetFixed )		return FIXED;
-			else					return APPLICABLE;
-		} else
-			return baseType.isFacetApplicable(facetName);
+		return baseType.isFacetApplicable(facetName);
 	}
 	
 	protected boolean needValueCheck() { return needValueCheckFlag; }
@@ -140,7 +128,4 @@ public abstract class DataTypeWithFacet extends XSDatatypeImpl
 	protected abstract void diagnoseByFacet(String content, ValidationContext context)
 		throws DatatypeException;
 
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

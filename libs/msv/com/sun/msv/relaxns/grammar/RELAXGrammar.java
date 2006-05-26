@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: RELAXGrammar.java,v 1.3 2003/01/09 21:00:14 kk122374 Exp $
+ * @(#)$Id: RELAXGrammar.java,v 1.2 2001/05/01 18:13:23 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,10 +10,10 @@
 package com.sun.msv.relaxns.grammar;
 
 import java.util.Map;
-
 import com.sun.msv.grammar.Expression;
 import com.sun.msv.grammar.ExpressionPool;
 import com.sun.msv.grammar.Grammar;
+import org.iso_relax.dispatcher.IslandSchema;
 
 /**
  * "Grammar" of RELAX Namespace.

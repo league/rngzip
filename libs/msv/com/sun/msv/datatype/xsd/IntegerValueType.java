@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: IntegerValueType.java,v 1.14 2003/02/12 19:58:13 kk122374 Exp $
+ * @(#)$Id: IntegerValueType.java,v 1.12 2001/07/31 22:40:03 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -16,7 +16,7 @@ import java.math.BigInteger;
  * 
  * @author <a href="mailto:kohsuke.kawaguchi@eng.sun.com">Kohsuke KAWAGUCHI</a>
  */
-public class IntegerValueType extends Number implements Comparable, java.io.Serializable {
+public class IntegerValueType implements Comparable, java.io.Serializable {
 	/** canonical representation of absolute value of integer
 	 * 
 	 * BNF of canonical representation
@@ -182,24 +182,4 @@ public class IntegerValueType extends Number implements Comparable, java.io.Seri
 	public BigInteger toBigInteger() {
 		return new BigInteger(value);
 	}
-    
-    public double doubleValue() {
-        return toBigInteger().doubleValue();
-    }
-
-    public float floatValue() {
-        return (float)doubleValue();
-    }
-
-    public int intValue() {
-        return toBigInteger().intValue();
-    }
-
-    public long longValue() {
-        return toBigInteger().longValue();
-    }
-
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

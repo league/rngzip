@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ListState.java,v 1.2 2003/01/09 21:00:11 kk122374 Exp $
+ * @(#)$Id: ListState.java,v 1.1 2001/05/31 20:43:38 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,8 +9,8 @@
  */
 package com.sun.msv.reader.trex.ng;
 
-import com.sun.msv.grammar.Expression;
 import com.sun.msv.reader.SequenceState;
+import com.sun.msv.grammar.Expression;
 
 /**
  * state that parses &lt;list&gt; pattern of RELAX NG.

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ElementExp.java,v 1.9 2003/01/16 21:51:17 kk122374 Exp $
+ * @(#)$Id: ElementExp.java,v 1.8 2001/06/15 03:24:21 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -64,7 +64,4 @@ public abstract class ElementExp extends Expression implements NameClassAndExpre
 	
 	protected final boolean calcEpsilonReducibility()
 	{ return false; }
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

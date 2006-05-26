@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: DivInModuleState.java,v 1.11 2003/01/09 21:00:07 kk122374 Exp $
+ * @(#)$Id: DivInModuleState.java,v 1.10 2002/06/24 19:57:59 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,13 +9,15 @@
  */
 package com.sun.msv.reader.relax.core;
 
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.reader.ExpressionOwner;
-import com.sun.msv.reader.SimpleState;
-import com.sun.msv.reader.State;
+import java.util.Map;
+import org.xml.sax.Locator;
+//import com.sun.msv.datatype.xsd.XSDatatype;
+//import com.sun.msv.datatype.xsd.XSDatatypeImpl;
 import com.sun.msv.reader.datatype.xsd.XSDatatypeExp;
-import com.sun.msv.reader.datatype.xsd.XSTypeOwner;
 import com.sun.msv.util.StartTagInfo;
+import com.sun.msv.grammar.Expression;
+import com.sun.msv.reader.*;
+import com.sun.msv.reader.datatype.xsd.XSTypeOwner;
 
 /**
  * parses &lt;div&gt; element under &lt;module&gt; element.
@@ -50,7 +52,7 @@ public class DivInModuleState extends SimpleState implements ExpressionOwner, XS
 		
 		if( typeName==null ) {
             // top-level simpleType must define a named type
-			reader.reportError( RELAXCoreReader.ERR_MISSING_ATTRIBUTE, "simpleType", "name" );
+			reader.reportError( reader.ERR_MISSING_ATTRIBUTE, "simpleType", "name" );
 			return;	// recover by ignoring this declaration
 		}
 		

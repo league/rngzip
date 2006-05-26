@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: AttPoolClause.java,v 1.7 2003/01/16 21:51:18 kk122374 Exp $
+ * @(#)$Id: AttPoolClause.java,v 1.6 2001/05/16 20:11:28 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -45,7 +45,4 @@ public class AttPoolClause extends ReferenceExp implements Exportable {
 	public void visit( RELAXExpressionVisitorVoid visitor ) {
 		visitor.onAttPool(this);
 	}
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

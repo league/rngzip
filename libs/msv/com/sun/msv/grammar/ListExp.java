@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ListExp.java,v 1.3 2003/01/16 21:51:17 kk122374 Exp $
+ * @(#)$Id: ListExp.java,v 1.2 2001/06/15 03:24:21 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -28,7 +28,4 @@ public final class ListExp extends UnaryExp {
 	protected boolean calcEpsilonReducibility() {
 		return exp.isEpsilonReducible();
 	}
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

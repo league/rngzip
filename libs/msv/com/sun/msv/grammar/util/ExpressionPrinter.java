@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ExpressionPrinter.java,v 1.17 2003/01/09 21:00:04 kk122374 Exp $
+ * @(#)$Id: ExpressionPrinter.java,v 1.16 2001/10/18 23:52:11 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,23 +9,7 @@
  */
 package com.sun.msv.grammar.util;
 
-import com.sun.msv.grammar.AttributeExp;
-import com.sun.msv.grammar.BinaryExp;
-import com.sun.msv.grammar.ChoiceExp;
-import com.sun.msv.grammar.ConcurExp;
-import com.sun.msv.grammar.DataExp;
-import com.sun.msv.grammar.ElementExp;
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.ExpressionVisitor;
-import com.sun.msv.grammar.InterleaveExp;
-import com.sun.msv.grammar.ListExp;
-import com.sun.msv.grammar.MixedExp;
-import com.sun.msv.grammar.OneOrMoreExp;
-import com.sun.msv.grammar.OtherExp;
-import com.sun.msv.grammar.ReferenceContainer;
-import com.sun.msv.grammar.ReferenceExp;
-import com.sun.msv.grammar.SequenceExp;
-import com.sun.msv.grammar.ValueExp;
+import com.sun.msv.grammar.*;
 
 /**
  * creates a string representation of the expression.

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: AnyAttributeState.java,v 1.12 2003/01/09 21:00:12 kk122374 Exp $
+ * @(#)$Id: AnyAttributeState.java,v 1.11 2001/10/10 23:19:46 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -12,9 +12,15 @@ package com.sun.msv.reader.xmlschema;
 import com.sun.msv.grammar.Expression;
 import com.sun.msv.grammar.NameClass;
 import com.sun.msv.grammar.ReferenceExp;
+import com.sun.msv.grammar.ReferenceContainer;
+import com.sun.msv.grammar.xmlschema.XMLSchemaSchema;
 import com.sun.msv.grammar.xmlschema.AttributeDeclExp;
 import com.sun.msv.grammar.xmlschema.AttributeWildcard;
-import com.sun.msv.grammar.xmlschema.XMLSchemaSchema;
+import com.sun.msv.grammar.xmlschema.AttWildcardExp;
+import com.sun.msv.reader.State;
+import com.sun.msv.reader.GrammarReader;
+import java.util.StringTokenizer;
+import java.util.Iterator;
 
 /**
  * used to parse &lt;anyAttribute &gt; element.
@@ -35,7 +41,7 @@ public class AnyAttributeState extends AnyState {
 		else
 		if(process.equals("strict"))	mode = AttributeWildcard.STRICT;
 		else {
-			reader.reportError( XMLSchemaReader.ERR_BAD_ATTRIBUTE_VALUE, "processContents", process );
+			reader.reportError( reader.ERR_BAD_ATTRIBUTE_VALUE, "processContents", process );
 			mode = AttributeWildcard.SKIP;
 		}
 		

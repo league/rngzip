@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ElementRefState.java,v 1.6 2003/01/09 21:00:07 kk122374 Exp $
+ * @(#)$Id: ElementRefState.java,v 1.5 2001/05/01 18:13:06 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,6 +10,7 @@
 package com.sun.msv.reader.relax;
 
 import com.sun.msv.grammar.Expression;
+import com.sun.msv.grammar.relax.RELAXModule;
 
 /**
  * parses &lt;ref label="..." /&gt; element.

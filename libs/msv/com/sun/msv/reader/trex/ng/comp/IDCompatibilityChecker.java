@@ -1,26 +1,18 @@
 package com.sun.msv.reader.trex.ng.comp;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
-
-import org.relaxng.datatype.Datatype;
-import org.xml.sax.Locator;
-
-import com.sun.msv.grammar.AttributeExp;
-import com.sun.msv.grammar.DataExp;
-import com.sun.msv.grammar.DataOrValueExp;
-import com.sun.msv.grammar.ElementExp;
-import com.sun.msv.grammar.ListExp;
-import com.sun.msv.grammar.NameClass;
-import com.sun.msv.grammar.SimpleNameClass;
-import com.sun.msv.grammar.ValueExp;
+import com.sun.msv.grammar.*;
+import com.sun.msv.grammar.relaxng.RELAXNGGrammar;
 import com.sun.msv.grammar.util.ExpressionWalker;
 import com.sun.msv.grammar.util.RefExpRemover;
 import com.sun.msv.util.StringPair;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Vector;
+import org.relaxng.datatype.Datatype;
+import org.xml.sax.Locator;
 
 /**
  * checks the compatibility of RELAX NG grammar with the ID/IDREF feature.
@@ -180,7 +172,7 @@ class IDCompatibilityChecker extends CompatibilityChecker {
 		Iterator itr = elements.iterator();
 		final Vector vec = new Vector();	// IDAttMaps of the competing elements
 		while( itr.hasNext() ) {
-			final ElementExp eexp = (ElementExp)itr.next();
+			ElementExp eexp = (ElementExp)itr.next();
 			
 			// list up all competing elements.
 			vec.clear();
@@ -243,7 +235,6 @@ class IDCompatibilityChecker extends CompatibilityChecker {
 								reportCompError(
 									new Locator[]{
 										reader.getDeclaredLocationOf(exp),
-                                        reader.getDeclaredLocationOf(eexp),
 										reader.getDeclaredLocationOf(iam.sampleDecl)},
 									CERR_COMPETING2,
 									new Object[]{

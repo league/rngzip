@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: LanguageType.java,v 1.17 2003/01/16 23:47:01 ryans Exp $
+ * @(#)$Id: LanguageType.java,v 1.15 2002/11/07 16:49:29 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,6 +9,7 @@
  */
 package com.sun.msv.datatype.xsd;
 
+import java.util.Hashtable;
 import org.relaxng.datatype.ValidationContext;
 
 
@@ -61,7 +62,4 @@ public class LanguageType extends TokenType {
 		
 		return content.toLowerCase();
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

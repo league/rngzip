@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: InterfaceState.java,v 1.3 2003/01/09 21:00:08 kk122374 Exp $
+ * @(#)$Id: InterfaceState.java,v 1.2 2001/05/01 18:13:09 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,11 +9,12 @@
  */
 package com.sun.msv.reader.relax.core;
 
-import com.sun.msv.grammar.relax.RELAXModule;
-import com.sun.msv.reader.ChildlessState;
-import com.sun.msv.reader.SimpleState;
-import com.sun.msv.reader.State;
 import com.sun.msv.util.StartTagInfo;
+import com.sun.msv.reader.State;
+import com.sun.msv.reader.SimpleState;
+import com.sun.msv.grammar.relax.RELAXModule;
+import com.sun.msv.grammar.Expression;
+import com.sun.msv.reader.ChildlessState;
 
 /**
  * parses &lt;interface&gt; element and &lt;div&gt; in interface.
@@ -37,7 +38,7 @@ public class InterfaceState extends SimpleState
 			if(label!=null)
 				module.elementRules.getOrCreate(label).exported = true;
 			else
-				reader.reportError(RELAXCoreReader.ERR_MISSING_ATTRIBUTE,
+				reader.reportError(reader.ERR_MISSING_ATTRIBUTE,
 								   "export", "label" );
 				// recover by ignoring this export
 			

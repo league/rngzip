@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: OneOrMoreExp.java,v 1.6 2003/01/16 21:51:17 kk122374 Exp $
+ * @(#)$Id: OneOrMoreExp.java,v 1.5 2001/05/16 21:33:16 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -25,7 +25,4 @@ public final class OneOrMoreExp extends UnaryExp {
 	protected boolean calcEpsilonReducibility() {
 		return exp.isEpsilonReducible();
 	}
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

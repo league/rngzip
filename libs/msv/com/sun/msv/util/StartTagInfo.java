@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: StartTagInfo.java,v 1.10 2003/01/09 21:00:17 kk122374 Exp $
+ * @(#)$Id: StartTagInfo.java,v 1.9 2001/10/08 23:58:16 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,9 +10,8 @@
 package com.sun.msv.util;
 
 import org.xml.sax.Attributes;
-
-import com.sun.msv.datatype.xsd.WhiteSpaceProcessor;
 import com.sun.msv.grammar.IDContextProvider;
+import com.sun.msv.datatype.xsd.WhiteSpaceProcessor;
 
 /**
  * immutable start tag information

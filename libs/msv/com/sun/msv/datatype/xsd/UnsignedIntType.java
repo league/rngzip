@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: UnsignedIntType.java,v 1.16 2003/02/12 19:58:15 kk122374 Exp $
+ * @(#)$Id: UnsignedIntType.java,v 1.14 2001/08/14 22:17:59 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -26,12 +26,7 @@ import org.relaxng.datatype.ValidationContext;
 public class UnsignedIntType extends LongType {
 	
 	public static final UnsignedIntType theInstance = new UnsignedIntType();
-	private UnsignedIntType() {
-        super("unsignedInt",createRangeFacet(
-            UnsignedLongType.theInstance,
-            null,
-            new Long(4294967295L)));
-    }
+	private UnsignedIntType() { super("unsignedInt"); }
 	
 	final public XSDatatype getBaseType() {
 		return UnsignedLongType.theInstance;
@@ -52,7 +47,4 @@ public class UnsignedIntType extends LongType {
 			return null;
 		}
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

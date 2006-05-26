@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: MatcherBundle.java,v 1.3 2003/01/09 21:00:18 kk122374 Exp $
+ * @(#)$Id: MatcherBundle.java,v 1.2 2001/08/08 00:01:20 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,8 +9,9 @@
  */
 package com.sun.msv.verifier.identity;
 
-import org.relaxng.datatype.Datatype;
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+import org.relaxng.datatype.Datatype;
 
 /**
  * Base implementation of Matcher coordinator.

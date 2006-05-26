@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: AttributeDeclExp.java,v 1.8 2003/01/16 21:51:20 kk122374 Exp $
+ * @(#)$Id: AttributeDeclExp.java,v 1.6 2001/07/28 02:50:39 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,8 +9,8 @@
  */
 package com.sun.msv.grammar.xmlschema;
 
-import com.sun.msv.grammar.AttributeExp;
 import com.sun.msv.grammar.ReferenceExp;
+import com.sun.msv.grammar.AttributeExp;
 
 /**
  * global attribute declaration.
@@ -39,7 +39,4 @@ public class AttributeDeclExp extends ReferenceExp {
 		self = exp;
 		this.exp = self;
 	}
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

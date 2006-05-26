@@ -1,47 +1,12 @@
 package com.sun.msv.writer.relaxng;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Vector;
-
+import com.sun.msv.grammar.*;
+import com.sun.msv.writer.*;
+import com.sun.msv.datatype.SerializationContext;
+import com.sun.msv.datatype.xsd.*;
 import org.relaxng.datatype.Datatype;
 import org.relaxng.datatype.ValidationContext;
-
-import com.sun.msv.datatype.SerializationContext;
-import com.sun.msv.datatype.xsd.ConcreteType;
-import com.sun.msv.datatype.xsd.DataTypeWithFacet;
-import com.sun.msv.datatype.xsd.EnumerationFacet;
-import com.sun.msv.datatype.xsd.FinalComponent;
-import com.sun.msv.datatype.xsd.FractionDigitsFacet;
-import com.sun.msv.datatype.xsd.LengthFacet;
-import com.sun.msv.datatype.xsd.ListType;
-import com.sun.msv.datatype.xsd.MaxLengthFacet;
-import com.sun.msv.datatype.xsd.MinLengthFacet;
-import com.sun.msv.datatype.xsd.PatternFacet;
-import com.sun.msv.datatype.xsd.RangeFacet;
-import com.sun.msv.datatype.xsd.TokenType;
-import com.sun.msv.datatype.xsd.TotalDigitsFacet;
-import com.sun.msv.datatype.xsd.UnionType;
-import com.sun.msv.datatype.xsd.WhiteSpaceFacet;
-import com.sun.msv.datatype.xsd.XSDatatype;
-import com.sun.msv.datatype.xsd.XSDatatypeImpl;
-import com.sun.msv.grammar.AttributeExp;
-import com.sun.msv.grammar.BinaryExp;
-import com.sun.msv.grammar.ChoiceExp;
-import com.sun.msv.grammar.ConcurExp;
-import com.sun.msv.grammar.DataExp;
-import com.sun.msv.grammar.ElementExp;
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.ExpressionVisitorVoid;
-import com.sun.msv.grammar.InterleaveExp;
-import com.sun.msv.grammar.ListExp;
-import com.sun.msv.grammar.MixedExp;
-import com.sun.msv.grammar.OneOrMoreExp;
-import com.sun.msv.grammar.OtherExp;
-import com.sun.msv.grammar.ReferenceExp;
-import com.sun.msv.grammar.SequenceExp;
-import com.sun.msv.grammar.ValueExp;
-import com.sun.msv.writer.XMLWriter;
+import java.util.*;
 
 /**
  * Visits Expression and writes it as RELAX NG.
@@ -327,10 +292,10 @@ public abstract class PatternWriter implements ExpressionVisitorVoid {
 			if( dtf instanceof PatternFacet ) {
 				String pattern = "";
 				PatternFacet pf = (PatternFacet)dtf;
-				//for( int j=0; j<pf.getRegExps().length; j++ ) {
-				//	if( pattern.length()!=0 )	pattern += "|";
-				//	pattern += pf.patterns[j];
-				//}
+				for( int j=0; j<pf.getRegExps().length; j++ ) {
+					if( pattern.length()!=0 )	pattern += "|";
+					pattern += pf.patterns[j];
+				}
 				param("pattern",pattern);
 			} else
 			if( dtf instanceof TotalDigitsFacet ) {
@@ -399,9 +364,9 @@ public abstract class PatternWriter implements ExpressionVisitorVoid {
 			
 		ListType base = (ListType)dt.getConcreteType();
 			
-		if( dt.getFacetObject(XSDatatype.FACET_LENGTH)!=null ) {
+		if( dt.getFacetObject(dt.FACET_LENGTH)!=null ) {
 			// with the length facet.
-			int len = ((LengthFacet)dt.getFacetObject(XSDatatype.FACET_LENGTH)).length;
+			int len = ((LengthFacet)dt.getFacetObject(dt.FACET_LENGTH)).length;
 			writer.start("list");
 			for( int i=0; i<len; i++ )
 				serializeDataType(base.itemType);
@@ -410,10 +375,10 @@ public abstract class PatternWriter implements ExpressionVisitorVoid {
 			return;
 		}
 			
-		if( dt.getFacetObject(XSDatatype.FACET_MAXLENGTH)!=null )
+		if( dt.getFacetObject(dt.FACET_MAXLENGTH)!=null )
 			throw new UnsupportedOperationException("warning: maxLength facet to list type is not properly converted.");
 
-		MinLengthFacet minLength = (MinLengthFacet)dt.getFacetObject(XSDatatype.FACET_MINLENGTH);
+		MinLengthFacet minLength = (MinLengthFacet)dt.getFacetObject(dt.FACET_MINLENGTH);
 			
 		writer.start("list");
 		if( minLength!=null ) {

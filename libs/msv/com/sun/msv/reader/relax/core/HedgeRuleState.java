@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: HedgeRuleState.java,v 1.3 2003/01/09 21:00:08 kk122374 Exp $
+ * @(#)$Id: HedgeRuleState.java,v 1.2 2001/05/01 18:13:08 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -27,7 +27,7 @@ public class HedgeRuleState extends HedgeRuleBaseState
 		final String label = startTag.getAttribute("label");
 		if( label==null )
 		{
-			reader.reportError( RELAXCoreReader.ERR_MISSING_ATTRIBUTE, "hedgeRule", "label" );
+			reader.reportError( reader.ERR_MISSING_ATTRIBUTE, "hedgeRule", "label" );
 			return;	// recover by ignoring this hedgeRule
 		}
 		

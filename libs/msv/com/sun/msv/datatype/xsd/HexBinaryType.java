@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: HexBinaryType.java,v 1.19 2003/01/16 23:47:01 ryans Exp $
+ * @(#)$Id: HexBinaryType.java,v 1.17 2002/03/09 15:27:06 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,9 +9,8 @@
  */
 package com.sun.msv.datatype.xsd;
 
-import org.relaxng.datatype.ValidationContext;
-
 import com.sun.msv.datatype.SerializationContext;
+import org.relaxng.datatype.ValidationContext;
 
 /**
  * "hexBinary" type.
@@ -105,7 +104,4 @@ public class HexBinaryType extends BinaryBaseType {
 		if( ch<10 )		return (char)('0'+ch);
 		else			return (char)('A'+(ch-10));
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

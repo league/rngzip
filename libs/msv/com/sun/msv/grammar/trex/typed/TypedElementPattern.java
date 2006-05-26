@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: TypedElementPattern.java,v 1.6 2003/01/16 21:51:20 kk122374 Exp $
+ * @(#)$Id: TypedElementPattern.java,v 1.5 2001/05/16 21:33:19 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -28,7 +28,4 @@ public class TypedElementPattern extends ElementPattern {
 		super(nameClass,contentModel);
 		this.label = label;
 	}
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

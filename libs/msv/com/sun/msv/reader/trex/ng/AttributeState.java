@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: AttributeState.java,v 1.3 2003/01/09 21:00:10 kk122374 Exp $
+ * @(#)$Id: AttributeState.java,v 1.2 2001/10/31 19:56:22 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,13 +9,7 @@
  */
 package com.sun.msv.reader.trex.ng;
 
-import com.sun.msv.grammar.AnyNameClass;
-import com.sun.msv.grammar.ChoiceNameClass;
-import com.sun.msv.grammar.DifferenceNameClass;
-import com.sun.msv.grammar.NameClassVisitor;
-import com.sun.msv.grammar.NamespaceNameClass;
-import com.sun.msv.grammar.NotNameClass;
-import com.sun.msv.grammar.SimpleNameClass;
+import com.sun.msv.grammar.*;
 
 /**
  * parses &lt;attribute&gt; pattern.

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: IntegerType.java,v 1.23 2003/02/12 19:58:13 kk122374 Exp $
+ * @(#)$Id: IntegerType.java,v 1.20 2002/03/09 16:28:24 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,10 +9,8 @@
  */
 package com.sun.msv.datatype.xsd;
 
-import java.math.BigInteger;
-
-import org.relaxng.datatype.DatatypeException;
 import org.relaxng.datatype.ValidationContext;
+import java.math.BigInteger;
 
 /**
  * "integer" type.
@@ -24,25 +22,9 @@ import org.relaxng.datatype.ValidationContext;
  */
 public class IntegerType extends IntegerDerivedType {
 	
-    /** Singleton instance. */
-	public static final IntegerType theInstance;
-    
-    static {
-        try {
-            theInstance = new IntegerType("integer",
-                new FractionDigitsFacet(null,null,NumberType.theInstance,0,true) );
-        } catch( DatatypeException e ) {
-            throw new InternalError();  // assertion failure
-        }
-    }
-
+	public static final IntegerType theInstance = new IntegerType("integer");
+	protected IntegerType(String typeName) { super(typeName); }
 	
-    
-    protected IntegerType(String typeName,XSDatatypeImpl baseFacets) {
-        super(typeName,baseFacets);
-    }
-    
-    
 	public XSDatatype getBaseType() {
 		return NumberType.theInstance;
 	}
@@ -72,9 +54,4 @@ public class IntegerType extends IntegerDerivedType {
 	public Class getJavaObjectType() {
 		return BigInteger.class;
 	}
-    
-
-    
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

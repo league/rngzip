@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: UnsignedByteType.java,v 1.17 2003/02/12 19:58:14 kk122374 Exp $
+ * @(#)$Id: UnsignedByteType.java,v 1.15 2001/08/14 22:17:58 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -21,12 +21,7 @@ import org.relaxng.datatype.ValidationContext;
  */
 public class UnsignedByteType extends ShortType {
 	public static final UnsignedByteType theInstance = new UnsignedByteType();
-	private UnsignedByteType() {
-        super("unsignedByte",createRangeFacet(
-            UnsignedShortType.theInstance,
-            null,
-            new Short((short)255)));
-    }
+	private UnsignedByteType() { super("unsignedByte"); }
 
     /** upper bound value. this is the maximum possible valid value as an unsigned int */
     private static final short upperBound = 255;
@@ -47,7 +42,4 @@ public class UnsignedByteType extends ShortType {
 			return null;
 		}
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }

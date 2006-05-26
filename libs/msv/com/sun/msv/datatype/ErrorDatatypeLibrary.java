@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: ErrorDatatypeLibrary.java,v 1.2 2003/01/07 00:17:02 kk122374 Exp $
+ * @(#)$Id: ErrorDatatypeLibrary.java,v 1.1 2001/10/09 19:23:02 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,11 +9,7 @@
  */
 package com.sun.msv.datatype;
 
-import org.relaxng.datatype.Datatype;
-import org.relaxng.datatype.DatatypeBuilder;
-import org.relaxng.datatype.DatatypeLibrary;
-import org.relaxng.datatype.ValidationContext;
-
+import org.relaxng.datatype.*;
 import com.sun.msv.datatype.xsd.StringType;
 
 /**

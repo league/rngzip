@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: BuiltinDatatypeLibrary.java,v 1.6 2003/01/09 21:00:03 kk122374 Exp $
+ * @(#)$Id: BuiltinDatatypeLibrary.java,v 1.5 2001/09/19 02:11:29 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,10 +9,7 @@
  */
 package com.sun.msv.grammar.relaxng.datatype;
 
-import org.relaxng.datatype.Datatype;
-import org.relaxng.datatype.DatatypeBuilder;
-import org.relaxng.datatype.DatatypeException;
-import org.relaxng.datatype.DatatypeLibrary;
+import org.relaxng.datatype.*;
 
 /**
  * RELAX NG built-in datatypes.

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: Util.java,v 1.5 2003/01/09 21:00:17 kk122374 Exp $
+ * @(#)$Id: Util.java,v 1.4 2002/04/28 22:58:45 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,11 +9,10 @@
  */
 package com.sun.msv.util;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import org.xml.sax.InputSource;
+import java.io.File;
+import java.net.URL;
+import java.net.MalformedURLException;
 
 /**
  * Collection of utility methods.

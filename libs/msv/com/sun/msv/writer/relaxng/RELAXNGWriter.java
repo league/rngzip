@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: RELAXNGWriter.java,v 1.19 2003/01/09 21:00:23 kk122374 Exp $
+ * @(#)$Id: RELAXNGWriter.java,v 1.18 2002/03/29 19:40:55 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,49 +9,29 @@
  */
 package com.sun.msv.writer.relaxng;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
-import org.xml.sax.DocumentHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.LocatorImpl;
-
-import com.sun.msv.grammar.AnyNameClass;
-import com.sun.msv.grammar.AttributeExp;
-import com.sun.msv.grammar.BinaryExp;
-import com.sun.msv.grammar.ChoiceExp;
-import com.sun.msv.grammar.ChoiceNameClass;
-import com.sun.msv.grammar.ConcurExp;
-import com.sun.msv.grammar.DataExp;
-import com.sun.msv.grammar.DifferenceNameClass;
-import com.sun.msv.grammar.ElementExp;
-import com.sun.msv.grammar.Expression;
-import com.sun.msv.grammar.ExpressionCloner;
-import com.sun.msv.grammar.ExpressionVisitor;
-import com.sun.msv.grammar.Grammar;
-import com.sun.msv.grammar.InterleaveExp;
-import com.sun.msv.grammar.ListExp;
-import com.sun.msv.grammar.MixedExp;
-import com.sun.msv.grammar.NameClass;
-import com.sun.msv.grammar.NameClassVisitor;
-import com.sun.msv.grammar.NamespaceNameClass;
-import com.sun.msv.grammar.OneOrMoreExp;
-import com.sun.msv.grammar.OtherExp;
-import com.sun.msv.grammar.ReferenceExp;
-import com.sun.msv.grammar.SequenceExp;
-import com.sun.msv.grammar.SimpleNameClass;
-import com.sun.msv.grammar.ValueExp;
+import org.relaxng.datatype.*;
+import org.relaxng.datatype.Datatype;
+import com.sun.msv.grammar.*;
 import com.sun.msv.grammar.util.ExpressionWalker;
 import com.sun.msv.grammar.util.PossibleNamesCollector;
-import com.sun.msv.reader.datatype.xsd.XSDVocabulary;
+import com.sun.msv.datatype.SerializationContext;
+import com.sun.msv.datatype.xsd.*;
 import com.sun.msv.reader.trex.ng.RELAXNGReader;
+import com.sun.msv.reader.datatype.xsd.XSDVocabulary;
+import com.sun.msv.datatype.xsd.XSDatatypeImpl;
+import com.sun.msv.writer.*;
 import com.sun.msv.util.StringPair;
-import com.sun.msv.writer.GrammarWriter;
-import com.sun.msv.writer.SAXRuntimeException;
-import com.sun.msv.writer.XMLWriter;
+import org.xml.sax.DocumentHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributeListImpl;
+import org.xml.sax.helpers.LocatorImpl;
+import java.util.Iterator;
+import java.util.Stack;
+import java.util.Map;
+import java.util.Set;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Vector;
 
 /**
  * converts any Grammar into RELAX NG XML representation through SAX1 events.

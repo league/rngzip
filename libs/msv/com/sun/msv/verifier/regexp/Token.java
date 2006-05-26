@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: Token.java,v 1.11 2003/01/09 21:00:22 kk122374 Exp $
+ * @(#)$Id: Token.java,v 1.10 2001/10/19 23:59:21 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,11 +9,7 @@
  */
 package com.sun.msv.verifier.regexp;
 
-import com.sun.msv.grammar.AttributeExp;
-import com.sun.msv.grammar.DataExp;
-import com.sun.msv.grammar.ElementExp;
-import com.sun.msv.grammar.ListExp;
-import com.sun.msv.grammar.ValueExp;
+import com.sun.msv.grammar.*;
 
 /**
  * primitive unit of XML instance.

@@ -1,8 +1,7 @@
 package com.sun.msv.reader.trex.ng.comp;
 
-import org.xml.sax.Locator;
-
 import com.sun.msv.grammar.relaxng.RELAXNGGrammar;
+import org.xml.sax.Locator;
 
 abstract class CompatibilityChecker {
 	

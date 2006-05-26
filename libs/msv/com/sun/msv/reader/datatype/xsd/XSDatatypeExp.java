@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: XSDatatypeExp.java,v 1.5 2003/01/09 21:00:06 kk122374 Exp $
+ * @(#)$Id: XSDatatypeExp.java,v 1.4 2002/10/06 18:07:05 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,25 +9,23 @@
  */
 package com.sun.msv.reader.datatype.xsd;
 
+import com.sun.msv.grammar.ReferenceExp;
+import com.sun.msv.grammar.ExpressionPool;
+import com.sun.msv.reader.GrammarReader;
+import com.sun.msv.reader.State;
+import com.sun.msv.datatype.xsd.XSDatatype;
+import com.sun.msv.datatype.xsd.XSDatatypeImpl;
+import com.sun.msv.datatype.xsd.TypeIncubator;
+import com.sun.msv.datatype.xsd.DatatypeFactory;
+import com.sun.msv.datatype.xsd.FinalComponent;
+import com.sun.msv.datatype.xsd.StringType;
+import org.relaxng.datatype.ValidationContext;
+import org.relaxng.datatype.DatatypeException;
+import org.xml.sax.Locator;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Stack;
 import java.util.Vector;
-
-import org.relaxng.datatype.DatatypeException;
-import org.relaxng.datatype.ValidationContext;
-import org.xml.sax.Locator;
-
-import com.sun.msv.datatype.xsd.DatatypeFactory;
-import com.sun.msv.datatype.xsd.FinalComponent;
-import com.sun.msv.datatype.xsd.StringType;
-import com.sun.msv.datatype.xsd.TypeIncubator;
-import com.sun.msv.datatype.xsd.XSDatatype;
-import com.sun.msv.datatype.xsd.XSDatatypeImpl;
-import com.sun.msv.grammar.ExpressionPool;
-import com.sun.msv.grammar.ReferenceExp;
-import com.sun.msv.reader.GrammarReader;
-import com.sun.msv.reader.State;
 
 /**
  * A wrapper of XSDatatype that serves as an expression
@@ -85,8 +83,8 @@ public class XSDatatypeExp extends ReferenceExp implements GrammarReader.BackPat
         return new XSTypeIncubator() {
             private final TypeIncubator core = new TypeIncubator(dt);
             
-            public void addFacet( String name, String value, boolean fixed, ValidationContext context ) throws DatatypeException {
-                core.addFacet(name,value,fixed,context);
+            public void addFacet( String name, String value, ValidationContext context ) throws DatatypeException {
+                core.addFacet(name,value,context);
             }
             public XSDatatypeExp derive(String uri,String localName) throws DatatypeException {
                 return new XSDatatypeExp( core.derive(uri,localName), pool );
@@ -142,7 +140,7 @@ public class XSDatatypeExp extends ReferenceExp implements GrammarReader.BackPat
 				
 			ownerState.reader.reportError(
 				(Locator[])locs.toArray(new Locator[0]),
-            GrammarReader.ERR_RECURSIVE_DATATYPE, null );
+				ownerState.reader.ERR_RECURSIVE_DATATYPE, null );
 			return StringType.theInstance;
 		}
 		context.callStack.push(this);
@@ -150,7 +148,7 @@ public class XSDatatypeExp extends ReferenceExp implements GrammarReader.BackPat
 		try {
 			dt = renderer.render(context);
 		} catch( DatatypeException e ) {
-			ownerState.reader.reportError( GrammarReader.ERR_BAD_TYPE,
+			ownerState.reader.reportError( ownerState.reader.ERR_BAD_TYPE,
 				new Object[]{e}, e, new Locator[]{ownerState.getLocation()} );
 			dt = StringType.theInstance;	// recover by assuming a valid type.
 		}

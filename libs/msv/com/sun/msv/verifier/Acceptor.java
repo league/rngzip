@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: Acceptor.java,v 1.16 2003/01/09 21:00:18 kk122374 Exp $
+ * @(#)$Id: Acceptor.java,v 1.15 2001/08/14 22:18:09 Bear Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -9,10 +9,12 @@
  */
 package com.sun.msv.verifier;
 
+import java.util.Collection;
+import java.util.List;
 import com.sun.msv.grammar.IDContextProvider;
-import com.sun.msv.util.DatatypeRef;
 import com.sun.msv.util.StartTagInfo;
 import com.sun.msv.util.StringRef;
+import com.sun.msv.util.DatatypeRef;
 
 /**
  * exposes the low-level validation engine interface.

@@ -1,5 +1,5 @@
 /*
- * @(#)$Id: EntityType.java,v 1.23 2003/01/16 23:47:00 ryans Exp $
+ * @(#)$Id: EntityType.java,v 1.21 2002/10/08 22:01:27 kk122374 Exp $
  *
  * Copyright 2001 Sun Microsystems, Inc. All Rights Reserved.
  * 
@@ -10,7 +10,6 @@
 package com.sun.msv.datatype.xsd;
 
 import org.relaxng.datatype.ValidationContext;
-
 import com.sun.msv.datatype.SerializationContext;
 
 /**
@@ -66,7 +65,4 @@ public class EntityType extends BuiltinAtomicType {
 		else
 			throw new IllegalArgumentException();
 	}
-
-    // serialization support
-    private static final long serialVersionUID = 1;    
 }
