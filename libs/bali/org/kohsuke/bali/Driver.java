@@ -495,7 +495,7 @@ public class Driver {
             spf,
             new RELAXNGReader.StateFactory() {
                 // return our DatatypeLibrary implementation
-                public DatatypeLibrary resolveDataTypeLibrary( String namespaceURI ) {
+                public DatatypeLibrary getDatatypeLibrary( String namespaceURI ) {
                     return new DatatypeLibraryImpl(namespaceURI);
                 }
             },
@@ -542,17 +542,5 @@ public class Driver {
         RELAXNGWriter writer = new RELAXNGWriter();
         // removing dependence on org.apache.xml.serialize.*
         throw new UnsupportedOperationException("loadOtherGrammar");
-        /*
-        writer.setDocumentHandler(new XMLSerializer( baos,
-                new OutputFormat("xml",null,true) ) );
-        writer.write(grammar);
-        baos.close();
-        
-        // re-parse it as RELAX NG grammar
-        RELAXNGReader reader = createRELAXNGReader();
-        reader.parse(new InputSource(new ByteArrayInputStream(baos.toByteArray())));
-        
-        return reader.getResult();
-        */
     }
 }
