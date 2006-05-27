@@ -177,6 +177,7 @@ mostlyclean:
 	$(RM) $(patsubst %.xml,%.rnz,$(TEST_XML_CASES))
 	$(RM) $(patsubst %.xml,%.xin,$(TEST_XML_CASES))
 	$(RM) $(patsubst %.xml,%.xout,$(TEST_XML_CASES))
+	$(RM) $(patsubst %.rnc,%.txt,$(TEST_RNC_SCHEMATA))
 	$(RM) test-log.txt files manifest.txt *~
 
 # Delete files that are normally created by building the program.
