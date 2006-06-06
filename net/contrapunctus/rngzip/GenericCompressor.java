@@ -116,7 +116,7 @@ class GenericCompressor extends Compressor
       {
          int n = matches.size();
          if(DEBUG) {
-            dbg.printf("Tracer: %d match(es)%n", n);
+            dbg.printf("GenericVisitor: %d match(es)%n", n);
          }
          if(n == 0) {
             return false;
@@ -190,7 +190,7 @@ class GenericCompressor extends Compressor
          expecting.append(a);
          return Boolean.FALSE; 
       }
-   }
+   } // end class GenericVisitor
 
    private class AttributeTracer extends GenericVisitor
    {
@@ -210,7 +210,7 @@ class GenericCompressor extends Compressor
       protected SingletonState makeState(int id, boolean child_p)
       {
          if(DEBUG) {
-            dbg.printf("Tracer: making %s state #%d: @%s='%s' [%s]%n",
+            dbg.printf("AttributeTracer: making %s state #%d: @%s='%s' [%s]%n",
                        child_p? "CHILD" : "SIBLING", id,
                        attr, value, top_p? "TOP" : "NESTED");
          }
@@ -233,6 +233,9 @@ class GenericCompressor extends Compressor
       }
       public Object attribute(AttributeAlphabet a) 
       {
+        if(DEBUG) {
+          dbg.printf("AttributeTracer: attr: '%s'%n", a);
+        }
          for(Integer k : atts.keySet()) {
             if(a.name.accepts(k)) {
                attr = decodeName(k);
@@ -244,6 +247,9 @@ class GenericCompressor extends Compressor
       }      
       public Object nonExistentAttribute(NonExistentAttributeAlphabet a)
       {
+        if(DEBUG) {
+          dbg.printf("AttributeTracer: non-exist attr: '%s'%n", a);
+        }
          for(Integer k : atts.keySet()) {
             if(a.accepts(k)) {
                return super.nonExistentAttribute(a);
@@ -254,7 +260,7 @@ class GenericCompressor extends Compressor
       public Object data(DataAlphabet a) 
       {
          if(DEBUG) {
-            dbg.printf("Tracer: data value '%s'%n", value);
+            dbg.printf("AttributeTracer: data value '%s'%n", value);
          }
          if(value == null) {
             return Boolean.FALSE;
@@ -276,7 +282,7 @@ class GenericCompressor extends Compressor
          }
          Value goal = (Value) a.value;
          if(DEBUG) {
-            dbg.printf("Tracer: testing value '%s' alphabet '%s': ", 
+            dbg.printf("AttributeTracer: testing value '%s' alphabet '%s': ", 
                               value, goal.value);
          }
          if(value.equals(goal.value)) {
@@ -289,7 +295,7 @@ class GenericCompressor extends Compressor
             return Boolean.FALSE;
          }
       }
-   }
+   } // end class AttributeTracer
 
    private class ElementFinder extends GenericVisitor
    {
@@ -302,12 +308,16 @@ class GenericCompressor extends Compressor
       }   
       public Object element( ElementAlphabet a ) 
       {
-         if(a.name.accepts(elt)) {
+        boolean p = a.name.accepts(elt);
+        if(DEBUG) {
+          dbg.printf("ElementFinder: alpha '%s' -> %b%n", a, p);
+        }
+        if(p) {
             return Boolean.TRUE;
          }
          return super.element(a);
       }
-   }      
+   } // end class ElementFinder
 
    private class CharMatcher extends GenericVisitor
    {
@@ -329,7 +339,7 @@ class GenericCompressor extends Compressor
       {
          return Boolean.TRUE;
       }
-   }
+   } // end class CharMatcher
    
    private class CState extends SingletonState
    {
@@ -337,11 +347,14 @@ class GenericCompressor extends Compressor
       private String attr, value;
       public String toString() 
       {
-         if(value == null) {
-            return "#"+id; 
-         }
-         return "#"+id+"@"+attr+
-            ((value.length() == 0)? "_" : "~");
+        String s = "#"+id;
+        if(value != null) {
+          s += "@"+attr+((value.length() == 0)? "_" : "~");
+        }
+        if(next != null) {
+          s += ","+next;
+        }
+        return s;
       }
       private CState(int id) { this.id = id; }
       private CState(int id, String at, String val) { 
@@ -399,7 +412,7 @@ class GenericCompressor extends Compressor
             st.writeChoice(ces[id], n-1);
          }
       }
-   }
+   } // end class CState
    
    public static void main(String[] args) throws Exception
    {

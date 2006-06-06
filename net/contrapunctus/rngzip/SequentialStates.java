@@ -107,10 +107,6 @@ public class SequentialStates extends CompositeState
    public void show(PrintWriter pw)
    {
       pw.print(stack);
-      for(SingletonState si = stack.next;  si != null;  si = si.next) {
-         pw.print(',');
-         pw.print(si);
-      }
    }
 
    public ChoiceEncoder makeChoiceEncoder(int limit, Object id)

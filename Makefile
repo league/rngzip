@@ -127,6 +127,10 @@ test: nofiles $(TEST_CLASSES) compilefiles $(TEST_RNG_SCHEMATA)
 %.rng: %.rnc
 	$(TRANG) $^ $@
 
+%.txt: %.rng
+	$(JVM) $(ALL_JVM_FLAGS) -cp $(BUILD) \
+	       org.kohsuke.bali.Driver -ot $^ >$@
+
 # Useful for interactive runs: `make jvm` blah blah
 
 jvm:
