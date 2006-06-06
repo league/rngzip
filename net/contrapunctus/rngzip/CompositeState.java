@@ -20,7 +20,7 @@ abstract class CompositeState
       chars( char[] buf, int start, int length ) throws IOException;
 
    public abstract CompositeState 
-      end( ) throws IOException;
+      end( Map<Integer,String> att ) throws IOException;
 
    public abstract void 
       show(PrintWriter ps);

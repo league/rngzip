@@ -382,8 +382,12 @@ class GenericCompressor extends Compressor
       {
          if(DEBUG) {
             dbg.printf
-               ("%s  <> ATTRS (epsilon=%b; final=%b; elts=...%s)%n", 
+               ("%s  <> ATTRS (epsilon=%b; final=%b; elts=...%s; atts=", 
                 this, au.isEpsilon(id), au.isFinal(id), elts.peek());
+            for(int k : atts.keySet()) {
+              dbg.printf("@%s ", decodeName(k));
+            }
+            dbg.printf(")%n");
          }
          if(attr != null && au.isEpsilon(id)) {
             st.pop();

@@ -83,11 +83,11 @@ class ParallelStates extends CompositeState
       return next();
    }
    
-   public CompositeState end() throws IOException
+   public CompositeState end(Map<Integer,String> att) throws IOException
    {
       for(Iterator<SequentialStates> i = vec.iterator(); i.hasNext(); ) {
          try {
-            i.next().end();
+            i.next().end(att);
          }
          catch(IllegalStateException x) {
             exn = x;

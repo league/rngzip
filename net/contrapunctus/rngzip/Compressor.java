@@ -2,14 +2,15 @@ package net.contrapunctus.rngzip;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Stack;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
+import net.contrapunctus.rngzip.io.RNGZOutputInterface;
+import net.contrapunctus.rngzip.util.ErrorReporter;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
-import net.contrapunctus.rngzip.util.ErrorReporter;
-import net.contrapunctus.rngzip.io.RNGZOutputInterface;
 
 public abstract class Compressor extends DefaultHandler
 {
@@ -17,6 +18,7 @@ public abstract class Compressor extends DefaultHandler
    protected Locator loc;
    protected CompositeState state;
    protected Stack<String> elts;
+   protected Stack<Map<Integer,String>> atts;
    private static final boolean DEBUG = 
       System.getProperty("DEBUG_Compressor") != null;
    private static final PrintWriter dbg = 
@@ -27,6 +29,7 @@ public abstract class Compressor extends DefaultHandler
       err = _err;
       state = new SequentialStates(out);
       elts = new Stack<String>();
+      atts = new Stack<Map<Integer,String>>();
    }
 
    protected abstract SingletonState initialState();
@@ -47,27 +50,30 @@ public abstract class Compressor extends DefaultHandler
    {
       state.initialize(initialState());
       elts.clear();
+      atts.clear();
+      atts.push(null);
    }
 
    public void endDocument() throws SAXParseException
    {
       if(DEBUG) { trace("END document"); }
-      try { state = state.end(); }
+      try { state = state.end(null); }
       catch(IOException exn) { die(exn); }
       catch(IllegalStateException exn) { die(exn); }
    }
    
    public void startElement(String ns, String lname, String qname, 
-                            Attributes atts)
+                            Attributes attr)
       throws SAXParseException
    {
       if(DEBUG) { trace("START "+qname); }
       HashMap<Integer,String> attm = new HashMap<Integer,String>();
-      for(int i = 0;  i < atts.getLength();  i++) {
-         attm.put(encodeName(atts.getURI(i), atts.getLocalName(i)),
-                  atts.getValue(i));
+      for(int i = 0;  i < attr.getLength();  i++) {
+         attm.put(encodeName(attr.getURI(i), attr.getLocalName(i)),
+                  attr.getValue(i));
       }
       elts.push(qname);
+      atts.push(attm);
       try { state = state.start(encodeName(ns, lname), attm); }
       catch(IOException exn) { die(exn); }
       catch(IllegalStateException exn) { die(exn); }
@@ -78,7 +84,8 @@ public abstract class Compressor extends DefaultHandler
    {
       if(DEBUG) { trace("END "+qname); }
       assert qname == elts.peek();
-      try { state = state.end(); }
+      atts.pop();
+      try { state = state.end(atts.peek()); }
       catch(IOException exn) { die(exn); }
       catch(IllegalStateException exn) { die(exn); }
       elts.pop();

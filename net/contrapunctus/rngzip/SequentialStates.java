@@ -65,10 +65,15 @@ public class SequentialStates extends CompositeState
       return next();
    }
    
-   public CompositeState end() throws IOException
+   public CompositeState end(Map<Integer,String> att) throws IOException
    {
       stack.end(this);
-      return next();
+      if(att != null) {
+         return next().attrs(att);
+      }
+      else {
+         return next();
+      }
    }
 
    public void push(SingletonState si)
