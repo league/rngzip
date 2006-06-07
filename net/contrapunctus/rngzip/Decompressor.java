@@ -1,90 +1,151 @@
 package net.contrapunctus.rngzip;
 
+import java.io.IOException;
 import java.io.PrintStream;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
+import net.contrapunctus.rngzip.io.RNGZInputInterface;
+import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
-import java.io.IOException;
-import net.contrapunctus.rngzip.io.RNGZInputInterface;
 
 public abstract class Decompressor
 {
-   protected Stack<String> elts = new Stack<String>();
-   private ContentHandler h;
-   private boolean attp;      // are we currently accumulating attributes?
-   private AttributesImpl atts = new AttributesImpl();
-   private String attr;       // current attribute key
-   private StringBuilder attv = new StringBuilder();
+   static private abstract class Event {
+      abstract void exec (ContentHandler ch) throws SAXException;
+      abstract void show (PrintStream out);
+      boolean finished () { return true; }
+   }
+
+   static private class StartEvent extends Event { 
+      String elt;
+      AttributesImpl att;
+      private boolean finished_p;
+      StartEvent(String e) {
+         elt = e;
+         att = new AttributesImpl();
+         finished_p = false;
+      }
+      void exec (ContentHandler ch) throws SAXException {
+         ch.startElement("", "", elt, att);
+      }
+      void show (PrintStream out) {
+         out.print("+" + elt + " ");
+         showAttributes(out, att);
+         out.println();
+      }
+      boolean finished() { return finished_p; }
+      void commit() { finished_p = true; }
+   } // end class StartEvent
+
+   static private class CharEvent extends Event {
+      String data;
+      CharEvent(String s) {
+         data = s;
+      }
+      void exec (ContentHandler ch) throws SAXException {
+         ch.characters(data.toCharArray(), 0, data.length());
+      }
+      void show (PrintStream out) {
+         String s = "$"+data;
+         if(s.length() > 12) s = s.substring(0, 9)+"...";
+         out.println(s);
+      }
+   } // end class CharEvent
+
+   static private class EndEvent extends Event {
+      String elt;
+      EndEvent(String e) {
+         elt = e;
+      }
+      void exec (ContentHandler ch) throws SAXException {
+         ch.endElement(null, null, elt);
+      }
+      void show (PrintStream out) {
+         out.println("-" + elt);
+      }
+   } // end class EndEvent
+
+   private Queue<Event> eventQ = new LinkedList<Event>();
+   private Stack<StartEvent> startStack = new Stack<StartEvent>();
+   protected Stack<String> eltStack = new Stack<String>();
+   private ContentHandler ch;
+   private String attrKey;       // current attribute key
+   private StringBuilder attrVal = new StringBuilder();
 
    private static final boolean DEBUG = 
       System.getProperty("DEBUG_Decompressor") != null;
    private static final PrintStream dbg = System.err;
+
+   private void trace (String where)
+   {
+      dbg.println("===== " + where);
+      boolean firstp = true;
+      for(StartEvent se : startStack) {
+         if(se != null) {
+            dbg.printf(" %5s ", firstp? "stack" : "");
+            firstp = false;
+            se.show(dbg);
+         }
+      }
+      firstp = true;
+      for(Event e : eventQ) {
+         dbg.printf(" %5s ", firstp? "queue" : "");
+         firstp = false;
+         e.show(dbg);
+      }
+   }
    
    protected void initialize (ContentHandler h) throws SAXException
    {
-      this.h = h;
-      elts.push(null);          // used as sentinel to end document
-      h.startDocument();
-   }
-
-   protected void commitAttribute()
-   {
-      assert attp;
-      if(attr != null) {
-         if(DEBUG) {
-            dbg.printf("[committing %s==%s]%n", elts.peek(), attr);
-         }
-         elts.pop();
-         atts.addAttribute(null, null, attr, null, attv.toString());
-         attr = null;
-         attv.delete(0, attv.length());
-      }
-   }
-
-   protected void commitElement() throws SAXException
-   {
-      if(attp) {
-         commitAttribute();
-         if(DEBUG) {
-            dbg.printf("[committing <%s>]%n", elts.peek());
-         }
-         h.startElement("", "", elts.peek(), atts); 
-         atts.clear();
-         attp = false;
-      }
+      this.ch = h;
+      startStack.push(null);    // sentinel, to detect end of document
+      ch.startDocument();
    }
 
    protected void startElement(String e) throws SAXException
    {
-      commitElement();
-      elts.push(e);
-      attp = true;
+      StartEvent ev = new StartEvent(e);
+      startStack.push(ev);
+      eltStack.push(e);
+      eventQ.add(ev);
+      if(DEBUG) trace("startElement");
    }
 
    protected void addAttribute(String a)
    {
-      assert attp;
-      commitAttribute();
-      elts.push('@'+a);
-      attr = a;
+      if(attrKey != null) commitAttribute();
+      attrKey = a;
+      eltStack.push('@'+a);
+      if(DEBUG) trace("addAttribute");
+   }
+
+   private void commitAttribute()
+   {
+      assert attrKey != null;
+      eltStack.pop();           // pop "@name"
+      startStack.peek().att.addAttribute
+         (null, null, attrKey, null, attrVal.toString());
+      attrKey = null;
+      attrVal.setLength(0);
+      if(DEBUG) trace("commitAttribute");
    }
 
    protected void chars(String s) throws SAXException
    {
-      if(attr != null) {
-         assert attp;
-         attv.append(s);
+      if(attrKey != null) {
+         attrVal.append(s);
       }
       else {
-         commitElement();
-         h.characters(s.toCharArray(), 0, s.length());
+         eventQ.add(new CharEvent(s));
       }
    }
 
    protected void epsilon() throws SAXException
    {
-      if(attr != null) {
+      if(attrKey != null) {
          commitAttribute();
       }
       else {
@@ -92,33 +153,46 @@ public abstract class Decompressor
       }
    }
 
-   protected void endElement() throws SAXException
+   private void endElement() throws SAXException
    {
-      commitElement();
-      String e = elts.pop();
-      if(e == null) {
-         if(DEBUG) {
-            dbg.println("[closing document]");
-         }
-         h.endDocument();
+      // TODO: commit corresponding start element
+      StartEvent ev = startStack.pop();
+      if( ev == null ) {
+         endDocument(); // flushes rest of queue
       }
       else {
-         if(DEBUG) {
-            dbg.printf("[closing </%s>]%n", e);
-         }
-         h.endElement(null, null, e); 
+         ev.commit();
+         runQueue();
+         String elt = eltStack.pop();
+         assert elt.equals(ev.elt);
+         eventQ.add(new EndEvent(elt));
+         if(DEBUG) trace("endElement");
       }
    }
 
-   protected void endDocument() throws SAXException
+   private void endDocument() throws SAXException
    {
-      commitElement();
-      // Normally this should just do h.endDocument(),
-      // but the rest of this cleans up in case we didn't
-      // finish properly.
-      while(!elts.isEmpty()) {
-         endElement();
+      runQueue();
+      ch.endDocument();
+      if(DEBUG) trace("endDocument");
+   }
+
+   private void runQueue() throws SAXException
+   {
+      Event ev = eventQ.peek();
+      while( ev != null && ev.finished() ) {
+         eventQ.remove();
+         ev.exec(ch);
+         ev = eventQ.peek();
       }
-      h.endDocument(); 
+   }
+
+   public static void showAttributes(PrintStream out, Attributes a)
+   {
+      out.print("@( ");
+      for(int i = 0;  i < a.getLength();  i++) {
+         out.printf("%s=\"%s\" ", a.getQName(i), a.getValue(i));
+      }
+      out.print(") ");
    }
 }

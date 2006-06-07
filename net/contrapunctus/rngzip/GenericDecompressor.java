@@ -117,7 +117,7 @@ class GenericDecompressor
    
    public Object data (DataAlphabet al)
    {
-      try { chars(in.readContent(elts)); } 
+      try { chars(in.readContent(eltStack)); } 
       catch(IOException e) { exn_io = e; }
       catch(SAXException e) { exn_sax = e; }         
       return null;

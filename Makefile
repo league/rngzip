@@ -71,7 +71,8 @@ default: all
 all: compile
 
 .PHONY: default compile recompile nofiles allfiles compilefiles doc dist \
-	clean distclean mostlyclean maintainer-clean libsonly test jvm
+	clean distclean mostlyclean maintainer-clean libsonly jvm \
+	test buildtest
 .DELETE_ON_ERROR:
 .SUFFIXES: .rnc .rng
 
@@ -117,10 +118,12 @@ TEST_XML_CASES := $(shell find tests/cases -name '*.xml')
 TEST_RNC_SCHEMATA := $(shell find tests/cases -name '*.rnc')
 TEST_RNG_SCHEMATA := $(patsubst %.rnc,%.rng,$(TEST_RNC_SCHEMATA))
 
-test: CLASSPATH = $(TEST_CLASSPATH)
-test: ALL_JAVAC_FLAGS = $(JAVAC_FLAGS) -d tests -cp $(CLASSPATH)
-test: nofiles $(TEST_CLASSES) compilefiles $(TEST_RNG_SCHEMATA)
-	$(JVM) $(ALL_JVM_FLAGS) -cp $(CLASSPATH) \
+buildtest: CLASSPATH = $(TEST_CLASSPATH)
+buildtest: ALL_JAVAC_FLAGS = $(JAVAC_FLAGS) -d tests -cp $(CLASSPATH)
+buildtest: nofiles $(TEST_CLASSES) compilefiles $(TEST_RNG_SCHEMATA)
+
+test: buildtest
+	$(JVM) $(ALL_JVM_FLAGS) -cp $(TEST_CLASSPATH) \
 	    org.junit.runner.JUnitCore $(TESTS) | tee test-log.txt
 	@echo Transcript of test run saved to test-log.txt
 
