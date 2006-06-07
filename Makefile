@@ -27,6 +27,7 @@ CLASSPATH = /sw/share/java/xerces-j/xercesSamples.jar
 
 NAME = rngzip
 PACKAGE = net.contrapunctus.$(NAME)
+VERSION = 0.1
 
 LIBRARIES := bali iso-relax msv relaxng-datatype gnu-getopt
 SOURCEPATH := net
@@ -141,7 +142,10 @@ jvm:
 
 ################################ Packaging
 
-dist: $(ALL_SOURCES)
+predist: $(ALL_SOURCES)
+
+dist: 
+	darcs dist --dist-name $(NAME)-$(VERSION)
 
 $(NAME).jar: nofiles $(ALL_CLASSES) compilefiles manifest.txt
 	$(JAR) cfm $@ manifest.txt -C build . 
