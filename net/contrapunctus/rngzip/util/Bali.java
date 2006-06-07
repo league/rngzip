@@ -31,7 +31,7 @@ public class Bali
       Grammar gr = Driver.loadRELAXNGGrammar(fileToURL(file));
       assert gr != null;
       gr = optimize(gr);
-      return TreeAutomatonBuilder.build(gr, true, true, true);
+      return TreeAutomatonBuilder.build(gr, false, true, true);
    }
 
    public static void main(String[] args) throws Exception

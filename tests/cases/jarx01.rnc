@@ -1,0 +1,91 @@
+start = element java-archive {class*}
+
+class = element class {
+  element this {class-ref},
+  element super {class-ref},
+  (field | method)*
+}
+
+field = element field {
+  access, field-ref,
+  static?, transient?, (final | volatile)?, 
+  element value {utf8}?
+}
+
+access = attribute access {"public"|"private"|"protected"}?
+static = element static {empty}
+transient = element transient {empty}
+final = element final {empty}
+volatile = element volatile {empty}
+
+method = element method {
+  access, method-ref,
+  (abstract |
+   (native, static?, final?, synchronized?) |
+   (static?, final?, synchronized?, strictfp?, code))
+}
+
+abstract = element abstract {empty}
+native = element native {empty}
+synchronized = element synchronized {empty}
+strictfp = element strictfp {empty}
+
+################################################################
+
+class-ref = attribute class-ref {text} |
+  element class-ref {
+    label,
+    element package {utf8}?,
+    element name {utf8}
+  }
+
+label = attribute label {text}?
+
+utf8 = attribute utf8 {text} | element utf8 { label, text }
+
+field-ref = attribute field-ref {text} |
+  element field-ref {
+    label,
+    class-ref?,
+    utf8,
+    type
+  }
+
+type = element type {dim, (prim | class-ref)}
+dim = attribute dim {text}?
+prim = attribute prim {"B"|"C"|"D"|"F"|"I"|"J"|"S"|"Z"}
+
+method-ref = attribute method-ref {text} |
+  element method-ref {
+    label,
+    class-ref?,
+    utf8,
+    signature
+  }
+
+signature = attribute signature {text} |
+  element signature {
+    label,
+    type*,
+    (type | element void {empty})
+  }
+
+################################################################
+
+code = element code {
+  attribute stack {text},
+  attribute locals {text},
+  opcode+
+}
+
+opcode
+  = element getstatic {field-ref}
+  | element getfield {field-ref}
+  | element putfield {field-ref}
+  | element putstatic {field-ref}
+  | element push { attribute type {"I"|"J"|"F"|"D"}?, utf8 }
+  | element invokevirtual {method-ref}
+  | element invokespecial {method-ref}
+  | element invokeinterface {method-ref}
+  | element invokestatic {method-ref}
+  | element return {empty}

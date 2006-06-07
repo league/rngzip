@@ -1,0 +1,65 @@
+<java-archive>
+  <class>
+    <this>
+      <class-ref label="A">
+        <name><utf8>XHello</utf8></name>
+      </class-ref>
+    </this>
+    <super>
+      <class-ref>
+        <package><utf8 label="A">java/lang</utf8></package>
+        <name><utf8>Object</utf8></name>
+      </class-ref>
+    </super>
+    <field access="public">
+      <field-ref label="x1">
+        <utf8>x1</utf8>
+        <type>
+          <class-ref label="G">
+            <package utf8="A"/>
+            <name><utf8>String</utf8></name>
+          </class-ref>
+        </type>
+      </field-ref>
+    </field>
+    <method access="public">
+      <method-ref>
+        <utf8>main</utf8>
+        <signature>
+          <type dim="1" class-ref="G"/>
+          <void/>
+        </signature>
+      </method-ref>
+      <static/>
+      <code stack="2" locals="1">
+        <getstatic>
+          <field-ref>
+            <class-ref>
+              <package utf8="A"/>
+              <name><utf8>System</utf8></name>
+            </class-ref>
+            <utf8>out</utf8>
+            <type>
+              <class-ref label="B">
+                <package><utf8>java/io</utf8></package>
+                <name><utf8>PrintStream</utf8></name>
+              </class-ref>
+            </type>
+          </field-ref>
+        </getstatic>
+        <getstatic field-ref="x1"/>
+        <invokevirtual>
+          <method-ref class-ref="B">
+            <utf8>println</utf8>
+            <signature>
+              <type class-ref="G"/>
+              <void/>
+            </signature>
+          </method-ref>
+        </invokevirtual>
+        <push><utf8>Hello from this wicked &lt;AlTeRnAtIvE&gt; XML.</utf8></push>
+        <return/>
+      </code>
+    </method>
+  </class>
+</java-archive>
