@@ -1,34 +1,54 @@
 package net.contrapunctus.rngzip.util;
 
+import com.sun.msv.grammar.Grammar;
 import com.sun.msv.util.StringPair;
+import java.io.File;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.zip.Adler32;
+import java.util.zip.CheckedOutputStream;
+import java.util.zip.Checksum;
+import org.kohsuke.bali.Driver;
 import org.kohsuke.bali.automaton.*;
-
+import org.kohsuke.bali.automaton.builder.TreeAutomatonBuilder;
+import org.kohsuke.bali.optimizer.*;
+import org.kohsuke.bali.writer.AutomatonWriter;
 
 /**
- * This class encapsulates the TreeAutomaton from the Bali Validatelet
- * library by Kohsuke Kawaguchi.  It hides some of the details of
- * State and Transition classes, making them easier to use for our
- * application.
+ * This class encapsulates the <code>TreeAutomaton</code> from the
+ * Bali library by Kohsuke Kawaguchi.  It hides some of the details of
+ * <code>State</code> and <code>Transition</code> classes, making them
+ * easier to use for our application.
  *
- * <p> One of the most important aspects of this class is that it
+ * <p>One of the most important aspects of this class is that it
  * imposes a particular ordering on the transitions based on their
  * alphabets.  This is critical because the compressor and
  * decompressor must agree on the ordering of transitions from each
  * state in the automaton.  The Bali implementation uses maps and
  * sets, which do not maintain reliable transition orderings between
- * different runs.
+ * different runs.  States are numbered beginning with zero, and
+ * transitions leaving each state are numbered similarly.  They
+ * include, however, the ‘epsilon’ transitions.
  *
- * <p>States are numbered beginning with zero, and transitions leaving
- * each state are numbered similarly.  They include, however, the
- * “epsilon” transitions.</p>
+ * <p>For efficiency, Bali maps qualified names to integers.  This
+ * class also contains methods <code>encodeName</code> and
+ * <code>decodeName</code> to provide convenient access to that
+ * mapping.
  *
- * @author Copyright ©2005 by
- * <a href="http://contrapunctus.net/league/">Christopher League</a> 
- * @see BitInputStream
+ * <p class='license'>This is free software; you may modify and/or
+ * redistribute it under the terms of the GNU General Public License,
+ * but it comes with <b>absolutely no warranty.</b>
+ * 
+ * @author Christopher League
+ * @see TreeAutomaton
+ * @see State
+ * @see Transition
  */
 public final class BaliAutomaton 
 {
@@ -36,9 +56,33 @@ public final class BaliAutomaton
    private Transition[][] trans;
    private State[] states;
    private HashMap<Integer,String> names = new HashMap<Integer,String>();
+   private TransitionSorter ts = new TransitionSorter();
+
+   /** 
+    * Build an automaton by reading the named Relax NG schema file,
+    * and encapsulate it.
+    * @param filename path of a RelaxNG schema file (<code>.rng</code>
+    * XML format)
+    */
+   public static BaliAutomaton fromRNG (String filename)
+      throws MalformedURLException
+   {
+      URL url = new File(filename).toURI().toURL();
+      Grammar gr = Driver.loadRELAXNGGrammar(url);
+      assert gr != null;
+      gr = Unifier.unify(gr);
+      gr = ZeroOrMoreAttributeExpander.optimize(gr);
+      gr = InterleaveStrengthReducer.optimize(gr);
+      gr = AttributeReorder.optimize(gr);
+      TreeAutomaton ta = TreeAutomatonBuilder.build(gr, false, true, true);
+      return new BaliAutomaton(ta);
+   }
 
    /**
-    * Massage the given TreeAutomaton and provide an interface for it.
+    * Encapsulate the given tree automaton.  This assigns a unique
+    * identifier to each state and transition.  The content of the
+    * transitions is used to sort them, so that the order remains
+    * consistent across multiple runs.
     */
    public BaliAutomaton(TreeAutomaton au)
    {
@@ -62,17 +106,13 @@ public final class BaliAutomaton
          trans[i] = states[i].getTransitions();
          /* Now we sort them: the order itself doesn’t really matter,
             but MUST be consistent between different runs. */
-         Arrays.sort(trans[i], new TransitionSorter());
+         Arrays.sort(trans[i], ts);
       }
    }
 
-   public BaliAutomaton(String filename) throws MalformedURLException
-   {
-      this(Bali.buildAutomatonFromRNG(filename));
-   }
-
    /** 
-    * Return the ID of the start state of the automaton.
+    * Return the ID of the start state of the automaton.  This usually
+    * returns the integer zero, but clients should not depend on that.
     */
    public int initialState()
    {
@@ -87,7 +127,6 @@ public final class BaliAutomaton
       return au.countStates();
    }
 
-
    /** 
     * Return the number of transitions from state ‘i’.
     */
@@ -97,12 +136,12 @@ public final class BaliAutomaton
    }
 
    /**
-    * Return the number of choices from state ‘i’.  This is almost the
-    * same as countTransitions, but if ‘i’ is a final state, one more
-    * is added.  In a final state with three transitions, you really
-    * have four choices: leave by each transition, or stay and
-    * terminate.  For non-final states, this is equivalent to
-    * countTransitions.
+    * Return the number of <em>choices</em> from state ‘i’.  This is
+    * almost the same as countTransitions, but if ‘i’ is a final
+    * state, one more is added.  In a final state with three
+    * transitions, you really have four choices: leave by each
+    * transition, or stay and terminate.  For non-final states, this
+    * is equivalent to countTransitions.
     */
    public int countChoices(int i)
    {
@@ -146,7 +185,8 @@ public final class BaliAutomaton
     * alphabets, related to the element name, presence or absence of
     * particular attributes, character data, constant values, data
     * types, etc.  The way to determine what alphabet is present is to
-    * use the AlphabetVisitor interface from the Bali library.
+    * use the <code>AlphabetVisitor</code> interface from the Bali
+    * library.
     */
    public Object visitAlphabet(int si, int tj, AlphabetVisitor av)
    {
@@ -198,6 +238,89 @@ public final class BaliAutomaton
       return names.get(i);
    }
 
+   /**
+    * Dumps a text-based representation of the automaton onto the
+    * given output stream.  The representation may or may not be
+    * sufficient to reconstruct the actualy automaton, but at least it
+    * should be enough to <em>distinguish</em> it from other automata.
+    * This representation is the basis of the checksum.
+    */
+   public void print(PrintStream out)
+   {
+      int n = countStates();
+      out.println(n);
+      out.println(initialState());
+      for(int i = 0;  i < n;  i++)
+         {
+            int m = countTransitions(i);
+            out.println(m);
+            int bits = 0;
+            if(isEpsilon(i)) bits |= 1;
+            if(isFinal(i)) bits |= 2;
+            if(isNull(i)) bits |= 4;
+            out.println(bits);
+            for(int j = 0;  j < m;  j++)
+               {
+                  out.println(siblingOf(i, j));
+                  out.println(visitAlphabet(i, j, ts));
+               }
+         }
+   }
+
+   /** 
+    * Compute a checksum of this automaton, using the provided
+    * <code>Checksum</code> object.  This works by creating a
+    * <code>CheckedOutputStream</code> and calling <code>print</code>
+    * to determine the checksum of the printed representation.  The
+    * checksum ought to be sufficient to determine—with reasonable
+    * probability—that two schemas are the same.
+    * @see CheckedOutputStream
+    */
+   public long checksum(Checksum sum)
+   {
+      print(new PrintStream
+            (new CheckedOutputStream (new NoopOutputStream(), sum)));
+      return sum.getValue();
+   }
+
+   /**
+    * Compute the Adler-32 checksum of this automaton.
+    * @see #checksum(Checksum)
+    * @see Adler32
+    */
+   public long checksum()
+   {
+      return checksum(new Adler32());
+   }
+
+   public void writeTo(AutomatonWriter w)
+      throws IOException
+   {
+      w.write(au);
+   }
+   
+   private static final boolean DEBUG = 
+      System.getProperty("DEBUG_Automaton") != null;
+
+   /**
+    * This program outputs the Adler-32 checksums of all the Relax NG
+    * schema files named on the command line.  These checksums can
+    * then be embedded in a test suite, to ensure that they do not
+    * change over time.
+    * @see #checksum()
+    */
+   public static void main(String[] args) throws MalformedURLException
+   {
+      Adler32 sum = new Adler32();
+      OutputStream out = DEBUG? System.out : new NoopOutputStream();
+      PrintStream pout = new PrintStream(new CheckedOutputStream(out, sum));
+      for(String a : args)
+         {
+            sum.reset();
+            BaliAutomaton.fromRNG(a).print(pout);
+            System.out.printf("%08x %s%n", sum.getValue(), a);
+         }
+   }
 
    private class TransitionSorter 
       implements AlphabetVisitor, Comparator<Transition>

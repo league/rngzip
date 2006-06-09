@@ -95,7 +95,7 @@ public class Driver
                      info("building automaton:       ");
                      start = System.currentTimeMillis();
                   }
-              automaton = new BaliAutomaton(schema);
+              automaton = BaliAutomaton.fromRNG(schema);
               if(timings_p)
                  {
                     elapsed = System.currentTimeMillis() - start;

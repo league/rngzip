@@ -7,7 +7,6 @@ import org.kohsuke.bali.datatype.Value;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import net.contrapunctus.rngzip.util.BaliAutomaton;
-import net.contrapunctus.rngzip.util.Bali;
 import net.contrapunctus.rngzip.io.ChoiceDecoder;
 import net.contrapunctus.rngzip.io.ChoiceDecoderFactory;
 import net.contrapunctus.rngzip.io.RNGZInputInterface;
@@ -30,7 +29,7 @@ class GenericDecompressor
                               ContentHandler ch)
       throws MalformedURLException, IOException, SAXException
    {
-      this(new BaliAutomaton(filename), in, ch);
+      this(BaliAutomaton.fromRNG(filename), in, ch);
    }
 
    public GenericDecompressor(BaliAutomaton _au, 

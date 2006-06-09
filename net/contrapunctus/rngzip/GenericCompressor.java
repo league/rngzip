@@ -10,7 +10,6 @@ import net.contrapunctus.rngzip.io.RNGZOutputInterface;
 import net.contrapunctus.rngzip.io.RNGZOutputStream;
 import net.contrapunctus.rngzip.io.VerboseOutput;
 import net.contrapunctus.rngzip.util.BaliAutomaton;
-import net.contrapunctus.rngzip.util.Bali;
 import net.contrapunctus.rngzip.util.ErrorReporter;
 import org.kohsuke.bali.automaton.*;
 import org.kohsuke.bali.datatype.Value;
@@ -30,7 +29,7 @@ class GenericCompressor extends Compressor
       (String filename, ErrorReporter err, RNGZOutputInterface out)
       throws java.net.MalformedURLException
    {
-      this(new BaliAutomaton(filename), err, out);
+      this(BaliAutomaton.fromRNG(filename), err, out);
    }
 
    public GenericCompressor

@@ -13,7 +13,7 @@ INSTALL = install -D -m 644
 
 JAVAC_FLAGS = -Xlint:all -encoding UTF-8
 JVM_FLAGS = -ea
-JAVADOC_FLAGS = -author -use -quiet
+JAVADOC_FLAGS = -author -use -quiet -link "file:///Developer/ADC Reference Library/documentation/Java/Reference/1.5.0/doc/api"
 
 PSEP = :
 ALL_JAVAC_FLAGS = $(JAVAC_FLAGS) -d $(BUILD) -cp $(BUILD)$(PSEP)$(CLASSPATH)
@@ -173,6 +173,9 @@ push-sync:
 ################################ Documentation
 
 doc: doc/api/index.html
+
+qdoc: $(SOURCES)
+	javadoc -d doc/api $(ALL_JAVADOC_FLAGS) $^
 
 doc/api/index.html: $(ALL_SOURCES)
 	javadoc -d $(dir $@) $(ALL_JAVADOC_FLAGS) $^
