@@ -17,12 +17,11 @@ import java.io.OutputStream;
  * flush a non-full buffer if there is more output to come.  Such a
  * stream could not be read back correctly by BitInputStream.
  *
- * <p class='license'>This is free software: you can modify and/or
+ * <p class='license'>This is free software; you may modify and/or
  * redistribute it under the terms of the GNU General Public License,
- * but it comes with ABSOLUTELY NO WARRANTY.</p>
+ * but it comes with <b>absolutely no warranty.</b>
  * 
- * @author Copyright ©2005 by
- * <a href="http://contrapunctus.net/league/">Christopher League</a> 
+ * @author Christopher League
  * @see BitInputStream
  */
 public final class BitOutputStream implements Closeable
@@ -55,8 +54,8 @@ public final class BitOutputStream implements Closeable
    /** 
     * Construct a BitOutputStream on top of the provided OutputStream.
     * 
-    * @param out The underlying binary output stream.
-    * @param close_p Determines whether closing this stream also
+    * @param out the underlying binary output stream.
+    * @param close_p determines whether closing this stream also
     * closes the underlying stream.
     * @throws IllegalArgumentException if ‘out’ is null.
     */
@@ -75,7 +74,7 @@ public final class BitOutputStream implements Closeable
     * stream <i>should</i> be closed when this stream is closed.
     * Equivalent to {@code BitOutputStream(out, true)}.
     * 
-    * @param out The underlying binary output stream.
+    * @param out the underlying binary output stream.
     * @throws IllegalArgumentException if ‘out’ is null.
     */
    public BitOutputStream(OutputStream out)
@@ -87,7 +86,7 @@ public final class BitOutputStream implements Closeable
     * Write a single bit to the output stream.  The expression {@code
     * writeBit(b)} is equivalent to {@code writeBit(b? 1 : 0)}.
     * 
-    * @param b The bit to write: true represents a 1, while false
+    * @param b the bit to write: true represents a 1, while false
     * represents 0.
     * @throws IllegalStateException if the stream is already closed.
     * @throws IOException if there is a failure writing to the
@@ -122,7 +121,7 @@ public final class BitOutputStream implements Closeable
     * Write a single bit to the output stream.  The expression {@code
     * writeBit(x)} is equivalent to {@code writeBit(x != 0)}.
     * 
-    * @param x The bit to write: any non-zero value represents a 1.
+    * @param x the bit to write: any non-zero value represents a 1.
     * @throws IllegalStateException if the stream is already closed.
     * @throws IOException if there is a failure writing to the
     * underlying stream.
@@ -135,10 +134,10 @@ public final class BitOutputStream implements Closeable
    /** 
     * Write the ‘n’ least-significant bits of ‘x’ to the stream.
     * 
-    * @param x The source of the bits.  The ‘n’ least-significant bits
+    * @param x the source of the bits.  The ‘n’ least-significant bits
     * are used, but they are written in order from most- to
     * least-significant.
-    * @param n The number of bits to write.  This method has no effect
+    * @param n the number of bits to write.  This method has no effect
     * if ‘n’ is zero.
     *
     * @throws IllegalArgumentException if ‘n’ is negative or &gt;64.

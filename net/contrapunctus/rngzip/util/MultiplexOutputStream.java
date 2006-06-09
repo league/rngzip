@@ -4,17 +4,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.DataOutputStream;
 import java.io.Flushable;
-import java.io.PrintStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.LinkedList;
 
 /**
  * This class interleaves multiple logical streams of data within a
  * single underlying output stream.  Each embedded stream is
  * identified by a small integer.  To begin writing to an embedded
- * stream, you must first {@link #open(int, OutputStreamFilter) open}
- * it.
+ * stream, you must first open it.
  *
  * <p>The file format consists of a 4-byte magic/version number (see
  * {@link #MAGIC}), followed by a 4-byte magic/version number for your
@@ -30,12 +29,12 @@ import java.util.LinkedList;
  * multi-threaded environment, this implementation is currently <b>not
  * thread-safe.</b>
  *
- * <p class='license'>This is free software: you can modify and/or
+ * <p class='license'>This is free software; you may modify and/or
  * redistribute it under the terms of the GNU General Public License,
- * but it comes with ABSOLUTELY NO WARRANTY.</p>
+ * but it comes with <b>absolutely no warranty.</b>
  * 
- * @author Copyright ©2005 by
- * <a href="http://contrapunctus.net/league/">Christopher League</a> 
+ * @author Christopher League
+ * @see MultiplexInputStream
  */
 public final class MultiplexOutputStream implements Closeable, Flushable
 {
@@ -97,11 +96,11 @@ public final class MultiplexOutputStream implements Closeable, Flushable
    /** 
     * The primary constructor for objects of this class.
     *
-    * @param out The underlying data output stream.  Embedded streams
+    * @param out the underlying data output stream.  Embedded streams
     * opened with this class are interleaved here.
-    * @param close_p Determines whether closing this stream also
+    * @param close_p determines whether closing this stream also
     * closes the underlying stream.
-    * @param magic A four-byte word that the client can use as a
+    * @param magic a four-byte word that the client can use as a
     * combined magic and version number.
     * @throws IllegalArgumentException if ‘out’ is null.
     * @throws IOException if there is a problem writing magic numbers
@@ -199,8 +198,8 @@ public final class MultiplexOutputStream implements Closeable, Flushable
     * DataOutputStream data = mux.open(factory, 14);
     * </pre>
     *
-    * @param streamID The identifier of the stream to open.
-    * @param factory An object to wrap the embedded stream into a
+    * @param streamID the identifier of the stream to open.
+    * @param factory an object to wrap the embedded stream into a
     * filtering output stream.
     * @throws IllegalArgumentException if ‘factory’ is null, or if
     * ‘streamID’ is out of range.

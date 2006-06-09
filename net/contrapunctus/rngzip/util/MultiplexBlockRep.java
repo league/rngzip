@@ -86,12 +86,11 @@ import java.io.EOFException;
  *    60     4,874,941  FC 94 E2 BD  using [h].
  * </pre>
  * 
- * <p class='license'>This is free software: you can modify and/or
+ * <p class='license'>This is free software; you may modify and/or
  * redistribute it under the terms of the GNU General Public License,
- * but it comes with ABSOLUTELY NO WARRANTY.</p>
+ * but it comes with <b>absolutely no warranty.</b>
  * 
- * @author Copyright ©2005 by
- * <a href="http://contrapunctus.net/league/">Christopher League</a> 
+ * @author Christopher League
  * @see MultiplexOutputStream
  * @see MultiplexInputStream
  */
@@ -108,7 +107,13 @@ public final class MultiplexBlockRep
     */
    public static final int MAX_STREAM_ID = 1 << 6; // 64
 
-   static void checkStreamID(int sid)
+   /**
+    * This method validates that the stream ID ‘sid’ is within range.
+    * It must be non-negative and less than or equal to
+    * <code>MAX_STREAM_ID</code>.
+    * @throws IllegalArgumentException if ‘sid’ is out of range.
+    */
+   public static void checkStreamID(int sid)
    {
       if(sid < 0) {
          throw new IllegalArgumentException("streamID may not be negative");
@@ -124,7 +129,14 @@ public final class MultiplexBlockRep
    private OutputStream os;
    private InputStream is;
 
-   MultiplexBlockRep(OutputStream os, int streamID)
+   /**
+    * Construct a block representation for encoding.  Headers will be
+    * output to the stream ‘os’ each time <code>encode</code> is
+    * called.
+    * @throws AssertionError if ‘os’ is null, or if the ‘streamID’ is
+    * out of range (assuming assertions are enabled).
+    */
+   public MultiplexBlockRep(OutputStream os, int streamID)
    {
       assert os != null;
       assert streamID >= 0 && streamID < MAX_STREAM_ID : streamID;
@@ -132,13 +144,27 @@ public final class MultiplexBlockRep
       this.streamID = streamID;
    }
 
-   MultiplexBlockRep(InputStream is)
+   /**
+    * Construct a block representation for decoding.  A header will be
+    * read from the stream ‘is’ each time <code>decode</code> is
+    * called.
+    * @throws AssertionError if ‘is’ is null (assuming assertions are
+    * enabled).
+    */
+   public MultiplexBlockRep(InputStream is)
    {
       assert is != null;
       this.is = is;
    }  
 
-   void encode(int sz) throws IOException
+   /**
+    * Output a header for a block of ‘size’ bytes.
+    * @throws AssertionError if this object was not constructed with
+    * an <code>OutputStream</code> or if ‘size’ is out of range.
+    * @see #MultiplexBlockRep(OutputStream, int)
+    * @see #MAX_BLOCK_SIZE
+    */
+   public void encode(int sz) throws IOException
    {
       assert os != null;
       size = sz;
@@ -148,7 +174,13 @@ public final class MultiplexBlockRep
       else encodeOther();
    }
 
-   int decode() throws IOException
+   /**
+    * Input a block header, and return the size of that block.
+    * @throws AssertionError if this objects was not constructed with
+    * an <code>InputStream</code>.
+    * @see #MultiplexBlockRep(InputStream)
+    */
+   public int decode() throws IOException
    {
       assert is != null;
       int b0 = readByte();
@@ -163,7 +195,7 @@ public final class MultiplexBlockRep
          return decodeOther(b0);
       }
    }
-   
+
    private void writeBits(int k, int mask) throws IOException
    {
       os.write(mask | size >> k);

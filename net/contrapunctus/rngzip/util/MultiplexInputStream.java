@@ -16,12 +16,12 @@ import java.util.LinkedList;
  * small integer.  To begin reading an embedded stream, you must first
  * open it.
  * 
- * <p class='license'>This is free software: you can modify and/or
+ * <p class='license'>This is free software; you may modify and/or
  * redistribute it under the terms of the GNU General Public License,
- * but it comes with ABSOLUTELY NO WARRANTY.</p>
+ * but it comes with <b>absolutely no warranty.</b>
  * 
- * @author Copyright ©2005 by
- * <a href="http://contrapunctus.net/league/">Christopher League</a> 
+ * @author Christopher League
+ * @see MultiplexOutputStream
  */
 public final class MultiplexInputStream implements Closeable
 {
@@ -55,9 +55,9 @@ public final class MultiplexInputStream implements Closeable
    /**
     * The primary constructor for objects of this class.
     * 
-    * @param in The underlying data input streams.  Embedded streams
+    * @param in the underlying data input streams.  Embedded streams
     * opened with this class are read from ‘in’.
-    * @param close_p Determines whether closing this stream also
+    * @param close_p determines whether closing this stream also
     * closes the underlying stream.
     * @throws IllegalArgumentException if ‘in’ is null.
     * @throws IOException if there is a problem reading header
@@ -77,8 +77,8 @@ public final class MultiplexInputStream implements Closeable
    }
 
    /**
-    * Convenience constructor for a normal output stream.  It
-    * constructs a DataInputStream around ‘in’ for you.
+    * Convenience constructor for a normal input stream.  It
+    * constructs a <code>DataInputStream</code> around ‘in’ for you.
     */
    public MultiplexInputStream(InputStream in, boolean close_p)
       throws IOException
@@ -96,7 +96,7 @@ public final class MultiplexInputStream implements Closeable
    }
    
    /**
-    * Convenience constructor for a normal output stream that also
+    * Convenience constructor for a normal input stream that also
     * automatically sets ‘close_p’ to true.
     */
    public MultiplexInputStream(InputStream in) throws IOException
@@ -107,7 +107,7 @@ public final class MultiplexInputStream implements Closeable
    /**
     * Retrieve the application-level magic/version number read from
     * the stream.  This is the 4-byte ‘magic’ value provided to the
-    * {@link MultiplexOutputStream} class when it was created.
+    * <code>MultiplexOutputStream</code> class when it was created.
     */
    public int magic() 
    {
@@ -115,17 +115,18 @@ public final class MultiplexInputStream implements Closeable
    }
 
    /**
-    * Open a new embedded stream.  Unlike its counterpart {@link
-    * MultiplexOutputStream#open(int, OutputStreamFilter)}, clients
-    * may wrap the InputStream in whatever filters are needed without
-    * informing this class.
+    * Open a new embedded stream.  Unlike its counterpart in
+    * <code>MultiplexOutputStream</code>, clients may wrap the
+    * returned <code>InputStream</code> in whatever filters are needed
+    * without informing this class.
     *
-    * @param streamID The identifier of the stream to open.
-    * @return An input stream that will read only those blocks marked
+    * @param streamID the identifier of the stream to open.
+    * @return an input stream that will read only those blocks marked
     * with ‘streamID’.
     * @throws IllegalArgumentException if ‘streamID’ is out of range.
     * @throws IllegalStateException if the stream is already closed.
     * @see MultiplexBlockRep#MAX_STREAM_ID
+    * @see MultiplexOutputStream#open(int, OutputStreamFilter)
     */   
    public InputStream open(int streamID)
    {

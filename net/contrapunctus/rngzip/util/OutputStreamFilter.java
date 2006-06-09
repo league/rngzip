@@ -25,13 +25,11 @@ import java.io.IOException;
  *   }
  *   </pre>
  * 
- * <p class='license'>This is free software: you can modify and/or
+ * <p class='license'>This is free software; you may modify and/or
  * redistribute it under the terms of the GNU General Public License,
- * but it comes with ABSOLUTELY NO WARRANTY.</p>
- *
- * @author Copyright ©2005 by 
- * <a href="http://contrapunctus.net/league/">Christopher League</a>
- *
+ * but it comes with <b>absolutely no warranty.</b>
+ * 
+ * @author Christopher League
  * @see MultiplexOutputStream#open(int, OutputStreamFilter)
  * @see java.io.FilterOutputStream
  */

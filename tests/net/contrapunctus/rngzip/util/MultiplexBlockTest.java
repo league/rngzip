@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.Formatter;
+import java.util.Random;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -81,6 +83,36 @@ public class MultiplexBlockTest
       int sz = ri.decode();
       assert(sid == ri.streamID);
       assert(size == sz);
+   }
+
+  @Test
+   public void roundTrip() throws IOException
+   {
+      Random r = new Random();
+      for(int i = 0;  i < 100;  i++) {
+         int sid = r.nextInt(MultiplexBlockRep.MAX_STREAM_ID);
+         int size = r.nextInt(MultiplexBlockRep.MAX_BLOCK_SIZE);
+         ByteArrayOutputStream bo = new ByteArrayOutputStream();
+         MultiplexBlockRep ro = new MultiplexBlockRep(bo, sid);
+         ro.encode(size);
+         byte[] rs = bo.toByteArray();
+         ByteArrayInputStream bi = new ByteArrayInputStream(rs);
+         MultiplexBlockRep ri = new MultiplexBlockRep(bi);
+         int sz = ri.decode();
+         if( sid != ri.streamID || size != sz )
+            {  /* construct error message */
+               StringBuilder sb = new StringBuilder();
+               Formatter fm = new Formatter(sb);
+               fm.format("streamID %d != %d or size %d != %d: ",
+                         ri.streamID, sid,
+                         sz, size);
+               for(int j = 0;  j < rs.length;  j++)
+                  {
+                     fm.format("%02x ", rs[j]);
+                  }
+               throw new IOException(sb.toString());
+            }
+      }
    }
 
   @Test

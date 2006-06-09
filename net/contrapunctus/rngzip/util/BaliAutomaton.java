@@ -3,9 +3,10 @@ package net.contrapunctus.rngzip.util;
 import com.sun.msv.grammar.Grammar;
 import com.sun.msv.util.StringPair;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
@@ -63,13 +64,21 @@ public final class BaliAutomaton
     * and encapsulate it.
     * @param filename path of a RelaxNG schema file (<code>.rng</code>
     * XML format)
+    * @throws FileNotFoundException if the specified filename does not
+    * exist
+    * @throws SchemaFormatException if there is a problem reading a
+    * Relax NG schema from the file
     */
    public static BaliAutomaton fromRNG (String filename)
-      throws MalformedURLException
+      throws FileNotFoundException, SchemaFormatException
    {
-      URL url = new File(filename).toURI().toURL();
+      File f = new File(filename);
+      if(!f.exists()) throw new FileNotFoundException(filename);
+      URL url = null;
+      try { url = f.toURI().toURL(); }
+      catch(MalformedURLException x) { assert false : x; }
       Grammar gr = Driver.loadRELAXNGGrammar(url);
-      assert gr != null;
+      if( gr == null ) throw new SchemaFormatException(url.toString());
       gr = Unifier.unify(gr);
       gr = ZeroOrMoreAttributeExpander.optimize(gr);
       gr = InterleaveStrengthReducer.optimize(gr);
@@ -293,6 +302,11 @@ public final class BaliAutomaton
       return checksum(new Adler32());
    }
 
+   /**
+    * This shortcut passes the tree automaton to the provided writer
+    * from the Bali library.  It can be used to validate an XML stream
+    * against the schema, as in the <code>GenericTest</code> program.
+    */
    public void writeTo(AutomatonWriter w)
       throws IOException
    {
@@ -306,10 +320,13 @@ public final class BaliAutomaton
     * This program outputs the Adler-32 checksums of all the Relax NG
     * schema files named on the command line.  These checksums can
     * then be embedded in a test suite, to ensure that they do not
-    * change over time.
+    * change over time.  To see the contents of the text stream before
+    * the checksum is computed, set <code>-DDEBUG_Automaton</code> on
+    * the <code>java</code> command line.
     * @see #checksum()
     */
-   public static void main(String[] args) throws MalformedURLException
+   public static void main(String[] args) 
+      throws FileNotFoundException, SchemaFormatException
    {
       Adler32 sum = new Adler32();
       OutputStream out = DEBUG? System.out : new NoopOutputStream();

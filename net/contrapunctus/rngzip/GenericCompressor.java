@@ -1,16 +1,18 @@
 package net.contrapunctus.rngzip;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Vector;
 import java.util.Map;
-import net.contrapunctus.rngzip.io.ChoiceEncoderFactory;
+import java.util.Vector;
 import net.contrapunctus.rngzip.io.ChoiceEncoder;
+import net.contrapunctus.rngzip.io.ChoiceEncoderFactory;
 import net.contrapunctus.rngzip.io.RNGZOutputInterface;
 import net.contrapunctus.rngzip.io.RNGZOutputStream;
 import net.contrapunctus.rngzip.io.VerboseOutput;
 import net.contrapunctus.rngzip.util.BaliAutomaton;
 import net.contrapunctus.rngzip.util.ErrorReporter;
+import net.contrapunctus.rngzip.util.SchemaFormatException;
 import org.kohsuke.bali.automaton.*;
 import org.kohsuke.bali.datatype.Value;
 import org.xml.sax.Attributes;
@@ -27,7 +29,7 @@ class GenericCompressor extends Compressor
    
    public GenericCompressor
       (String filename, ErrorReporter err, RNGZOutputInterface out)
-      throws java.net.MalformedURLException
+      throws FileNotFoundException, SchemaFormatException
    {
       this(BaliAutomaton.fromRNG(filename), err, out);
    }

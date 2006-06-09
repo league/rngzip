@@ -9,12 +9,11 @@ import java.io.InputStream;
  * This class is used to read individual bits from an input stream.
  * It is compatible with BitOutputStream.
  *
- * <p class='license'>This is free software: you can modify and/or
+ * <p class='license'>This is free software; you may modify and/or
  * redistribute it under the terms of the GNU General Public License,
- * but it comes with ABSOLUTELY NO WARRANTY.</p>
- *
- * @author Copyright ©2005 by
- * <a href="http://contrapunctus.net/league/">Christopher League</a> 
+ * but it comes with <b>absolutely no warranty.</b>
+ * 
+ * @author Christopher League
  * @see BitOutputStream
  */
 public final class BitInputStream implements Closeable
@@ -40,8 +39,8 @@ public final class BitInputStream implements Closeable
    /**
     * Construct a BitInputStream on top of the provided InputStream.
     *
-    * @param in The underlying binary input stream.
-    * @param close_p Determines whether closing this stream also
+    * @param in the underlying binary input stream.
+    * @param close_p determines whether closing this stream also
     * closes the underlying stream.
     * @throws IllegalArgumentException if ‘in’ is null.
     */
@@ -60,7 +59,7 @@ public final class BitInputStream implements Closeable
     * stream <i>should</i> be closed when this stream is closed.
     * Equivalent to {@code BitInputStream(in, true)}.
     * 
-    * @param in The underlying binary input stream.
+    * @param in the underlying binary input stream.
     * @throws IllegalArgumentException if ‘in’ is null.
     */
    public BitInputStream(InputStream in)
@@ -98,8 +97,8 @@ public final class BitInputStream implements Closeable
     * Read ‘n’ bits from the input stream, and return them in the
     * least-significant bits of a long integer value.
     *
-    * @param n The number of bits to read.
-    * @return A long integer value where the ‘n’ least-significant
+    * @param n the number of bits to read.
+    * @return a long integer value where the ‘n’ least-significant
     * bits come from the stream, and any other bits are zero.
     * @throws IllegalArgumentException if ‘n’ is negative or &gt;64.
     * @throws IOException if there is a failure reading the underlying

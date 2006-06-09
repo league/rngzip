@@ -147,7 +147,7 @@ predist: $(ALL_SOURCES)
 dist: 
 	darcs dist --dist-name $(NAME)-$(VERSION)
 
-$(NAME).jar: nofiles $(ALL_CLASSES) compilefiles manifest.txt
+$(NAME).jar: compile manifest.txt
 	$(JAR) cfm $@ manifest.txt -C build . 
 
 manifest.txt: Makefile
