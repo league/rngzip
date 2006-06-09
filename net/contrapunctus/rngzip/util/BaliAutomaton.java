@@ -53,11 +53,25 @@ import org.kohsuke.bali.writer.AutomatonWriter;
  */
 public final class BaliAutomaton 
 {
+   private final URL url;
    private final TreeAutomaton au;
    private Transition[][] trans;
    private State[] states;
    private HashMap<Integer,String> names = new HashMap<Integer,String>();
    private TransitionSorter ts = new TransitionSorter();
+
+   public static BaliAutomaton fromRNG (URL url)
+      throws SchemaFormatException
+   {
+      Grammar gr = Driver.loadRELAXNGGrammar(url);
+      if( gr == null ) throw new SchemaFormatException(url.toString());
+      gr = Unifier.unify(gr);
+      gr = ZeroOrMoreAttributeExpander.optimize(gr);
+      gr = InterleaveStrengthReducer.optimize(gr);
+      gr = AttributeReorder.optimize(gr);
+      TreeAutomaton ta = TreeAutomatonBuilder.build(gr, false, true, true);
+      return new BaliAutomaton(url, ta);
+   }
 
    /** 
     * Build an automaton by reading the named Relax NG schema file,
@@ -69,22 +83,15 @@ public final class BaliAutomaton
     * @throws SchemaFormatException if there is a problem reading a
     * Relax NG schema from the file
     */
-   public static BaliAutomaton fromRNG (String filename)
+   public static BaliAutomaton fromRNG (File file)
       throws FileNotFoundException, SchemaFormatException
    {
-      File f = new File(filename);
-      if(!f.exists()) throw new FileNotFoundException(filename);
+      if(!file.exists()) 
+         throw new FileNotFoundException(file.toString());
       URL url = null;
-      try { url = f.toURI().toURL(); }
+      try { url = file.toURI().toURL(); }
       catch(MalformedURLException x) { assert false : x; }
-      Grammar gr = Driver.loadRELAXNGGrammar(url);
-      if( gr == null ) throw new SchemaFormatException(url.toString());
-      gr = Unifier.unify(gr);
-      gr = ZeroOrMoreAttributeExpander.optimize(gr);
-      gr = InterleaveStrengthReducer.optimize(gr);
-      gr = AttributeReorder.optimize(gr);
-      TreeAutomaton ta = TreeAutomatonBuilder.build(gr, false, true, true);
-      return new BaliAutomaton(ta);
+      return fromRNG(url);
    }
 
    /**
@@ -93,8 +100,9 @@ public final class BaliAutomaton
     * transitions is used to sort them, so that the order remains
     * consistent across multiple runs.
     */
-   public BaliAutomaton(TreeAutomaton au)
+   public BaliAutomaton(URL url, TreeAutomaton au)
    {
+      this.url = url;
       this.au = au;
       states = au.getStates();
       /* Build the names map: it is mostly used for debugging. */
@@ -302,6 +310,11 @@ public final class BaliAutomaton
       return checksum(new Adler32());
    }
 
+   public URL getURL()
+   {
+      return url;
+   }
+
    /**
     * This shortcut passes the tree automaton to the provided writer
     * from the Bali library.  It can be used to validate an XML stream
@@ -334,7 +347,7 @@ public final class BaliAutomaton
       for(String a : args)
          {
             sum.reset();
-            BaliAutomaton.fromRNG(a).print(pout);
+            BaliAutomaton.fromRNG(new File(a)).print(pout);
             System.out.printf("%08x %s%n", sum.getValue(), a);
          }
    }

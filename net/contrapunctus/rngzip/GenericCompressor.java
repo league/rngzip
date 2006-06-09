@@ -1,5 +1,6 @@
 package net.contrapunctus.rngzip;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -31,7 +32,7 @@ class GenericCompressor extends Compressor
       (String filename, ErrorReporter err, RNGZOutputInterface out)
       throws FileNotFoundException, SchemaFormatException
    {
-      this(BaliAutomaton.fromRNG(filename), err, out);
+      this(BaliAutomaton.fromRNG(new File(filename)), err, out);
    }
 
    public GenericCompressor

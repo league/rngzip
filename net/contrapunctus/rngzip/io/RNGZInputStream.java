@@ -3,11 +3,15 @@ package net.contrapunctus.rngzip.io;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPInputStream;
 import net.contrapunctus.rngzip.util.BitInputStream;
+import net.contrapunctus.rngzip.util.BaliAutomaton;
 import net.contrapunctus.rngzip.util.MultiplexInputStream;
+import net.contrapunctus.rngzip.util.SchemaFormatException;
 
 /**
  * This implements a compressed XML input interface by reading the
@@ -50,12 +54,30 @@ public final class RNGZInputStream implements RNGZInputInterface
     * @throws IOException if there is some other problem reading from
     * ‘in’.
     */
-   public RNGZInputStream(InputStream in, RNGZSettings se) throws IOException
+   public RNGZInputStream(InputStream in, RNGZSettings se) 
+      throws IOException
    {
       mux = new MultiplexInputStream(in);
       settings = se.fromStream(mux, 1);
       bits = settings.newBitInput(mux, 0);
       data = settings.newDataInput(mux, 2);
+   }
+
+   public BaliAutomaton readSchema (BaliAutomaton au)
+      throws IOException, MalformedURLException, SchemaFormatException
+   {
+      if(bits.readBit()) {
+         // stream contains info about the schema 
+         URL url = new URL(data.readUTF());
+         long expectedSum = data.readLong();
+         // if automaton was provided, that takes precedence 
+         if(au == null) {
+            // no automaton provided, try to read it from url
+            au = BaliAutomaton.fromRNG(url);
+         }
+         assert au.checksum() == expectedSum; // should throw exn instead
+      }
+      return au;
    }
 
    private final void check()

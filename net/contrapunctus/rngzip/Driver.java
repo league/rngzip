@@ -95,7 +95,7 @@ public class Driver
                      info("building automaton:       ");
                      start = System.currentTimeMillis();
                   }
-              automaton = BaliAutomaton.fromRNG(schema);
+              automaton = BaliAutomaton.fromRNG(new File(schema));
               if(timings_p)
                  {
                     elapsed = System.currentTimeMillis() - start;
@@ -315,7 +315,7 @@ public class Driver
    {
       RNGZOutputInterface rnz = debug_p?
          new VerboseOutput(System.err) :
-         new RNGZOutputStream(out, settings);
+        new RNGZOutputStream(out, settings, automaton);
       ErrorReporter err = new ErrorReporter();
       GenericCompressor gc = new GenericCompressor(automaton, err, rnz);
       XMLReader xr = XMLReaderFactory.createXMLReader();
@@ -411,9 +411,15 @@ public class Driver
    private void decompress(InputStream in, OutputStream out)
       throws IOException, SAXException
    {
-      RNGZInputInterface zin = debug_p?
-         new InteractiveInput(in, System.err) :
-         new RNGZInputStream(in, settings);
+      RNGZInputInterface zin;
+      if( debug_p ) {
+         zin = new InteractiveInput(in, System.err);
+      }
+      else {
+         RNGZInputStream zis = new RNGZInputStream(in, settings);
+         automaton = zis.readSchema(automaton);
+         zin = zis;
+      }
       Writer wr = pretty_p?
          null :
          new Writer();

@@ -109,7 +109,7 @@ public class GenericTest
     AutomatonWriter writer = new NullWriter();    
     Interpreter interpreter = new Interpreter();
     writer = new MultiWriter(writer, interpreter);
-    BaliAutomaton automaton = BaliAutomaton.fromRNG(schemaFileName);
+    BaliAutomaton automaton = BaliAutomaton.fromRNG(new File(schemaFileName));
     automaton.writeTo(writer);
     ValidateletImpl v = interpreter.createValidatelet();
     xmlReader.setContentHandler(v);
@@ -131,7 +131,7 @@ public class GenericTest
   private void compress() throws Exception
   {
     ByteArrayOutputStream bo = new ByteArrayOutputStream();
-    RNGZOutputStream ro = new RNGZOutputStream(bo, settings);
+    RNGZOutputStream ro = new RNGZOutputStream(bo, settings, null);
     GenericCompressor gc = new GenericCompressor
       (schemaFileName, errorReporter, ro);
     xmlReader.setContentHandler(gc);
@@ -144,6 +144,7 @@ public class GenericTest
   {
     ByteArrayInputStream bi = new ByteArrayInputStream(compressedBytes);
     RNGZInputStream ri = new RNGZInputStream(bi, settings);
+    ri.readSchema(null);
     newSax = new EventRecorder();
     new GenericDecompressor(schemaFileName, ri, newSax);
     ri.close();

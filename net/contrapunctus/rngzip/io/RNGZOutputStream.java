@@ -1,14 +1,15 @@
 package net.contrapunctus.rngzip.io;
 
+import java.io.Closeable;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.Closeable;
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPOutputStream;
+import net.contrapunctus.rngzip.util.BaliAutomaton;
 import net.contrapunctus.rngzip.util.BitOutputStream;
 import net.contrapunctus.rngzip.util.ErrorReporter;
 import net.contrapunctus.rngzip.util.MultiplexOutputStream;
@@ -45,7 +46,9 @@ public final class RNGZOutputStream implements RNGZOutputInterface
     * @throws IllegalArgumentException if ‘out’ is null.
     * @throws IOException if there is trouble writing to ‘out’.
     */
-   public RNGZOutputStream(OutputStream out, RNGZSettings settings)
+   public RNGZOutputStream(OutputStream out, 
+                           RNGZSettings settings,
+                           BaliAutomaton au)
       throws IOException
    {
       this.settings = settings;
@@ -53,7 +56,14 @@ public final class RNGZOutputStream implements RNGZOutputInterface
       settings.writeTo(mux, 1);
       bits = settings.newBitOutput(mux, 0);
       data = settings.newDataOutput(mux, 2);
-      
+      if (au != null) {
+         bits.writeBit(true);
+         data.writeUTF(au.getURL().toString());
+         data.writeLong(au.checksum());
+      }
+      else {
+         bits.writeBit(false);
+      }
       if(STATS) {
          tallies = new HashMap<String, Integer>();
       }

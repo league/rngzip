@@ -1,5 +1,6 @@
 package net.contrapunctus.rngzip;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Stack;
 import org.kohsuke.bali.automaton.*;
@@ -29,7 +30,7 @@ class GenericDecompressor
                               ContentHandler ch)
       throws MalformedURLException, IOException, SAXException
    {
-      this(BaliAutomaton.fromRNG(filename), in, ch);
+     this(BaliAutomaton.fromRNG(new File(filename)), in, ch);
    }
 
    public GenericDecompressor(BaliAutomaton _au, 

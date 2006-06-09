@@ -1,6 +1,7 @@
 package net.contrapunctus.rngzip.util;
 
 import java.util.LinkedList;
+import java.io.File;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -38,7 +39,7 @@ public class AutomatonChecksumTest
   @Test
   public void run() throws Exception
   {
-    BaliAutomaton ba = BaliAutomaton.fromRNG(filename);
+    BaliAutomaton ba = BaliAutomaton.fromRNG(new File(filename));
     long s = ba.checksum();
     assert sum == s
       : "checksum mismatch: " + filename + ": " 

@@ -72,7 +72,7 @@ public class RNGZIOTest
    {
       // first write
       ByteArrayOutputStream bo = new ByteArrayOutputStream();
-      RNGZOutputStream zo = new RNGZOutputStream(bo, settings);
+      RNGZOutputStream zo = new RNGZOutputStream(bo, settings, null);
       LinkedList<String> path = new LinkedList<String>();
       path.add("yo");
       setupCoders();
@@ -90,6 +90,7 @@ public class RNGZIOTest
       MultiplexBlockTest.hexdump(buf, System.err);
       ByteArrayInputStream bi = new ByteArrayInputStream(buf);
       RNGZInputStream zi = new RNGZInputStream(bi, new RNGZSettings());
+      zi.readSchema(null);
       setupCoders();
       assertEquals(2, zi.readChoice(cc[3]));
       assertEquals(1, zi.readChoice(cc[3]));
