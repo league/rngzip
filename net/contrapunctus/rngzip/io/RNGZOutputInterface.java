@@ -1,31 +1,31 @@
 package net.contrapunctus.rngzip.io;
 
-import java.util.List;
 import java.io.Closeable;
 import java.io.Flushable;
 import java.io.IOException;
+import java.net.URL;
+import java.util.List;
 
 /**
  * This interface specifies the methods needed to write a compressed
  * XML stream.  Radically different file formats are made possible by
  * having different classes implement this interface.
  * 
- * <p class='license'>This is free software: you can modify and/or
+ * <p class='license'>This is free software; you may modify and/or
  * redistribute it under the terms of the GNU General Public License,
- * but it comes with ABSOLUTELY NO WARRANTY.</p>
+ * but it comes with <b>absolutely no warranty.</b>
  * 
- * @author Copyright ©2005 by
- * <a href="http://contrapunctus.net/league/">Christopher League</a> 
+ * @author Christopher League
  */
-public interface RNGZOutputInterface extends Closeable, Flushable,
-                                             ChoiceEncoderFactory
+public interface RNGZOutputInterface 
+  extends Closeable, Flushable, ChoiceEncoderFactory
 {
    /**
     * Record a choice taken in the automaton.
     * @param enc indicates the choice point in the automaton; it can
     * encode the choice to a bit stream (if the implementing class so
     * desires).
-    * @param choice is the choice that is taken; it must be
+    * @param choice the choice that is taken; it must be
     * non-negative and less than the limit of the encoder.
     * @throws IndexOutOfBoundsException if ‘choice’ is out of range.
     * @throws IOException if there is a problem writing to the output
@@ -40,7 +40,7 @@ public interface RNGZOutputInterface extends Closeable, Flushable,
     * the XML tree.  The last element of this list is the containing
     * element of this data.  Or, if this the value of an attribute
     * called “name”, then ‘path’ ends with the string “@name”.
-    * @param s is the content to store in the output stream.
+    * @param s the content to store in the output stream.
     *
     * @throws IllegalArgumentException if ‘path’ is null or an empty
     * list, or if ‘s’ is null.

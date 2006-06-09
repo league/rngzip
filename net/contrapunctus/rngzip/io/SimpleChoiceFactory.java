@@ -9,12 +9,11 @@ package net.contrapunctus.rngzip.io;
  * invalid, and are wasted: 110 (representing 6) and 111 (representing
  * 7).
  * 
- * <p class='license'>This is free software: you can modify and/or
+ * <p class='license'>This is free software; you may modify and/or
  * redistribute it under the terms of the GNU General Public License,
- * but it comes with ABSOLUTELY NO WARRANTY.</p>
+ * but it comes with <b>absolutely no warranty.</b>
  * 
- * @author Copyright ©2005 by
- * <a href="http://contrapunctus.net/league/">Christopher League</a> 
+ * @author Christopher League
  */
 public class SimpleChoiceFactory implements ChoiceEncoderFactory, 
                                             ChoiceDecoderFactory
@@ -22,14 +21,14 @@ public class SimpleChoiceFactory implements ChoiceEncoderFactory,
    public ChoiceDecoder makeChoiceDecoder(int limit, Object id)
    {
       if(limit < 1) throw new IllegalArgumentException("limit < 1");
-      else if(limit == 1) return new TrivialChoiceCoder();
+      else if(limit == 1) return TrivialChoiceCoder.instance;
       else return new SimpleChoiceCoder(limit, id);
    }
    
    public ChoiceEncoder makeChoiceEncoder(int limit, Object id)
    {
       if(limit < 1) throw new IllegalArgumentException("limit < 1");
-      else if(limit == 1) return new TrivialChoiceCoder();
+      else if(limit == 1) return TrivialChoiceCoder.instance;
       else return new SimpleChoiceCoder(limit, id);
    }   
 }

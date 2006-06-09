@@ -1,8 +1,5 @@
 package net.contrapunctus.rngzip.io;
 
-//import com.colloquial.arithcode.ArithCodeInputStream;
-//import com.colloquial.arithcode.ArithCodeOutputStream;
-//import com.colloquial.arithcode.PPMModel;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -15,72 +12,184 @@ import net.contrapunctus.rngzip.util.BitOutputStream;
 import net.contrapunctus.rngzip.util.MultiplexInputStream;
 import net.contrapunctus.rngzip.util.MultiplexOutputStream;
 import net.contrapunctus.rngzip.util.OutputStreamFilter;
+
 //import org.apache.tools.bzip2.CBZip2InputStream;
 //import org.apache.tools.bzip2.CBZip2OutputStream;
+//import com.colloquial.arithcode.ArithCodeInputStream;
+//import com.colloquial.arithcode.ArithCodeOutputStream;
+//import com.colloquial.arithcode.PPMModel;
 
+/**
+ * This class represents the various configurable settings for a
+ * compressed XML stream.  To compress a stream, these settings are
+ * specified on the command line (or otherwise set by the client), but
+ * to decompress a stream they must be extracted from the stream
+ * itself.
+ *
+ * <p class='license'>This is free software; you may modify and/or
+ * redistribute it under the terms of the GNU General Public License,
+ * but it comes with <b>absolutely no warranty.</b>
+ * 
+ * @author Christopher League
+ */
 public class RNGZSettings 
 {
+   /**
+    * This enumeration represents the different ways to encode choice
+    * points as bits.
+    */
    public enum BitCoding
    {
-      FIXED, HUFFMAN; 
+      /**
+       * Uses a fixed-length representation.  That is, if a particular
+       * choice point has 6 possible choices, we will use 3 bits to
+       * represent them: 000 for choice 0, 100 for choice 4, 101 for
+       * choice 5, etc.
+       * @see SimpleChoiceFactory
+       */
+      FIXED, 
+         
+      /**
+       * Uses an adaptive Huffman algorithm.  More frequently traveled
+       * paths through each choice point will eventually use
+       * proportionally fewer bits.
+       * @see HuffmanChoiceFactory
+       */
+      HUFFMAN; 
+   }
+
+   /**
+    * This enumeration represents the different ways to compress
+    * sub-streams within the compressed XML format.
+    */
+   public enum DataCompression
+   {
+      /**
+       * Does not apply any compression to the stream.
+       */
+      NONE, 
+
+      /**
+       * Applies GZIP compression to the stream.
+       * @see GZIPOutputStream
+       */
+      GZ;
+      //, BZ2, PPM;
    }
 
    private static final int ppmOrder = 4;
    
-   public enum DataCompression
-   {
-     NONE, GZ;  //, BZ2, PPM;
-   }
-
    private static final BitCoding[] BitCoding_values = BitCoding.values();
    private static final DataCompression[] DataCompression_values =
       DataCompression.values();
 
+   /**
+    * The strategy used to encode choice points as bits.  The default
+    * is <code>HUFFMAN</code>.
+    */
    protected BitCoding coding = BitCoding.HUFFMAN;
-   protected DataCompression bit_cm = DataCompression.GZ;
-   protected DataCompression dat_cm = DataCompression.GZ;
 
+   /**
+    * The type of compression applied to the bit stream representing
+    * the XML tree structure.  The default is <code>GZ</code>.
+    */
+   protected DataCompression treeCompr = DataCompression.GZ;
+
+   /**
+    * The type of compression applied to the character data from the
+    * XML document.  The default is <code>GZ</code>.
+    */
+   protected DataCompression dataCompr = DataCompression.GZ;
+
+   /**
+    * Default constructor, creates an object that represents
+    * (initially) all the default settings.
+    */
    public RNGZSettings() { }
-   public RNGZSettings(BitCoding bc, DataCompression bcm, DataCompression dcm)
+
+   /**
+    * This constructor takes parameters to specify the bit coding
+    * strategy and the types of compression used.
+    * @param bc the strategy used to encode choice points as bits.
+    * @param tc the type of compression applied to the bit stream
+    * representing the XML tree structure.
+    * @param dc the type of compression applied to the character data
+    * from the XML document.
+    */
+   public RNGZSettings(BitCoding bc, 
+                       DataCompression tc, 
+                       DataCompression dc)
    {
       coding = bc;
-      bit_cm = bcm;
-      dat_cm = dcm;
+      treeCompr = tc;
+      dataCompr = dc;
    }
 
+   /**
+    * Adjusts the strategy used to encode choice points as bits.
+    * @see #coding
+    */
    public void setBitCoder(BitCoding bc)
    {
       coding = bc;
    }
-
+   
+   /**
+    * Interpret the string parameter as a strategy used to encode
+    * choice points as bits.  
+    * @param bc a case-insensitive representation of the {@link
+    * BitCoding} strategy, such as “fixed” or “Huffman”.
+    */
    public void setBitCoder(String bc)
    {
       setBitCoder(BitCoding.valueOf(bc.toUpperCase()));
    }
 
-   public void setBitCompressor(DataCompression bcm) 
+   /**
+    * Sets the type of compression used on the tree representation.
+    * @see #treeCompr
+    */
+   public void setTreeCompressor(DataCompression tc) 
    {
-      bit_cm = bcm;
+      treeCompr = tc;
    }
    
-   public void setBitCompressor(String bcm)
+   /**
+    * Sets the type of compression used on the tree representation.
+    * @param tc a case-insensitive representation of the {@link
+    * DataCompression} type, such as “none” or “gz”.
+    */
+   public void setTreeCompressor(String tc)
    {
-      setBitCompressor(DataCompression.valueOf(bcm.toUpperCase()));
+      setTreeCompressor(DataCompression.valueOf(tc.toUpperCase()));
    }
    
-   public void setDataCompressor(DataCompression dcm) 
+   /**
+    * Sets the type of compression used on the character data.
+    * @see #dataCompr
+    */
+   public void setDataCompressor(DataCompression dc) 
    {
-      dat_cm = dcm;
+      dataCompr = dc;
    }
    
-   public void setDataCompressor(String dcm)
+   /**
+    * Sets the type of compression used on the character data.
+    * @param dc a case-insensitive representation of the {@link
+    * DataCompression} type, such as “none” or “gz”.
+    */
+   public void setDataCompressor(String dc)
    {
-      setDataCompressor(DataCompression.valueOf(dcm.toUpperCase()));
+      setDataCompressor(DataCompression.valueOf(dc.toUpperCase()));
    }
 
+   /**
+    * Provides a brief, human-readable representation of these
+    * settings.
+    */
    public String toString()
    {
-      return coding + "/" + bit_cm + "/" + dat_cm;
+      return coding + "/" + treeCompr + "/" + dataCompr;
    }
 
    /**
@@ -95,8 +204,15 @@ public class RNGZSettings
    /* ----------------------------------------------------------------
     *                       COMPRESSOR INTERFACE
     * ----------------------------------------------------------------
-    */   
-   protected OutputStream wrapOutput(OutputStream out, DataCompression cm)
+    */
+
+   /**
+    * Filter an output stream through a compressor, as specified by
+    * ‘cm’.  That is, if ‘cm’ is <code>GZ</code>, this method will
+    * return <code>new GZIPOutputStream(out)</code>.
+    */
+   public static OutputStream wrapOutput
+      (OutputStream out, DataCompression cm)
       throws IOException
    {
       switch(cm) {
@@ -111,7 +227,12 @@ public class RNGZSettings
       return out;
    }
 
-   protected void writeTo(MultiplexOutputStream mux, int stream) 
+   /**
+    * Record a representation of these settings onto the designated
+    * stream.  This representation is sufficient for reconstructing
+    * the settings upon decompressing.
+    */
+   public void writeTo(MultiplexOutputStream mux, int stream) 
       throws IOException
    {
       /* For future compatibility, the config stream tells how many
@@ -132,15 +253,15 @@ public class RNGZSettings
          });
       out.write(coding.ordinal());
       out.write(2);
-      out.write(bit_cm.ordinal());
-      out.write(dat_cm.ordinal());
+      out.write(treeCompr.ordinal());
+      out.write(dataCompr.ordinal());
    }
 
-   protected int magic() 
-   {
-      return MAGIC;
-   }
-
+   /** 
+    * Construct a <code>BitOutputStream</code> on the multiplexed
+    * stream, using the tree compressor specified by these settings.
+    * @see #treeCompr
+    */
    protected BitOutputStream newBitOutput(MultiplexOutputStream mux, 
                                           int stream)
       throws IOException
@@ -148,11 +269,16 @@ public class RNGZSettings
       return mux.open
          (stream, new OutputStreamFilter<BitOutputStream>() {
             public BitOutputStream wrap (OutputStream out) throws IOException {
-               return new BitOutputStream(wrapOutput(out, bit_cm));
+               return new BitOutputStream(wrapOutput(out, treeCompr));
             }
          });
    }
 
+   /**
+    * Construct a <code>DataOutputStream</code> which is compressed
+    * according to the settings.
+    * @see #dataCompr
+    */
    protected DataOutputStream newDataOutput(MultiplexOutputStream mux, 
                                             int stream)
       throws IOException
@@ -160,18 +286,23 @@ public class RNGZSettings
       return mux.open
          (stream, new OutputStreamFilter<DataOutputStream>() {
             public DataOutputStream wrap (OutputStream out) throws IOException {
-               return new DataOutputStream(wrapOutput(out, dat_cm));
+               return new DataOutputStream(wrapOutput(out, dataCompr));
             }
          });
    }
-   
+
+   /**
+    * Construct a <code>ChoiceCoder</code> according to these
+    * settings.
+    * @see #coding
+    */
    protected ChoiceCoder makeChoiceCoder(int limit, Object id)
    {
       if(limit < 1) {
          throw new IllegalArgumentException("limit < 1");
       }
       else if(limit == 1) {
-         return new TrivialChoiceCoder();
+         return TrivialChoiceCoder.instance;
       }
       else if(limit > 2 && coding == BitCoding.HUFFMAN) {
          return new HuffmanChoiceCoder(limit, id);
@@ -187,7 +318,23 @@ public class RNGZSettings
     * ----------------------------------------------------------------
     */   
 
-   protected RNGZSettings fromStream(MultiplexInputStream mux, int stream)
+   /**
+    * Return the magic value.  This is used to validate the input
+    * stream during decompression.  It is a protected method rather
+    * than just a constant, so that if you subclass this class you can
+    * provide a different magic number.
+    * @see #MAGIC
+    */
+   protected int magic() 
+   {
+      return MAGIC;
+   }
+
+   /**
+    * Reconstitute the settings from a given stream.
+    */
+   protected RNGZSettings fromStream(MultiplexInputStream mux, 
+                                     int stream)
       throws IOException
    {
       if(mux.magic() != magic()) {
@@ -199,8 +346,8 @@ public class RNGZSettings
          if(config.read() != 2) {
             throw new RNGZFormatException("invalid config data");
          }
-         bit_cm = DataCompression_values[config.read()];
-         dat_cm = DataCompression_values[config.read()];
+         treeCompr = DataCompression_values[config.read()];
+         dataCompr = DataCompression_values[config.read()];
       }
       catch(IndexOutOfBoundsException x) {
          throw new RNGZFormatException("unknown coding");
@@ -208,7 +355,12 @@ public class RNGZSettings
       return this;
    }
 
-   protected InputStream wrapInput(InputStream in, DataCompression cm)
+   /** 
+    * Create a decompressing input stream, according to the value of
+    * ‘cm’. 
+    */
+   public static InputStream wrapInput
+      (InputStream in, DataCompression cm)
       throws IOException
    {
       switch(cm) {
@@ -223,18 +375,28 @@ public class RNGZSettings
       return in;
    }
 
+   /**
+    * Create a decompressing bit input stream, according to these
+    * settings.
+    * @see #treeCompr
+    */
    protected BitInputStream newBitInput(MultiplexInputStream mux,
                                         int stream)
       throws IOException
    {
-      return new BitInputStream(wrapInput(mux.open(stream), bit_cm));
+      return new BitInputStream(wrapInput(mux.open(stream), treeCompr));
    }
    
+   /**
+    * Create a decompressing data input stream, according to these
+    * settings.
+    * @see #dataCompr
+    */
    protected DataInputStream newDataInput(MultiplexInputStream mux,
                                           int stream)
       throws IOException
    {
-      return new DataInputStream(wrapInput(mux.open(stream), dat_cm));
+      return new DataInputStream(wrapInput(mux.open(stream), dataCompr));
    }
 
 }

@@ -214,7 +214,7 @@ public class Driver
    private void treeCompressor()
    {
       try {
-         settings.setBitCompressor(opt.getOptarg());
+         settings.setTreeCompressor(opt.getOptarg());
       }
       catch(IllegalArgumentException x) {
          enumError(RNGZSettings.DataCompression.values());

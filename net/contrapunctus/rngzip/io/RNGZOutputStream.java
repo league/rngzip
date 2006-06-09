@@ -22,12 +22,11 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * output stream.  The embedded streams may optionally be compressed
  * using gzip.
  * 
- * <p class='license'>This is free software: you can modify and/or
+ * <p class='license'>This is free software; you may modify and/or
  * redistribute it under the terms of the GNU General Public License,
- * but it comes with ABSOLUTELY NO WARRANTY.</p>
+ * but it comes with <b>absolutely no warranty.</b>
  * 
- * @author Copyright ©2005 by
- * <a href="http://contrapunctus.net/league/">Christopher League</a> 
+ * @author Christopher League
  */
 public final class RNGZOutputStream implements RNGZOutputInterface
 {
@@ -39,15 +38,6 @@ public final class RNGZOutputStream implements RNGZOutputInterface
    private final boolean STATS = false;
    private final PrintStream dbg = System.err;
    private HashMap<String, Integer> tallies;
-
-   /**
-    * Bytes 5–8 of the stream are given by this ‘magic’ number, in
-    * Java-standard big-endian byte order.  They follow the four bytes
-    * of {@link MultiplexOutputStream#MAGIC}.  These bytes represent
-    * the letters “rnZ” in ASCII (72 6E 5A in hexadecimal) followed by
-    * a one-byte version number, currently 01.
-    */
-   public static final int MAGIC = 0x726E5A00;
 
    /**
     * Construct an output stream for compressed XML data, which writes

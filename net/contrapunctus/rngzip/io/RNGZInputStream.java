@@ -15,12 +15,11 @@ import net.contrapunctus.rngzip.util.MultiplexInputStream;
  * stream.  The embedded streams may optionally be compressed using
  * gzip; this is specified in a configuration stream of the input.
  * 
- * <p class='license'>This is free software: you can modify and/or
+ * <p class='license'>This is free software; you may modify and/or
  * redistribute it under the terms of the GNU General Public License,
- * but it comes with ABSOLUTELY NO WARRANTY.</p>
+ * but it comes with <b>absolutely no warranty.</b>
  * 
- * @author Copyright ©2005 by
- * <a href="http://contrapunctus.net/league/">Christopher League</a> 
+ * @author Christopher League
  */
 public final class RNGZInputStream implements RNGZInputInterface
 {

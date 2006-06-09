@@ -8,15 +8,14 @@ import java.io.IOException;
  * This interface specifies the methods needed to read a compressed
  * XML stream. 
  * 
- * <p class='license'>This is free software: you can modify and/or
+ * <p class='license'>This is free software; you may modify and/or
  * redistribute it under the terms of the GNU General Public License,
- * but it comes with ABSOLUTELY NO WARRANTY.</p>
+ * but it comes with <b>absolutely no warranty.</b>
  * 
- * @author Copyright ©2005 by
- * <a href="http://contrapunctus.net/league/">Christopher League</a> 
+ * @author Christopher League
  */
-public interface RNGZInputInterface extends Closeable, 
-                                            ChoiceDecoderFactory
+public interface RNGZInputInterface 
+  extends Closeable, ChoiceDecoderFactory
 {
    /**
     * Recall which choice to take in the automaton (by reading the

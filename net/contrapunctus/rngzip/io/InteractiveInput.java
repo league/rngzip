@@ -9,16 +9,15 @@ import java.util.List;
    
 /**
  * This is an input interface that asks the user for input whenever it
- * needs to make a choice or produce character data.  This is useful
- * for debugging; it provides a way to guide a decompressor
- * interactively through the automaton.
+ * needs to make a choice or produce character data.  This can be
+ * useful for tracing and debugging; it provides a way to guide a
+ * decompressor interactively through the automaton.
  * 
- * <p class='license'>This is free software: you can modify and/or
+ * <p class='license'>This is free software; you may modify and/or
  * redistribute it under the terms of the GNU General Public License,
- * but it comes with ABSOLUTELY NO WARRANTY.</p>
+ * but it comes with <b>absolutely no warranty.</b>
  * 
- * @author Copyright ©2005 by
- * <a href="http://contrapunctus.net/league/">Christopher League</a> 
+ * @author Christopher League
  */
 public class InteractiveInput implements RNGZInputInterface
 {
@@ -80,7 +79,8 @@ public class InteractiveInput implements RNGZInputInterface
    }
 
    /**
-    * Does nothing: does not even close the underlying PrintStreams.
+    * Does nothing; does not even close the underlying
+    * <code>PrintStream</code>.
     */
    public void close() 
    { }
