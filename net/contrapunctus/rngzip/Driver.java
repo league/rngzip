@@ -31,7 +31,8 @@ public class Driver
 {
    public static void main(String[] args) throws Exception
    {
-      new Driver("rngzip").run(args);
+      new Options("rngzip").process(args);
+      //new Driver("rngzip").run(args);
    }
 
    protected Driver(String name)
@@ -39,47 +40,83 @@ public class Driver
       myname = name;
    }
 
+   private static final String shortopts = "cDdE:fhikp::qS:s:T:tVvZ:";
+
+   private static LongOpt[] longopts = new LongOpt[] {
+      new LongOpt("stdout",          LongOpt.NO_ARGUMENT,       null, 'c'),
+      new LongOpt("debug",           LongOpt.NO_ARGUMENT,       null, 'D'),
+      new LongOpt("decompress",      LongOpt.NO_ARGUMENT,       null, 'd'),
+      new LongOpt("tree-encoder",    LongOpt.REQUIRED_ARGUMENT, null, 'E'),
+      new LongOpt("force",           LongOpt.NO_ARGUMENT,       null, 'f'),
+      new LongOpt("help",            LongOpt.NO_ARGUMENT,       null, 'h'),
+      new LongOpt("identify",        LongOpt.NO_ARGUMENT,       null, 'i'),
+      new LongOpt("ignore-checksum", LongOpt.NO_ARGUMENT,       null,  2 ),
+      new LongOpt("keep",            LongOpt.NO_ARGUMENT,       null, 'k'),
+      new LongOpt("pretty-print",    LongOpt.OPTIONAL_ARGUMENT, null, 'p'),
+      new LongOpt("quiet",           LongOpt.NO_ARGUMENT,       null, 'q'),
+      new LongOpt("suffix",          LongOpt.REQUIRED_ARGUMENT, null, 'S'),
+      new LongOpt("schema",          LongOpt.REQUIRED_ARGUMENT, null, 's'),
+      new LongOpt("tree-compressor", LongOpt.REQUIRED_ARGUMENT, null, 'T'),
+      new LongOpt("timings",         LongOpt.NO_ARGUMENT,       null, 't'),
+      new LongOpt("version",         LongOpt.NO_ARGUMENT,       null, 'V'),
+      new LongOpt("exact-version",   LongOpt.NO_ARGUMENT,       null,  3 ),
+      new LongOpt("verbose",         LongOpt.NO_ARGUMENT,       null, 'v'),
+      new LongOpt("data-compressor", LongOpt.REQUIRED_ARGUMENT, null, 'Z')
+   };
+
+   private final String myname;
+   private RNGZSettings settings   // records tree-encoder, tree-compressor,
+      = new RNGZSettings();        //   and data-compressor settings
+   private boolean stdout_p;       // write to standard out; don't touch files
+   private boolean debug_p;        // trace compressor; replaces normal output
+   private boolean decompress_p;   // decompress instead of compress
+   private boolean force_p;        // force overwrite of output files
+   private boolean identify_p;     // print information about .rnz files
+   private boolean ignore_sum_p;   // decompress even if schema changed
+   private boolean keep_p;         // do not remove input files
+   private boolean pretty_p;       // line-break and indent XML output
+   private int pretty_tab = 2;     //   how far to indent?
+   private int verbosity = 1;      // 0=errors only, 1=warnings, 2=stats&info
+   private String suffix = ".rnz"; // use this suffix on compressed files
+   private String schema;          // use this schema (required to compress)
+   private boolean timings_p;      // output timing information
+
+   private BaliAutomaton automaton;
+   private Getopt opt;
+   private int curopt, errcount = 0;
+   private static PrintStream err = System.err;
+
+   private int processOptions(String[] args) throws IOException
+   {
+      opt = new Getopt(myname, args, shortopts, longopts);
+      for(curopt = opt.getopt();  curopt != -1;  curopt = opt.getopt()) {
+         switch(curopt) {
+         case '?': errcount++; break;
+         case 'c': stdout_p = true; break;
+         case 'D': debug_p = true; break;
+         case 'd': decompress_p = true; break;
+         case 'E': treeEncoder(); break;
+         case 'f': force_p = true; break;
+         case 'h': showHelp(System.out); System.exit(0); break;
+         case 'k': keep_p = true; break;
+         case 'p': prettyPrint(); break;
+         case 'q': verbosity--; break;
+         case 'S': suffix = opt.getOptarg(); break; 
+         case 'T': treeCompressor(); break;
+         case 't': timings_p = true; break;
+         case 'V': showVersion(System.out); System.exit(0); break;
+         case 'v': verbosity++; break;
+         case 'Z': dataCompressor(); break;
+         default: assert false : curopt;
+         }
+      }
+      return opt.getOptind();
+   }
+
    protected boolean requireSchema()
    {
       return true;
    }
-
-   protected Compressor makeCompressor
-      (BaliAutomaton au,
-       ErrorReporter er,
-       RNGZOutputInterface ro)
-   {
-      return new GenericCompressor(au, er, ro);
-   }
-   
-   protected Decompressor makeDecompressor
-      (BaliAutomaton au,
-       RNGZInputInterface ri,
-       ContentHandler ch)
-      throws IOException, SAXException
-   {
-      return new GenericDecompressor(au, ri, ch);
-   }
-
-   private final String myname;
-   private boolean stdout_p;     // write to standard output
-   private boolean decompress_p; // decompress instead of compress
-   private boolean debug_p;      // trace compressor; replaces normal output
-   private boolean force_p;      // force overwrite of output files
-   private boolean keep_p;       // do not remove input files
-   private boolean pretty_p;     // line-break and indent decompressed output
-   private boolean timings_p;    // output timing information
-   private int pretty_indent = 2;
-   private int verbosity = 1;    // 0=errors only, 1=warnings, 2=stats&info
-
-   private String suffix = ".rnz";
-   private RNGZSettings settings = new RNGZSettings();
-   private String schema;
-   private BaliAutomaton automaton;
-
-   private Getopt opt;
-   private int curopt, errcount = 0;
-   private static PrintStream err = System.err;
 
    private void run(String[] args) throws Exception
    {
@@ -115,53 +152,6 @@ public class Driver
         }
    }
 
-   private int processOptions(String[] args) throws IOException
-   {
-      opt = new Getopt(myname, args, shortopts, longopts);
-      for(curopt = opt.getopt();  curopt != -1;  curopt = opt.getopt()) {
-         switch(curopt) {
-         case '?': errcount++; break;
-         case 'c': stdout_p = true; break;
-         case 'D': debug_p = true; break;
-         case 'd': decompress_p = true; break;
-         case 'E': treeEncoder(); break;
-         case 'f': force_p = true; break;
-         case 'h': showHelp(System.out); System.exit(0); break;
-         case 'k': keep_p = true; break;
-         case 'p': prettyPrint(); break;
-         case 'q': verbosity--; break;
-         case 'S': suffix = opt.getOptarg(); break; 
-         case 'T': treeCompressor(); break;
-         case 't': timings_p = true; break;
-         case 'V': showVersion(System.out); System.exit(0); break;
-         case 'v': verbosity++; break;
-         case 'Z': dataCompressor(); break;
-         default: assert false : curopt;
-         }
-      }
-      return opt.getOptind();
-   }
-
-   private static final String shortopts = "cDdE:fhkp::qS:T:tVvZ:";
-
-   private static LongOpt[] longopts = new LongOpt[] {
-      new LongOpt("stdout",          LongOpt.NO_ARGUMENT,       null, 'c'),
-      new LongOpt("debug",           LongOpt.NO_ARGUMENT,       null, 'D'),
-      new LongOpt("decompress",      LongOpt.NO_ARGUMENT,       null, 'd'),
-      new LongOpt("tree-encoder",    LongOpt.REQUIRED_ARGUMENT, null, 'E'),
-      new LongOpt("force",           LongOpt.NO_ARGUMENT,       null, 'f'),
-      new LongOpt("help",            LongOpt.NO_ARGUMENT,       null, 'h'),
-      new LongOpt("keep",            LongOpt.NO_ARGUMENT,       null, 'k'),
-      new LongOpt("pretty-print",    LongOpt.OPTIONAL_ARGUMENT, null, 'p'),
-      new LongOpt("quiet",           LongOpt.NO_ARGUMENT,       null, 'q'),
-      new LongOpt("suffix",          LongOpt.REQUIRED_ARGUMENT, null, 'S'),
-      new LongOpt("tree-compressor", LongOpt.REQUIRED_ARGUMENT, null, 'T'),
-      new LongOpt("timings",         LongOpt.NO_ARGUMENT,       null, 't'),
-      new LongOpt("version",         LongOpt.NO_ARGUMENT,       null, 'V'),
-      new LongOpt("verbose",         LongOpt.NO_ARGUMENT,       null, 'v'),
-      new LongOpt("data-compressor", LongOpt.REQUIRED_ARGUMENT, null, 'Z')
-   };
-
    private void showHelp(PrintStream ps) throws IOException
    {
       ps.printf("usage: %s [options] %s[file ...]%n", myname,
@@ -192,7 +182,7 @@ public class Driver
       pretty_p = true;
       if(opt.getOptarg() != null) {
          try {
-            pretty_indent = Integer.parseInt(opt.getOptarg());
+            pretty_tab = Integer.parseInt(opt.getOptarg());
          }
          catch(NumberFormatException x) {
             invalid("requires an integer");

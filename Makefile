@@ -47,9 +47,12 @@ STRIP_PATH := sed 's:^[\.a-z]*/[-a-z]*/::'
 LIBRARIES := $(addprefix libs/,$(LIBRARIES))
 LIB_SOURCES := $(PARSER_GEN) \
   $(shell find $(LIBRARIES) -name '*.java' | $(STRIP_PATH))
-AUX_FILES := net/contrapunctus/rngzip/help.txt \
-  com/sun/msv/reader/trex/ng/relaxng.rng \
-  $(shell find $(LIBRARIES) -name '*.properties' | $(STRIP_PATH))
+AUX_GEN := \
+  net/contrapunctus/rngzip/version.txt \
+  net/contrapunctus/rngzip/context.txt 
+AUX_FILES := com/sun/msv/reader/trex/ng/relaxng.rng \
+  $(shell find $(LIBRARIES) -name '*.properties' | $(STRIP_PATH)) \
+  net/contrapunctus/rngzip/help.txt $(AUX_GEN)
 
 ALL_SOURCES := $(SOURCES) $(LIB_SOURCES)
 
@@ -142,7 +145,7 @@ jvm:
 
 ################################ Packaging
 
-predist: $(ALL_SOURCES)
+predist: $(ALL_SOURCES) $(AUX_FILES)
 
 dist: 
 	darcs dist --dist-name $(NAME)-$(VERSION)
@@ -153,6 +156,13 @@ $(NAME).jar: compile manifest.txt
 manifest.txt: Makefile
 	echo Main-Class: $(PACKAGE).Driver >$@
 	echo Class-Path: .$(PSEP)$(CLASSPATH)     >>$@
+
+net/contrapunctus/rngzip/version.txt: LICENSE
+	echo $(NAME) $(VERSION) >$@
+	cat LICENSE >>$@
+
+net/contrapunctus/rngzip/context.txt:
+	darcs changes --context >$@
 
 # for maintainer only: push changes up to web site
 DARCS_BRANCH = trunk
@@ -209,4 +219,4 @@ distclean: clean
 # Makefile.  This includes the output of javaCC.  This should leave
 # behind only things that are in the repository.
 maintainer-clean: distclean
-	$(RM) $(PARSER_FILES)
+	$(RM) $(PARSER_FILES) $(AUX_GEN)
