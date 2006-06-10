@@ -148,7 +148,7 @@ jvm:
 predist: $(ALL_SOURCES) $(AUX_FILES)
 
 dist: 
-	darcs dist --dist-name $(NAME)-$(VERSION)
+	REPODIR=$$PWD darcs dist --dist-name $(NAME)-$(VERSION)
 
 $(NAME).jar: compile manifest.txt
 	$(JAR) cfm $@ manifest.txt -C build . 
@@ -162,7 +162,7 @@ net/contrapunctus/rngzip/version.txt: LICENSE
 	cat LICENSE >>$@
 
 net/contrapunctus/rngzip/context.txt:
-	darcs changes --context >$@
+	(cd $${REPODIR:-$$PWD}; darcs changes --context) >$@
 
 # for maintainer only: push changes up to web site
 DARCS_BRANCH = trunk
