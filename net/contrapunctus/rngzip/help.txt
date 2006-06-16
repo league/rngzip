@@ -1,26 +1,24 @@
+
+Options:
  -c --stdout              write to standard output; do not touch files
  -D --debug               trace compressor; replaces normal output
- -d --decompress          decompress instead of compress
- -E --tree-encoder=CODER  use method CODER for encoding the XML tree:
-                             fixed   : fixed number of bits per choice
-                            *huffman : adapt based on frequency [default]
+ -E --tree-encoder=CODER  use method CODER for encoding the XML tree
  -f --force               force overwrite of output file
- -h --help                provide this help
- -i --identify            print information about .rnz files
     --ignore-checksum     decompress even if schema changed (not recommended)
  -k --keep                do not remove input files
  -p --pretty-print[=TAB]  line-break and indent decompressed output [2]
  -q --quiet               suppress all warnings
- -S --suffix=.SUF         use suffix .SUF on compressed files [.rnz]
  -s --schema=FILE|URL     use this schema (required to compress)
- -T --tree-compressor=CM  compress the encoded XML tree using CM:
-                             none : no compression
-                            *gz   : zlib (deflate) compression
-                             bz2  : block-sorting compression [default]
-                             ppm  : prediction by partial match
+ -S --suffix=.SUF         use suffix .SUF on compressed files [.rnz]
  -t --timings             output timings (implies -v) 
- -V --version             display version number, copyright, and license
-    --exact-version
+ -T --tree-compressor=CM  compress the encoded XML tree using CM
  -v --verbose             report statistics about processed files
- -Z --data-compressor=CM  compress the data stream using CM (see -T)
+ -Z --data-compressor=CM  compress the data stream using CM
+
+Modes:                    compress is the default; this requires -s
+ -d --decompress          decompress instead of compress
+ -i --identify            print information about compressed files
+ -h --help                provide this help
+ -V --version             display version number, copyright, and license
+    --exact-version       output complete darcs patch context
 

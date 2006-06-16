@@ -1,16 +1,17 @@
 package net.contrapunctus.rngzip;
 
 import java.util.LinkedList;
-import gnu.getopt.Getopt;
-import gnu.getopt.LongOpt;
+import java.util.HashMap;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.FileNotFoundException;
 import java.io.OutputStream;
 import java.io.InputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.net.MalformedURLException;
+import java.net.URL;
 import net.contrapunctus.rngzip.io.InteractiveInput;
 import net.contrapunctus.rngzip.io.RNGZInputInterface;
 import net.contrapunctus.rngzip.io.RNGZInputStream;
@@ -20,6 +21,7 @@ import net.contrapunctus.rngzip.io.RNGZSettings;
 import net.contrapunctus.rngzip.io.VerboseOutput;
 import net.contrapunctus.rngzip.util.BaliAutomaton;
 import net.contrapunctus.rngzip.util.ErrorReporter;
+import net.contrapunctus.rngzip.util.SchemaFormatException;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -31,391 +33,316 @@ public class Driver
 {
    public static void main(String[] args) throws Exception
    {
-      new Options("rngzip").process(args);
-      //new Driver("rngzip").run(args);
+      new Driver().run(args);
    }
 
-   protected Driver(String name)
-   {
-      myname = name;
-   }
-
-   private static final String shortopts = "cDdE:fhikp::qS:s:T:tVvZ:";
-
-   private static LongOpt[] longopts = new LongOpt[] {
-      new LongOpt("stdout",          LongOpt.NO_ARGUMENT,       null, 'c'),
-      new LongOpt("debug",           LongOpt.NO_ARGUMENT,       null, 'D'),
-      new LongOpt("decompress",      LongOpt.NO_ARGUMENT,       null, 'd'),
-      new LongOpt("tree-encoder",    LongOpt.REQUIRED_ARGUMENT, null, 'E'),
-      new LongOpt("force",           LongOpt.NO_ARGUMENT,       null, 'f'),
-      new LongOpt("help",            LongOpt.NO_ARGUMENT,       null, 'h'),
-      new LongOpt("identify",        LongOpt.NO_ARGUMENT,       null, 'i'),
-      new LongOpt("ignore-checksum", LongOpt.NO_ARGUMENT,       null,  2 ),
-      new LongOpt("keep",            LongOpt.NO_ARGUMENT,       null, 'k'),
-      new LongOpt("pretty-print",    LongOpt.OPTIONAL_ARGUMENT, null, 'p'),
-      new LongOpt("quiet",           LongOpt.NO_ARGUMENT,       null, 'q'),
-      new LongOpt("suffix",          LongOpt.REQUIRED_ARGUMENT, null, 'S'),
-      new LongOpt("schema",          LongOpt.REQUIRED_ARGUMENT, null, 's'),
-      new LongOpt("tree-compressor", LongOpt.REQUIRED_ARGUMENT, null, 'T'),
-      new LongOpt("timings",         LongOpt.NO_ARGUMENT,       null, 't'),
-      new LongOpt("version",         LongOpt.NO_ARGUMENT,       null, 'V'),
-      new LongOpt("exact-version",   LongOpt.NO_ARGUMENT,       null,  3 ),
-      new LongOpt("verbose",         LongOpt.NO_ARGUMENT,       null, 'v'),
-      new LongOpt("data-compressor", LongOpt.REQUIRED_ARGUMENT, null, 'Z')
-   };
-
-   private final String myname;
-   private RNGZSettings settings   // records tree-encoder, tree-compressor,
-      = new RNGZSettings();        //   and data-compressor settings
-   private boolean stdout_p;       // write to standard out; don't touch files
-   private boolean debug_p;        // trace compressor; replaces normal output
-   private boolean decompress_p;   // decompress instead of compress
-   private boolean force_p;        // force overwrite of output files
-   private boolean identify_p;     // print information about .rnz files
-   private boolean ignore_sum_p;   // decompress even if schema changed
-   private boolean keep_p;         // do not remove input files
-   private boolean pretty_p;       // line-break and indent XML output
-   private int pretty_tab = 2;     //   how far to indent?
-   private int verbosity = 1;      // 0=errors only, 1=warnings, 2=stats&info
-   private String suffix = ".rnz"; // use this suffix on compressed files
-   private String schema;          // use this schema (required to compress)
-   private boolean timings_p;      // output timing information
-
+   private static final String myname = "rngzip";
+   private Options opt = new Options(myname);
    private BaliAutomaton automaton;
-   private Getopt opt;
-   private int curopt, errcount = 0;
+   private long checksum;
    private static PrintStream err = System.err;
-
-   private int processOptions(String[] args) throws IOException
-   {
-      opt = new Getopt(myname, args, shortopts, longopts);
-      for(curopt = opt.getopt();  curopt != -1;  curopt = opt.getopt()) {
-         switch(curopt) {
-         case '?': errcount++; break;
-         case 'c': stdout_p = true; break;
-         case 'D': debug_p = true; break;
-         case 'd': decompress_p = true; break;
-         case 'E': treeEncoder(); break;
-         case 'f': force_p = true; break;
-         case 'h': showHelp(System.out); System.exit(0); break;
-         case 'k': keep_p = true; break;
-         case 'p': prettyPrint(); break;
-         case 'q': verbosity--; break;
-         case 'S': suffix = opt.getOptarg(); break; 
-         case 'T': treeCompressor(); break;
-         case 't': timings_p = true; break;
-         case 'V': showVersion(System.out); System.exit(0); break;
-         case 'v': verbosity++; break;
-         case 'Z': dataCompressor(); break;
-         default: assert false : curopt;
-         }
-      }
-      return opt.getOptind();
-   }
-
-   protected boolean requireSchema()
-   {
-      return true;
-   }
 
    private void run(String[] args) throws Exception
    {
-      int i = processOptions(args);
-      if(requireSchema())
-        {
-          if(i < args.length)
-            {
-               long start = 0, elapsed;
-               schema = args[i++];
-               if(timings_p) 
-                  {
-                     info("building automaton:       ");
-                     start = System.currentTimeMillis();
-                  }
-              automaton = BaliAutomaton.fromRNG(new File(schema));
-              if(timings_p)
-                 {
-                    elapsed = System.currentTimeMillis() - start;
-                    info("%5dms%n", elapsed);
-                 }
+      int first = opt.process(args);
+      if( opt.identify_p ) {
+         for( int i = first; i < args.length; i++) {
+            identify(args[i]);
+         }
+      }
+      if( opt.compress_p || opt.decompress_p ) {
+         if( opt.schema != null ) {
+            loadAutomaton(opt.schema);
+         }
+         Task task = opt.compress_p? new Zip() : new Unzip();
+         if( first < args.length ) {
+            for( int i = first;  i < args.length;  i++ ) {
+               applyToFile(task, new File(args[i]));
             }
-          else fatal("schema must be specified");
-        }
-      if(i < args.length)
-        {
-           for( ; i < args.length; i++) frobFile(args[i]);
-        }
-      else
-        {
-          if(decompress_p) decompress(System.in, System.out);
-          else compress(new InputSource(System.in), System.out);
-        }
-   }
-
-   private void showHelp(PrintStream ps) throws IOException
-   {
-      ps.printf("usage: %s [options] %s[file ...]%n", myname,
-                requireSchema()? "schema.rng " : "");
-      InputStream help = Driver.class.getResourceAsStream("help.txt");
-      assert help != null;
-      copy(help, ps);
-   }
-
-   private static void copy (InputStream source, OutputStream sink)
-      throws IOException
-   {
-      int k, SIZE = 128;
-      byte[] buf = new byte [SIZE];
-      while ((k = source.read (buf, 0, SIZE)) != -1) {
-         sink.write (buf, 0, k);
-      }
-      source.close();
-   }
-
-   private void showVersion(PrintStream ps)
-   {
-      ps.printf("%s 0.1%n", myname);
-   }
-
-   private void prettyPrint()
-   {
-      pretty_p = true;
-      if(opt.getOptarg() != null) {
-         try {
-            pretty_tab = Integer.parseInt(opt.getOptarg());
          }
-         catch(NumberFormatException x) {
-            invalid("requires an integer");
-            errcount++;
+         else {
+            applyToStdIO(task);
          }
       }
    }
-   
-   private void treeEncoder()
+
+   private HashMap<URL, BaliAutomaton> autoMap = 
+      new HashMap<URL, BaliAutomaton>();
+
+   private void loadAutomaton (URL url) throws SchemaFormatException
    {
-      try {
-         settings.setBitCoder(opt.getOptarg());
-      }
-      catch(IllegalArgumentException x) {
-         enumError(RNGZSettings.BitCoding.values());
-      }
-   }
-   
-   private void treeCompressor()
-   {
-      try {
-         settings.setTreeCompressor(opt.getOptarg());
-      }
-      catch(IllegalArgumentException x) {
-         enumError(RNGZSettings.DataCompression.values());
-      }
-   }
-   
-   private void dataCompressor()
-   {
-      try {
-         settings.setDataCompressor(opt.getOptarg());
-      }
-      catch(IllegalArgumentException x) {
-         enumError(RNGZSettings.DataCompression.values());
-      }
-   }
-   
-   private String longOptOf(int o)
-   {
-      for(LongOpt lo : longopts) {
-         if(lo.getVal() == o) {
-            return lo.getName();
+      automaton = autoMap.get(url);
+      if( automaton == null ) {
+         info("loading %s%n", url);
+         info("building automaton... ");
+         long start = 0;
+         if( opt.timings_p ) { start = System.currentTimeMillis(); }
+         automaton = BaliAutomaton.fromRNG(url);
+         checksum = automaton.checksum();
+         if( opt.timings_p ) {
+            long elapsed = System.currentTimeMillis() - start;
+            info("%5dms%n", elapsed);
          }
+         else {
+            info("done%n");
+         }
+         autoMap.put(url, automaton);
       }
-      return null;
    }
 
-   private void reportInvalid()
+   private void loadAutomaton (File file) 
+      throws FileNotFoundException, SchemaFormatException
    {
-      System.err.printf("%s: invalid parameter: --%s (-%c) ",
-                        myname, longOptOf(curopt), curopt);
+      if(!file.exists()) 
+         throw new FileNotFoundException(file.toString());
+      URL url = null;
+      try { url = file.toURI().toURL(); }
+      catch(MalformedURLException x) { assert false : x; }
+      loadAutomaton(url);
    }
-  
-  private void invalid(String why)
-  {
-    System.err.printf("%s: invalid argument to --%s (-%c): %s",
-                      myname, longOptOf(curopt), curopt, why);
-  }
-   
-   private int intOption()
+
+   private void loadAutomaton (String spec)
+      throws FileNotFoundException, SchemaFormatException
    {
       try {
-         return Integer.parseInt(opt.getOptarg());
+         loadAutomaton(new URL(spec));
       }
-      catch(NumberFormatException x) {
-         reportInvalid();
-         System.err.println("requires an integer");
-         errcount++;
-         return -1;
+      catch(MalformedURLException x) {
+         loadAutomaton(new File(spec));
       }
    }
 
-   private <T> void enumError(T[] vs) 
+   private void identify(String name)
    {
-      reportInvalid();
-      System.err.print("requires one of: ");
-      for(T v : vs) {
-         System.err.print(v.toString().toLowerCase());
-         System.err.print(' ');
+      RNGZInputStream zin = null;
+      long len = -1;
+      try {
+         File file = new File(name);
+         len = file.length();
+         FileInputStream in = new FileInputStream(file);
+         zin = new RNGZInputStream(in, opt.settings);
       }
-      System.err.println();
-      errcount++;
-   }
-
-   private void warn(String fmt, Object... args)
-   {
-      if(verbosity > 0) {
-         System.err.printf("%s: warning: ", myname);
-         System.err.printf(fmt, args);
-         System.err.println();
+      catch(FileNotFoundException x) {
+         System.out.println(x.getMessage());
+      }
+      catch(IOException x) {
+         System.out.printf("%s (%s)%n", name, x.getMessage());
+      }
+      if( zin != null ) {
+         System.out.printf("%s: %d bytes %s", name, len, opt.settings);
+         URL url = zin.getSchemaURL();
+         if( opt.verbosity > 1 && url != null ) {
+            System.out.printf(" %s(%08x)%n", url, zin.getSchemaSum());
+         }
+         else {
+            System.out.println();
+         }
+         try { zin.close(); }
+         catch(IOException x) { }
       }
    }
 
    private void error(String fmt, Object... args)
    {
-      if(verbosity >= 0) {
+      if(opt.verbosity >= 0) {
          System.err.printf("%s: error: ", myname);
          System.err.printf(fmt, args);
          System.err.println();
       }
-      errcount++;
-   }
-
-   private void fatal(String fmt, Object... args)
-   {
-      error(fmt, args);
-      System.exit(1);
    }
 
    private void info(String fmt, Object... args)
    {
-      if(verbosity > 1) {
+      if(opt.verbosity > 1) {
          System.err.printf(fmt, args);
       }
    }
 
-   private void compress(InputSource in, OutputStream out)
-      throws IOException, MalformedURLException, SAXException
+   private void applyToStdIO (Task task)
+      throws IOException, SAXException
    {
-      RNGZOutputInterface rnz = debug_p?
-         new VerboseOutput(System.err) :
-        new RNGZOutputStream(out, settings, automaton);
-      ErrorReporter err = new ErrorReporter();
-      GenericCompressor gc = new GenericCompressor(automaton, err, rnz);
-      XMLReader xr = XMLReaderFactory.createXMLReader();
-      xr.setFeature("http://xml.org/sax/features/validation", false);
-      xr.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-      xr.setContentHandler(gc);
-      xr.setErrorHandler(err);
-      xr.parse(in);
-      rnz.close();
+      task.setInput(System.in);
+      task.setOutput(System.out);
+      task.prepare();
+      task.run();
    }
 
-   private void frobFile(String name)
-      throws IOException, MalformedURLException, SAXException
+   private void applyToFile (Task task, File infile)
+      throws IOException, SAXException
    {
-      // set up input streams
-      File infile = new File(name);
-      InputSource insource = null;      // for compression
-      InputStream instream = null;      // for decompression
-      if(decompress_p) instream = new FileInputStream(infile);
-      else insource = new InputSource(name);
-      // if going to standard output, the rest is easy:
-      if(stdout_p) {
-         if(decompress_p) decompress(instream, System.out);
-         else compress(insource, System.out);
+      task.setInput(infile);
+      if( opt.stdout_p ) {
+         task.setOutput(System.out);
+         task.prepare();
+         task.run();
+         // maybe collect timing stats here
          return;
       }
-      long insize = infile.length(); // for size stats
-      // determine new filename, by adding or peeling off the .rnz suffix
-      String outname;
-      if(decompress_p) {
-         if(suffix.length() > 0 && name.endsWith(suffix)) { 
-            outname = name.substring(0, name.length() - suffix.length());
-         }
-         else {
-            outname = name + ".xml";
-         }
-      }
-      else {
-         outname = name+suffix;
-      }
-      // open output file
-      File outfile = new File(outname);
+      File outfile = task.getOutput();
       try {
-         if(!outfile.createNewFile() && !force_p) {
+         if(!outfile.createNewFile() && !opt.force_p) {
             error("%s already exists; use --force (-f) to overwrite.",
-                  outname);
+                  outfile);
             return;
          }
       }
       catch(IOException x) {
-         error("cannot create %s: %s", outname, x.getMessage());
+         error("cannot create %s: %s", outfile, x.getMessage());
          return;
       }
-      info("%-25s ", name);
-      long start = 0, elapsed;  // for timing stats
-      if(timings_p) {
-        start = System.currentTimeMillis();
-      }
-      FileOutputStream outstream = new FileOutputStream(outfile);
-      if(decompress_p) {
-         decompress(instream, outstream);
-         instream.close();
-      }
-      else {
-         compress(insource, outstream);
-      }
+      OutputStream outstream = new FileOutputStream(outfile);
+      task.setOutput(outstream);
+      task.prepare();
+      info("%-25s ", infile);
+      task.run();
+      task.closeInput();
       outstream.close();
-      if(timings_p) {           // output timing stats
-        elapsed = System.currentTimeMillis() - start;
-        info("%5dms, ", elapsed);
+      if( opt.timings_p ) {
+         info("%5dms, ", task.getTime());
       }
-      long outsize = outfile.length(); // output size stats
-      float ratio;
-      if(decompress_p) {
-         ratio = (outsize - insize) / (float)outsize * 100;
-      }
-      else {
-         ratio = (insize - outsize) / (float)insize * 100;
-      }
-      boolean del_p = false;    // did we delete the file?
-      if(!keep_p) {
+      float ratio = task.computeRatio();
+      boolean del_p = false;    // did we delete the input file?
+      if( !opt.keep_p ) {
          del_p = infile.delete();
       }
-      info("%.2f%% -- %s %s%n", 
-           ratio, 
-           del_p? "replaced with" : "created", 
-           outname);
-      if(!keep_p && !del_p) {
-         error("could not remove %s", name);
+      info("%.2f%% -- %s %s%n",
+           ratio, del_p? "replaced with" : "created", outfile);
+      if(!opt.keep_p && !del_p) {
+         error("could not remove %s", infile);
       }
    }
 
-   private void decompress(InputStream in, OutputStream out)
-      throws IOException, SAXException
-   {
-      RNGZInputInterface zin;
-      if( debug_p ) {
-         zin = new InteractiveInput(in, System.err);
+   private abstract class Task {
+      protected File infile;
+      protected File outfile;
+      protected OutputStream outstream;
+      private long elapsed;
+      abstract void setInput (File file) throws FileNotFoundException;
+      abstract void setInput (InputStream in);
+      abstract File getOutput ();
+      abstract void execute() throws IOException, SAXException;
+      abstract float computeRatio (long insize, long outsize);
+      void setOutput (OutputStream out) {
+         outstream = out;
       }
-      else {
-         RNGZInputStream zis = new RNGZInputStream(in, settings);
-         automaton = zis.readSchema(automaton);
-         zin = zis;
+      float computeRatio() {
+         assert infile != null && outfile != null;
+         long insize = infile.length();
+         long outsize = outfile.length();
+         return computeRatio (insize, outsize);
       }
-      Writer wr = pretty_p?
-         null :
-         new Writer();
-      wr.setOutput(out, null);
-      new GenericDecompressor(automaton, zin, wr);
-      out.write('\n');
-   }
+      void prepare() throws IOException { }
+      void run() throws IOException, SAXException {
+         long start = System.currentTimeMillis();
+         execute();
+         elapsed = System.currentTimeMillis() - start;
+      }
+      void closeInput() throws IOException { }
+      long getTime() { return elapsed; }
+   }  // end class Task
 
+   private class Zip extends Task {
+      private InputSource insource;
+      void setInput (File file) {
+         infile = file;
+         insource = new InputSource(file.getPath());
+      }
+      void setInput (InputStream in) {
+         insource = new InputSource(in);
+      }
+      File getOutput() {
+         assert infile != null;
+         String name = infile.getPath() + opt.suffix;
+         outfile = new File (name);
+         return outfile;
+      }
+      float computeRatio (long insize, long outsize) {
+         return (insize - outsize) / (float)insize * 100;
+      }
+      void execute() throws IOException, SAXException {
+         assert insource != null && outstream != null;
+         RNGZOutputInterface rnz = opt.debug_p?
+            new VerboseOutput(System.err) :
+            new RNGZOutputStream(outstream, opt.settings, automaton);
+         ErrorReporter err = new ErrorReporter();
+         GenericCompressor gc = new GenericCompressor(automaton, err, rnz);
+         XMLReader xr = XMLReaderFactory.createXMLReader();
+         xr.setFeature("http://xml.org/sax/features/validation", false);
+         xr.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+         xr.setContentHandler(gc);
+         xr.setErrorHandler(err);
+         xr.parse(insource);
+         rnz.close();
+      }
+   }  // end class Zip
+
+   private class Unzip extends Task {
+      private InputStream instream;
+      private RNGZInputInterface zin;
+      private ContentHandler ch;
+      void setInput (File file) throws FileNotFoundException {
+         infile = file;
+         instream = new FileInputStream(infile);
+      }
+      void setInput (InputStream in) {
+         instream = in;
+      }
+      File getOutput() {
+         assert infile != null;
+         String name = infile.getPath();
+         if( opt.suffix.length() > 0 && name.endsWith(opt.suffix) ) {
+            name = name.substring(0, name.length() - opt.suffix.length());
+         }
+         else {
+            name += ".xml";
+         }
+         outfile = new File (name);
+         return outfile;
+      }
+      float computeRatio (long insize, long outsize) {
+         return (outsize - insize) / (float)outsize * 100;
+      }
+      void prepare() throws IOException {
+         assert instream != null && outstream != null;
+         if( opt.debug_p ) {
+            zin = new InteractiveInput(instream, System.err);
+         }
+         else {
+            RNGZInputStream zis = new RNGZInputStream(instream, opt.settings);
+            if( zis.getSchemaURL() != null ) {
+               // input stream has schema ref embedded
+               if( opt.schema == null ) {
+                  loadAutomaton(zis.getSchemaURL());
+               }
+               System.err.printf("CHECKING %08X == %08X%n",
+                                 zis.getSchemaSum(), checksum);
+               if( zis.getSchemaSum() != checksum ) {
+                  error("MISMATCH %08X <> %08X", zis.getSchemaSum(), checksum);
+                  error("Schema was %s", zis.getSchemaURL());
+                  throw new IOException("SUMS DO NOT MATCH"); // FIX
+               }
+            }
+            else if( opt.schema == null ) {
+               throw new IOException("NO SCHEMA SPECIFIED"); // FIX
+            }
+            zin = zis;
+         }
+         if( opt.pretty_p ) {
+            // ch = 
+         }
+         else {
+            Writer wr = new Writer();
+            wr.setOutput(outstream, null);
+            ch = wr;
+         }
+      }
+      void execute() throws IOException, SAXException {
+         assert zin != null && ch != null;
+         new GenericDecompressor(automaton, zin, ch);
+         outstream.write('\n');
+      }
+      void closeInput() throws IOException {
+         instream.close();
+      }
+   }  // end class Unzip
 }

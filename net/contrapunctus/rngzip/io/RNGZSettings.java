@@ -83,23 +83,26 @@ public class RNGZSettings
    private static final DataCompression[] DataCompression_values =
       DataCompression.values();
 
+   public static final BitCoding DEFAULT_CODER = BitCoding.HUFFMAN;
+   public static final DataCompression DEFAULT_COMPRESSOR = DataCompression.GZ;
+
    /**
     * The strategy used to encode choice points as bits.  The default
     * is <code>HUFFMAN</code>.
     */
-   protected BitCoding coding = BitCoding.HUFFMAN;
+   protected BitCoding coding = DEFAULT_CODER;
 
    /**
     * The type of compression applied to the bit stream representing
     * the XML tree structure.  The default is <code>GZ</code>.
     */
-   protected DataCompression treeCompr = DataCompression.GZ;
+   protected DataCompression treeCompr = DEFAULT_COMPRESSOR;
 
    /**
     * The type of compression applied to the character data from the
     * XML document.  The default is <code>GZ</code>.
     */
-   protected DataCompression dataCompr = DataCompression.GZ;
+   protected DataCompression dataCompr = DEFAULT_COMPRESSOR;
 
    /**
     * Default constructor, creates an object that represents
@@ -133,7 +136,7 @@ public class RNGZSettings
    {
       coding = bc;
    }
-   
+
    /**
     * Interpret the string parameter as a strategy used to encode
     * choice points as bits.  

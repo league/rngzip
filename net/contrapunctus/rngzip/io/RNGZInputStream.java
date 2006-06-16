@@ -31,6 +31,8 @@ public final class RNGZInputStream implements RNGZInputInterface
    private RNGZSettings settings;
    private BitInputStream bits;
    private DataInputStream data;
+   private URL schemaURL;
+   private long expectedSum;
 
    private InputStream filter(int streamID, int kind) throws IOException
    {
@@ -61,23 +63,20 @@ public final class RNGZInputStream implements RNGZInputInterface
       settings = se.fromStream(mux, 1);
       bits = settings.newBitInput(mux, 0);
       data = settings.newDataInput(mux, 2);
+      if(bits.readBit()) {
+         schemaURL = new URL(data.readUTF());
+         expectedSum = data.readLong();
+      }
    }
 
-   public BaliAutomaton readSchema (BaliAutomaton au)
-      throws IOException, MalformedURLException, SchemaFormatException
+   public URL getSchemaURL()
    {
-      if(bits.readBit()) {
-         // stream contains info about the schema 
-         URL url = new URL(data.readUTF());
-         long expectedSum = data.readLong();
-         // if automaton was provided, that takes precedence 
-         if(au == null) {
-            // no automaton provided, try to read it from url
-            au = BaliAutomaton.fromRNG(url);
-         }
-         assert au.checksum() == expectedSum; // should throw exn instead
-      }
-      return au;
+      return schemaURL;
+   }
+
+   public long getSchemaSum()
+   {
+      return expectedSum;
    }
 
    private final void check()

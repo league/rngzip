@@ -1,6 +1,7 @@
 \.class$
 ^build$
 \.jar$
+\.tar.gz$
 ~$
 /com/sun/msv/datatype/xsd/datetime/ISO8601Parser.java$
 /com/sun/msv/datatype/xsd/datetime/ISO8601ParserConstants.java$
@@ -9,4 +10,6 @@
 /com/sun/msv/datatype/xsd/datetime/SimpleCharStream.java$
 /com/sun/msv/datatype/xsd/datetime/Token.java$
 /com/sun/msv/datatype/xsd/datetime/TokenMgrError.java$
+^net/contrapunctus/rngzip/context.txt$
+^net/contrapunctus/rngzip/version.txt$
 ^doc/api/

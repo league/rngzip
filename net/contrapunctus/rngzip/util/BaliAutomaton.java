@@ -94,6 +94,17 @@ public final class BaliAutomaton
       return fromRNG(url);
    }
 
+   public static BaliAutomaton fromRNG (String spec)
+      throws FileNotFoundException, SchemaFormatException
+   {
+      try { 
+         return fromRNG(new URL(spec));
+      }
+      catch(MalformedURLException x) {
+         return fromRNG(new File(spec));
+      }
+   }
+
    /**
     * Encapsulate the given tree automaton.  This assigns a unique
     * identifier to each state and transition.  The content of the

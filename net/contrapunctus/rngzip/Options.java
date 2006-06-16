@@ -37,22 +37,23 @@ public class Options
   private Getopt opt;
   private int curopt, errcount;
   private static PrintStream err = System.err;
-  private final String myname;    // identifier for this program
-  private RNGZSettings settings   // records tree-encoder, tree-compressor,
-    = new RNGZSettings();         //   and data-compressor settings
-  private boolean stdout_p;       // write to standard out; don't touch files
-  private boolean debug_p;        // trace compressor; replaces normal output
-  private boolean decompress_p;   // decompress instead of compress
-  private boolean force_p;        // force overwrite of output files
-  private boolean identify_p;     // print information about .rnz files
-  private boolean ignore_sum_p;   // decompress even if schema changed
-  private boolean keep_p;         // do not remove input files
-  private boolean pretty_p;       // line-break and indent XML output
-  private int pretty_tab = 2;     //   how far to indent?
-  private int verbosity = 1;      // 0=errors only, 1=warnings, 2=stats&info
-  private String suffix = ".rnz"; // use this suffix on compressed files
-  private String schema;          // use this schema (required to compress)
-  private boolean timings_p;      // output timing information
+  private final String myname;  // identifier for this program
+  RNGZSettings settings =  new RNGZSettings();
+  boolean settings_p;     // are any RNGZSettings changed from the defaults?
+  boolean stdout_p;       // write to standard out; don't touch files
+  boolean debug_p;        // trace compressor; replaces normal output
+  boolean decompress_p;   // decompress instead of compress
+  boolean compress_p;
+  boolean force_p;        // force overwrite of output files
+  boolean identify_p;     // print information about .rnz files
+  boolean ignore_sum_p;   // decompress even if schema changed
+  boolean keep_p;         // do not remove input files
+  boolean pretty_p;       // line-break and indent XML output
+  int pretty_tab = 2;     //   how far to indent?
+  int verbosity = 1;      // 0=errors only, 1=warnings, 2=stats&info
+  String suffix = ".rnz"; // use this suffix on compressed files
+  String schema;          // use this schema (required to compress)
+  boolean timings_p;      // output timing information
 
   public Options (String myname)
   {
@@ -68,7 +69,59 @@ public class Options
         handleCurrentOpt();
         curopt = opt.getopt();
       }
-    return opt.getOptind();
+    int i = opt.getOptind();
+    check(i, args.length);
+    if( errcount > 0 )
+      {
+        System.exit(1);
+      }
+    opt = null;
+    return i;
+  }
+
+  protected void check(int i, int n)
+  {
+    if( !decompress_p && !identify_p ) { // We ARE compressing
+      compress_p = true;
+      if( schema == null ) {
+        err.printf("%s: error: schema must be specified when compressing%n",
+                   myname);
+        errcount++;
+      }
+    }
+    if( stdout_p && n > i+1 ) {
+      err.printf("%s: error: specify at most one file "+
+                 "at a time when using --stdout (-c)%n", myname);
+      errcount++;
+    }
+    if( verbosity < 1 ) return;
+    if( decompress_p || identify_p ) { // We are not compressing
+      if( settings_p ) {
+        err.printf("%s: warning: not compressing, so "+
+                   "-E,-T,-Z will be ignored%n", myname);
+      }
+    }
+    if( !decompress_p ) {       // We are not decompressing
+      final String msg = "%s: warning: not decompressing, so ";
+      if( ignore_sum_p ) {
+        err.printf(msg+"--ignore-checksum is irrelevant%n", myname);
+      }
+      if( pretty_p ) {
+        err.printf(msg+"--pretty-print (-p) is irrelevant%n", myname);
+      }
+    }
+    if( identify_p && !decompress_p ) { // We are identifying ONLY
+      final String msg = "%s: warning: in identification mode (-i), ";
+      if( schema != null ) {
+        err.printf(msg+"--schema (-s) is irrelevant%n", myname);
+      }
+      if( force_p ) {
+        err.printf(msg+"--force (-f) is irrelevant%n", myname);
+      }
+      if( timings_p ) {
+        err.printf(msg+"--timings (-t) is irrelevant%n", myname);
+      }
+    }
   }
 
   protected void handleCurrentOpt()
@@ -107,6 +160,7 @@ public class Options
     catch(IllegalArgumentException x) {
       enumError(RNGZSettings.BitCoding.values());
     }
+    settings_p = true;
   }
 
   protected <T> void enumError(T[] vs) 
@@ -157,6 +211,7 @@ public class Options
     catch(IllegalArgumentException x) {
       enumError(RNGZSettings.DataCompression.values());
     }
+    settings_p = true;
   }
 
   protected void handleDataCompressor()
@@ -167,6 +222,7 @@ public class Options
     catch(IllegalArgumentException x) {
       enumError(RNGZSettings.DataCompression.values());
     }
+    settings_p = true;
   }
 
   protected void handlePretty()
@@ -184,9 +240,24 @@ public class Options
 
   protected void showHelp(PrintStream out)
   {
-    out.printf("usage: %s [options] [file ...]%n", myname);
+    out.printf("Usage: %s [options] [file ...]%n", myname);
     copyResource("help.txt", out);
+    out.print("Coders: ");
+    enumOptions(out, settings.DEFAULT_CODER,
+                RNGZSettings.BitCoding.values());
+    out.print("Compressors: ");
+    enumOptions(out, settings.DEFAULT_COMPRESSOR,
+                RNGZSettings.DataCompression.values());
     System.exit(0);
+  }
+
+  protected <T> void enumOptions(PrintStream out, T def, T[] vs)
+  {
+    for(T v : vs) {
+      out.printf("%s%s ", v == def? "*" : "",
+                 v.toString().toLowerCase());
+    }
+    out.println();
   }
 
   protected static void copyResource (String name, OutputStream sink)

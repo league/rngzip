@@ -144,7 +144,6 @@ public class GenericTest
   {
     ByteArrayInputStream bi = new ByteArrayInputStream(compressedBytes);
     RNGZInputStream ri = new RNGZInputStream(bi, settings);
-    ri.readSchema(null);
     newSax = new EventRecorder();
     new GenericDecompressor(schemaFileName, ri, newSax);
     ri.close();
