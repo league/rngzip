@@ -1,0 +1,45 @@
+start =
+	element character {
+		element general {
+			element name {text},
+			element rank {text},
+			element level {text},
+			element gender {"Male"|"Female"},
+			element race {text},
+			element class {text},
+			element realm {text},
+			element guild {text}?
+		},
+		element life {
+			element health {text},
+			element force {
+				attribute type {"Mana"|"Energy"|"Rage"},
+				text
+			}
+		},
+		element attribute {
+			element strength {text},
+			element agility {text},
+			element stamina {text},
+			element intellect {text},
+			element spirit {text},
+			element armor {text}
+		},
+		element melee {
+			element attack {text},
+			element power {text},
+			element damage {text}
+		},
+		element ranged {
+			element attack {text},
+			element power {text},
+			element damage {text}
+		},
+		element resistance {
+			element arcane {text},
+			element fire {text},
+			element nature {text},
+			element frost {text},
+			element shadow {text}
+		}
+	}

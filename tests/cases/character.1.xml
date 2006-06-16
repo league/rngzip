@@ -1,0 +1,40 @@
+<character>
+	<general>
+		<name>Ken</name>
+		<rank>Field Marshal</rank>
+		<level>60</level>
+		<gender>Male</gender>
+		<race>Human</race>
+		<class>Warrior</class>
+		<realm>Lightning's Blade</realm>
+	</general>
+	<life>
+		<health>4577</health>
+		<force type='Rage'>100</force>
+	</life>
+	<attribute>
+		<strength>359</strength>
+		<agility>195</agility>
+		<stamina>285</stamina>
+		<intellect>29</intellect>
+		<spirit>51</spirit>
+		<armor>4788</armor>
+	</attribute>
+	<melee>
+		<attack>300</attack>
+		<power>1088</power>
+		<damage>339-439</damage>
+	</melee>
+	<ranged>
+		<attack>300</attack>
+		<power>640</power>
+		<damage>305-358</damage>
+	</ranged>
+	<resistance>
+		<arcane>0</arcane>
+		<fire>10</fire>
+		<nature>10</nature>
+		<frost>0</frost>
+		<shadow>0</shadow>
+	</resistance>
+</character>
