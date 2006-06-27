@@ -18,7 +18,7 @@ public class AutomatonChecksumTest
     l.add( new Object[] { 0x86e012c2L, "alt-at.rng" } );
     l.add( new Object[] { 0x82600b3fL, "alt.rng" } );
     l.add( new Object[] { 0x532a1ba0L, "alt02.rng" } );
-    l.add( new Object[] { 0x0b3595ebL, "jarx01.rng" } );
+    l.add( new Object[] { 0x094f95ebL, "jarx01.rng" } );
     l.add( new Object[] { 0xf39410f5L, "minimal.rng" } );
     l.add( new Object[] { 0x8d3f12ddL, "opt.rng" } );
     l.add( new Object[] { 0x369a0ed8L, "opt02.rng" } );
