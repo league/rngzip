@@ -325,21 +325,44 @@ class GenericCompressor extends Compressor
    {
       protected char[] buf;
       protected int start, length;
+      protected String str;
+      protected boolean const_p = false;
       protected CharMatcher(char[] _buf, int _start, int _length, int id)
       {
          super(id);
          buf = _buf;
          start = _start;
          length = _length;
+         str = new String(buf, start, length);
          run();
       }
       protected void write(SequentialStates st) throws IOException
       {
-         st.writeContent(elts, buf, start, length);
+         if( ! const_p ) {
+            st.writeContent(elts, buf, start, length);
+         }
       }
       public Object data(DataAlphabet a)
       {
+         const_p = false;
          return Boolean.TRUE;
+      }
+      public Object value(ValueAlphabet a)
+      {
+         Value v = (Value) a.value;
+         String expected = v.value;
+         if(DEBUG) {
+            dbg.printf("CharMatcher: testing value '%s' alphabet '%s'%n",
+                       str, expected);
+         }
+         if( str.equals(expected) ) {
+            const_p = true;
+            return Boolean.TRUE;
+         }
+         else {
+            const_p = false;
+            return Boolean.FALSE;
+         }
       }
    } // end class CharMatcher
    
