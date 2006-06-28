@@ -23,7 +23,7 @@ ALL_JVM_FLAGS = $(JVM_FLAGS)
 ################################ Paths and files
 
 JUNIT_JAR = /home/league/tmp/junit4.0/junit-4.0.jar
-CLASSPATH = /sw/share/java/xerces-j/xercesSamples.jar
+CLASSPATH = 
 
 NAME = rngzip
 PACKAGE = net.contrapunctus.$(NAME)
@@ -155,7 +155,6 @@ $(NAME).jar: compile manifest.txt
 
 manifest.txt: Makefile
 	echo Main-Class: $(PACKAGE).Driver >$@
-	echo Class-Path: .$(PSEP)$(CLASSPATH)     >>$@
 
 net/contrapunctus/rngzip/version.txt: LICENSE
 	echo $(NAME) $(VERSION) >$@

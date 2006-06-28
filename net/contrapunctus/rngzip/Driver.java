@@ -1,17 +1,17 @@
 package net.contrapunctus.rngzip;
 
-import java.util.LinkedList;
-import java.util.HashMap;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.FileNotFoundException;
-import java.io.OutputStream;
-import java.io.InputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.LinkedList;
 import net.contrapunctus.rngzip.io.InteractiveInput;
 import net.contrapunctus.rngzip.io.RNGZInputInterface;
 import net.contrapunctus.rngzip.io.RNGZInputStream;
@@ -22,12 +22,13 @@ import net.contrapunctus.rngzip.io.VerboseOutput;
 import net.contrapunctus.rngzip.util.BaliAutomaton;
 import net.contrapunctus.rngzip.util.ErrorReporter;
 import net.contrapunctus.rngzip.util.SchemaFormatException;
+import net.contrapunctus.rngzip.util.SimpleXMLWriter;
+import net.contrapunctus.rngzip.util.PrettyXMLWriter;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
-import sax.Writer;
 
 public class Driver
 {
@@ -327,14 +328,9 @@ public class Driver
             }
             zin = zis;
          }
-         if( opt.pretty_p ) {
-            // ch = 
-         }
-         else {
-            Writer wr = new Writer();
-            wr.setOutput(outstream, null);
-            ch = wr;
-         }
+         ch = (opt.pretty_p?
+               new PrettyXMLWriter(outstream, opt.pretty_tab) :
+               new SimpleXMLWriter(outstream));
       }
       void execute() throws IOException, SAXException {
          assert zin != null && ch != null;
