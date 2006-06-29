@@ -3,6 +3,7 @@ package net.contrapunctus.rngzip.util;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
@@ -13,7 +14,12 @@ public class SimpleXMLWriter implements ContentHandler
 
   public SimpleXMLWriter(OutputStream os)
   {
-    this(new PrintStream(os));
+    try {
+      out = new PrintStream(os, false, "UTF-8");
+    }
+    catch(UnsupportedEncodingException x) {
+      assert false : x;      // all implementations must support UTF-8
+    }
   }
 
   public SimpleXMLWriter(PrintStream ps)
@@ -96,7 +102,17 @@ public class SimpleXMLWriter implements ContentHandler
     case '>': out.print("&gt;"); break;
     case '&': out.print("&amp;"); break;
     case '"': out.print(attr_p? "&quot;" : "\""); break;
-    default:  out.print(c);
+    default:  
+      if (((c >= 0x01 && c <= 0x1F && c != 0x09 && c != 0x0A) 
+           || (c >= 0x7F && c <= 0x9F) || c == 0x2028)
+          || attr_p && (c == 0x09 || c == 0x0A)) {
+        out.print("&#x");
+        out.print(Integer.toHexString(c).toUpperCase());
+        out.print(";");
+      }
+      else {
+        out.print(c);
+      }        
     }
   }
 

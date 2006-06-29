@@ -1,0 +1,3 @@
+<top ref='new&#x0A;line'>
+  <foo>control &#x80; character</foo>
+</top>

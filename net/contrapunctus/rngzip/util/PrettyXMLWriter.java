@@ -2,6 +2,7 @@ package net.contrapunctus.rngzip.util;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 import java.util.Stack;
 import org.xml.sax.Attributes;
@@ -81,7 +82,13 @@ public class PrettyXMLWriter implements ContentHandler
 
   public PrettyXMLWriter(OutputStream os, int tab)
   {
-    this(new PrintStream(os), tab);
+    try {
+      this.out = new PrintStream(os, false, "UTF-8");
+    }
+    catch(UnsupportedEncodingException x) {
+      assert false : x;      // all implementations must support UTF-8
+    }
+    this.tab = tab;
   }
 
   public PrettyXMLWriter(PrintStream out, int tab)

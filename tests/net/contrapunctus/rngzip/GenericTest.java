@@ -94,6 +94,10 @@ public class GenericTest
         errorStream.flush();
         if( errorBytes.size() > 0 )
           throw new Exception("error stream");
+        if( System.getProperty("DEBUG_TEST_CASES") != null ) {
+          maybeSaveRNZ();
+          maybeSaveNewXML();
+        }
       }
     catch( Throwable th )
       {
@@ -272,7 +276,7 @@ public class GenericTest
 
     public void saveTo( String fileName ) throws IOException
     {
-      PrintStream ps = new PrintStream(new FileOutputStream(fileName));
+      PrintStream ps = new PrintStream(new FileOutputStream(fileName), false, "UTF-8");
       for( String e : history )
         {
           ps.println(e);
