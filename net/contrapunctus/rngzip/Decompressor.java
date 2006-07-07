@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 import java.util.Stack;
 import net.contrapunctus.rngzip.io.RNGZInputInterface;
 import org.xml.sax.Attributes;
@@ -77,7 +78,10 @@ public abstract class Decompressor
 
    private static final boolean DEBUG = 
       System.getProperty("DEBUG_Decompressor") != null;
+   private static final boolean TRACE_MEM =
+      System.getProperty("TRACE_MEM") != null;
    private static final PrintStream dbg = System.err;
+   private static Random rnd = new Random();
 
    private void trace (String where)
    {
@@ -96,6 +100,11 @@ public abstract class Decompressor
          firstp = false;
          e.show(dbg);
       }
+   }
+
+   private void reportMemoryStats()
+   {
+      dbg.printf("MEM: Decompressor: %d events queued%n", eventQ.size());
    }
    
    protected void initialize (ContentHandler h) throws SAXException
@@ -167,6 +176,9 @@ public abstract class Decompressor
          assert elt.equals(ev.elt);
          eventQ.add(new EndEvent(elt));
          if(DEBUG) trace("endElement");
+         if(TRACE_MEM && rnd.nextInt(100) == 0) {
+            reportMemoryStats();
+         }
       }
    }
 

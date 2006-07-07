@@ -28,6 +28,7 @@ CLASSPATH =
 NAME = rngzip
 PACKAGE = net.contrapunctus.$(NAME)
 VERSION = 0.1
+NAME_VER = $(NAME)-$(VERSION)
 
 LIBRARIES := bali iso-relax msv relaxng-datatype gnu-getopt
 SOURCEPATH := net
@@ -148,9 +149,11 @@ jvm:
 predist: $(ALL_SOURCES) $(AUX_FILES)
 
 dist: 
-	REPODIR=$$PWD darcs dist --dist-name $(NAME)-$(VERSION)
+	REPODIR=$$PWD darcs dist --dist-name $(NAME_VER)
 
-$(NAME).jar: compile manifest.txt
+jar: $(NAME_VER).jar
+
+$(NAME_VER).jar: compile manifest.txt
 	$(JAR) cfm $@ manifest.txt -C build . 
 
 manifest.txt: Makefile
@@ -183,6 +186,15 @@ push-sync:
 
 doc: doc/api/index.html
 
+MARKDOWN = ~/tmp/Markdown_1.0.1/Markdown.pl
+
+doc/%.html: % doc/head doc/foot
+	(cat doc/head; perl $(MARKDOWN) <$*; cat doc/foot) \
+	  | recode -d u8..h4 >$@
+
+#doc/readme.html: README
+#	perl ~/tmp/Markdown_1.0.1/Markdown.pl <$^ | recode -d u8..h4 >$@
+
 qdoc: $(SOURCES)
 	javadoc -d doc/api $(ALL_JAVADOC_FLAGS) $^
 
@@ -208,7 +220,7 @@ mostlyclean:
 # aren't, because the distribution comes with them.
 clean: mostlyclean
 	$(RM) -r $(BUILD) doc/api
-	$(RM) $(NAME).jar
+	$(RM) $(NAME_VER).jar
 
 # Delete files that are created by configuring or building the
 # program.  Leave only the files that were in the distribution.

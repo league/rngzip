@@ -50,6 +50,8 @@ public final class MultiplexInputStream implements Closeable
       new HashMap<Integer,EmbeddedIS>();
 
    private static final boolean DEBUG = false;
+   private static final boolean TRACE_MEM = 
+      System.getProperty("TRACE_MEM") != null;
    private static final PrintStream dbg = System.err;
 
    /**
@@ -273,5 +275,19 @@ public final class MultiplexInputStream implements Closeable
          }
          getStream(block.streamID).queue.offer(buf);
       } while(block.streamID != streamID);
+      if(TRACE_MEM) reportMemoryStats();
+   }
+
+   private void reportMemoryStats()
+   {
+      int streamCount = 0, byteCount = 0;
+      for(EmbeddedIS is : map.values()) {
+         streamCount++;
+         for(byte[] bs : is.queue) {
+            byteCount += bs.length;
+         }
+      }
+      System.err.printf("MEM: MuxInputStream: %d bytes in %d streams%n",
+                        byteCount, streamCount);
    }
 }

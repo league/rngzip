@@ -315,8 +315,6 @@ public class Driver
                if( opt.schema == null ) {
                   loadAutomaton(zis.getSchemaURL());
                }
-               System.err.printf("CHECKING %08X == %08X%n",
-                                 zis.getSchemaSum(), checksum);
                if( zis.getSchemaSum() != checksum ) {
                   error("MISMATCH %08X <> %08X", zis.getSchemaSum(), checksum);
                   error("Schema was %s", zis.getSchemaURL());
