@@ -1,5 +1,6 @@
 \.class$
 ^build$
+^tests/shakes
 \.jar$
 \.tar.gz$
 ~$

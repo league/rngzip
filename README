@@ -1,0 +1,129 @@
+Introduction
+============
+
+RNGzip is a schema-based compressor for XML.  This file documents
+version 0.7α (July 2006) by Christopher League.  See
+<http://contrapunctus.net/league/haques/rngzip/> and
+<http://contrapunctus.net/dist/rngzip/>
+
+RNGzip uses information from the schema of an XML document to achieve
+better compression (usually) than is possible with a general-purpose
+tool like gzip.  We use the Relax NG schema language, which is
+flexible, yet formally well-defined.  A separate tool called
+[trang](http://www.thaiopensource.com/relaxng/trang.html) can convert
+other schema formats to RNG.
+
+To compress an XML stream with RNGzip, it must therefore be valid
+according to some schema.  Documents that don't match the schema are
+literally not compressible with this technique.  More importantly, to
+decompress, you must provide a copy of _precisely the same_ schema
+that was used to compress the document.  This is one of the major
+caveats for using RNGzip.  If the schema evolves, be sure to give it a
+new name or version number; otherwise, your compressed data may become
+inaccessible.
+
+Here is a simple use case.  The [National Center for Biotechnology
+Information](http://www.ncbi.nih.gov/) provides lots of data,
+optionally available in various XML formats.
+
+Let's search the ‘nucleotide’ database for ‘CAGTTT’ (I just made that
+up).  I see about 10 responses, and if I choose to download the
+complete details in XML format, I get a 51 MB file.  Here are the
+first few lines:
+
+    % head sequences.xml 
+    <?xml version="1.0"?>
+    <!DOCTYPE Bioseq-set PUBLIC "-//NCBI//NCBI Seqset/EN" 
+        "http://www.ncbi.nlm.nih.gov/dtd/NCBI_Seqset.dtd">
+    <Bioseq-set>
+    <Bioseq-set_seq-set>
+    <Seq-entry>
+      <Seq-entry_seq>
+        <Bioseq>
+          <Bioseq_id>
+            <Seq-id>
+              <Seq-id_other>
+
+If we compress this with a general-purpose tool,
+
+Gzip compresses by an impressive 97%, producing a 1.4M file.
+Bzip2 compresses (much more slowly) by 99%, producing 460k.
+
+421k.
+
+
+
+Notice that it contains the URL of the document type definition (DTD),
+or schema.  This can be easily convert to RELAX NG format.  It has
+many parts included from separate files, but trang downloads and
+translates all of them.
+
+    % trang http://www.ncbi.nlm.nih.gov/dtd/NCBI_Seqset.dtd ncbi-seqset.rng
+    % ls *.rng
+    EMBL_General.mod.rng	 NCBI_Protein.mod.rng	NCBI_Sequence.mod.rng
+    GenBank_General.mod.rng  NCBI_Pub.mod.rng	NCBI_TxInit.mod.rng
+    NCBI_Biblio.mod.rng	 NCBI_RNA.mod.rng	PDB_General.mod.rng
+    NCBI_BioSource.mod.rng	 NCBI_Rsite.mod.rng	PIR_General.mod.rng
+    NCBI_Entity.mod.rng	 NCBI_Seqalign.mod.rng	PRF_General.mod.rng
+    NCBI_Gene.mod.rng	 NCBI_Seqfeat.mod.rng	SP_General.mod.rng
+    NCBI_General.mod.rng	 NCBI_Seqloc.mod.rng	ncbi-seqset.rng
+    NCBI_Medline.mod.rng	 NCBI_Seqres.mod.rng
+    NCBI_Organism.mod.rng	 NCBI_Seqset.mod.rng
+
+
+
+
+
+This means that it uses information from the schema of the XML data to
+achieve better compression than is possible with a general-purpose
+tool.  To compress an XML document, it must therefore be valid
+according to some schema.  More importantly, to decompress it, you
+must be able to provide an _exact copy_ of the schema that was used to
+compress it.  This is one of the major caveats for using RNGzip.  When
+the schema evolves, be sure to give it a new name or version number;
+otherwise, your compressed data may become impossible to decrypt.
+
+The schema language we use is Relax NG.  There is an independent tool,
+(trang) that can convert from DTD to RNG if needed.  
+
+java -jar rngzip.jar -s play.rng hamlet.xml
+
+dream.xml    149,559
+dream.xml.gz  43,281
+dream.xml.rnz 42,951
+
+
+
+trang, that converts DTD to RN
+
+This is a preliminary (alpha) release, mainly intended for
+experimentation.  In particular, I do not warrant that files
+compressed with this version will be understood by any future
+version of this tool.
+
+
+
+
+    Options:
+     -c --stdout              write to standard output; do not touch files
+     -D --debug               trace compressor; replaces normal output
+     -E --tree-encoder=CODER  use method CODER for encoding the XML tree
+     -f --force               force overwrite of output file
+        --ignore-checksum     decompress even if schema changed (not recommended)
+     -k --keep                do not remove input files
+     -p --pretty-print[=TAB]  line-break and indent decompressed output [2]
+     -q --quiet               suppress all warnings
+     -s --schema=FILE|URL     use this schema (required to compress)
+     -S --suffix=.SUF         use suffix .SUF on compressed files [.rnz]
+     -t --timings             output timings (implies -v) 
+     -T --tree-compressor=CM  compress the encoded XML tree using CM
+     -v --verbose             report statistics about processed files
+     -Z --data-compressor=CM  compress the data stream using CM
+
+    Modes:                    compress is the default; this requires -s
+     -d --decompress          decompress instead of compress
+     -i --identify            print information about compressed files
+     -h --help                provide this help
+     -V --version             display version number, copyright, and license
+        --exact-version       output complete darcs patch context
+

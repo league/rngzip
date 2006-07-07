@@ -1,0 +1,37 @@
+body {
+    font-family: "Verdana", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+code {
+    font-family: "Monaco", monospace;
+    font-size: 115%;
+}
+div#banner {
+    color: #222;
+    background: #8fbc8f;
+    border-bottom: 2px solid #222;
+    margin: 0;
+    padding: 1em;
+}
+div#banner h1 {
+    margin: 0 0 .5ex 0;
+    font-size: 180%;
+}
+div#banner a {
+    color: #222;
+    text-decoration: none;
+}
+div#body {
+    margin: 0;
+    padding: 0 1em 1em 1em;
+}
+h1 {
+    font-size: 150%;
+    margin: 2ex 0 0 0;
+}
+h2 {
+    font-size: 130%;
+    padding: 0;
+    margin: 2ex 0 0 0;
+}

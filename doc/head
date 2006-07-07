@@ -1,0 +1,18 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>RNGzip</title>
+    <link rel='stylesheet' type='text/css' href='style.css' />
+  </head>
+  <body>
+    <div id='banner'>
+      <h1>RNGzip</h1>
+      <a href='README.html'>Introduction</a> • 
+      <a href='INSTALL.html'>Installation</a> • 
+      <a href='USAGE.html'>Usage</a> • 
+      <a href='CAVEATS.html'>Caveats</a> • 
+      <a href='COPYING.html'>License</a>
+    </div>
+    <div id='body'>
+      

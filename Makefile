@@ -61,6 +61,8 @@ CLASSES := $(patsubst %.java,%.class,$(SOURCES))
 LIB_CLASSES := $(patsubst %.java,%.class,$(LIB_SOURCES))
 ALL_CLASSES := $(patsubst %.java,%.class,$(ALL_SOURCES))
 RESOURCES := $(addprefix $(BUILD)/,$(AUX_FILES))
+DOCS := README INSTALL USAGE CAVEATS COPYING
+DOCS_HTML := $(addprefix doc/,$(addsuffix .html,$(DOCS)))
 
 vpath %.class $(BUILD)
 vpath %.java $(LIBRARIES)
@@ -146,7 +148,7 @@ jvm:
 
 ################################ Packaging
 
-predist: $(ALL_SOURCES) $(AUX_FILES)
+predist: $(ALL_SOURCES) $(AUX_FILES) $(DOCS_HTML)
 
 dist: 
 	REPODIR=$$PWD darcs dist --dist-name $(NAME_VER)
@@ -184,7 +186,9 @@ push-sync:
 
 ################################ Documentation
 
-doc: doc/api/index.html
+docs: $(DOCS_HTML)
+
+api-docs: doc/api/index.html
 
 MARKDOWN = ~/tmp/Markdown_1.0.1/Markdown.pl
 
@@ -230,4 +234,4 @@ distclean: clean
 # Makefile.  This includes the output of javaCC.  This should leave
 # behind only things that are in the repository.
 maintainer-clean: distclean
-	$(RM) $(PARSER_FILES) $(AUX_GEN)
+	$(RM) $(PARSER_FILES) $(AUX_GEN) $(DOCS_HTML)
