@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <define name="vendor">
+    <element name="vendor">
+      <ref name="attlist.vendor"/>
+      <text/>
+    </element>
+  </define>
+  <define name="attlist.vendor" combine="interleave">
+    <attribute name="id">
+      <data type="ID"/>
+    </attribute>
+  </define>
+  <start>
+    <choice>
+      <ref name="vendor"/>
+    </choice>
+  </start>
+</grammar>
