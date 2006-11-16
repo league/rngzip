@@ -2,128 +2,149 @@ Introduction
 ============
 
 RNGzip is a schema-based compressor for XML.  This file documents
-version 0.7α (July 2006) by Christopher League.  See
-<http://contrapunctus.net/league/haques/rngzip/> and
-<http://contrapunctus.net/dist/rngzip/>
+version 0.7α (July 2006) by Christopher League.  See also:
+
+> <http://contrapunctus.net/league/haques/rngzip/>
 
 RNGzip uses information from the schema of an XML document to achieve
 better compression (usually) than is possible with a general-purpose
-tool like gzip.  We use the Relax NG schema language, which is
+tool such as gzip.  We use the Relax NG schema language, which is
 flexible, yet formally well-defined.  A separate tool called
 [trang](http://www.thaiopensource.com/relaxng/trang.html) can convert
 other schema formats to RNG.
 
-To compress an XML stream with RNGzip, it must therefore be valid
-according to some schema.  Documents that don't match the schema are
-literally not compressible with this technique.  More importantly, to
-decompress, you must provide a copy of _precisely the same_ schema
-that was used to compress the document.  This is one of the major
-caveats for using RNGzip.  If the schema evolves, be sure to give it a
-new name or version number; otherwise, your compressed data may become
+To compress an XML stream with RNGzip, it *must* be valid according to
+some schema.  Documents that don’t match the schema are literally not
+compressible with this technique.  More importantly, to decompress,
+you must provide a copy of _precisely the same_ schema that was used
+to compress the document.  This is one of the major caveats for using
+RNGzip.  When your schema evolves, be sure to give it a new name or
+version number; otherwise, your compressed data may become
 inaccessible.
 
 Here is a simple use case.  The [National Center for Biotechnology
-Information](http://www.ncbi.nih.gov/) provides lots of data,
-optionally available in various XML formats.
+Information](http://www.ncbi.nih.gov/) at the NIH provides lots of
+data, optionally available in various XML formats.  Here is an example
+of a search result from PubMed:
 
-Let's search the ‘nucleotide’ database for ‘CAGTTT’ (I just made that
-up).  I see about 10 responses, and if I choose to download the
-complete details in XML format, I get a 51 MB file.  Here are the
-first few lines:
-
-    % head sequences.xml 
+    % head -20 pubmed01.xml 
     <?xml version="1.0"?>
-    <!DOCTYPE Bioseq-set PUBLIC "-//NCBI//NCBI Seqset/EN" 
-        "http://www.ncbi.nlm.nih.gov/dtd/NCBI_Seqset.dtd">
-    <Bioseq-set>
-    <Bioseq-set_seq-set>
-    <Seq-entry>
-      <Seq-entry_seq>
-        <Bioseq>
-          <Bioseq_id>
-            <Seq-id>
-              <Seq-id_other>
+    <!DOCTYPE PubmedArticleSet PUBLIC 
+        "-//NLM//DTD PubMedArticle, 1st November 2004//EN" 
+        "http://www.ncbi.nlm.nih.gov/entrez/query/DTD/pubmed_041101.dtd">
+    <PubmedArticleSet>
+    <PubmedArticle>
+        <MedlineCitation Owner="NLM" Status="In-Data-Review">
+            <PMID>16102004</PMID>
+            <DateCreated>
+                <Year>2005</Year>
+                <Month>08</Month>
+                <Day>16</Day>
+            </DateCreated>
+            <Article PubModel="Print">
+                <Journal>
+                    <ISSN>0950-382X</ISSN>
+                    <JournalIssue>
+                        <Volume>57</Volume>
+                        <Issue>5</Issue>
+                        <PubDate>
+                            <Year>2005</Year>
+                            <Month>Sep</Month>
 
-If we compress this with a general-purpose tool,
+The file is 96,264 bytes long.  If we compress it using gzip, the
+result is just 9,215 bytes, or about 90% smaller.  This is pretty good
+already, but RNGzip can do better.  Here is how it works.
 
-Gzip compresses by an impressive 97%, producing a 1.4M file.
-Bzip2 compresses (much more slowly) by 99%, producing 460k.
+First, we must convert the PubMed DTD into the Relax NG format:
 
-421k.
+    % trang http://www.ncbi.nlm.nih.gov/entrez/query/DTD/pubmed_041101.dtd \
+            pubmed.rng
 
+Next, we zip it:
 
+    % java -jar rngzip.jar -v -s pubmed.rng pubmed01.xml 
+    loading file:/Users/league/r/xml-group/src/rngzip/tests/ncbi/pubmed.rng
+    building automaton... done
+    pubmed01.xml              92.28% -- replaced with pubmed01.xml.rnz
 
-Notice that it contains the URL of the document type definition (DTD),
-or schema.  This can be easily convert to RELAX NG format.  It has
-many parts included from separate files, but trang downloads and
-translates all of them.
+The size of the result is 7,431, which is about 92% smaller than the
+original and 19% smaller than the gzipped version.  
 
-    % trang http://www.ncbi.nlm.nih.gov/dtd/NCBI_Seqset.dtd ncbi-seqset.rng
-    % ls *.rng
-    EMBL_General.mod.rng	 NCBI_Protein.mod.rng	NCBI_Sequence.mod.rng
-    GenBank_General.mod.rng  NCBI_Pub.mod.rng	NCBI_TxInit.mod.rng
-    NCBI_Biblio.mod.rng	 NCBI_RNA.mod.rng	PDB_General.mod.rng
-    NCBI_BioSource.mod.rng	 NCBI_Rsite.mod.rng	PIR_General.mod.rng
-    NCBI_Entity.mod.rng	 NCBI_Seqalign.mod.rng	PRF_General.mod.rng
-    NCBI_Gene.mod.rng	 NCBI_Seqfeat.mod.rng	SP_General.mod.rng
-    NCBI_General.mod.rng	 NCBI_Seqloc.mod.rng	ncbi-seqset.rng
-    NCBI_Medline.mod.rng	 NCBI_Seqres.mod.rng
-    NCBI_Organism.mod.rng	 NCBI_Seqset.mod.rng
+We can ask RNGzip to provide some information about this file,
+including the URL of the schema, which was embedded for convenience.
 
+    % java -jar rngzip.jar -iv pubmed01.xml.rnz 
+    pubmed01.xml.rnz: 7431 bytes HUFFMAN/GZ/GZ 
+      file:/Users/league/r/xml-group/src/rngzip/tests/ncbi/pubmed.rng(e6133345)
 
+To decompress, we do not need to specify the schema again unless its
+location has changed.
 
+    % java -jar rngzip.jar -dvp2 pubmed01.xml.rnz
+    loading file:/Users/league/r/xml-group/src/rngzip/tests/ncbi/pubmed.rng
+    building automaton... done
+    pubmed01.xml.rnz          91.28% -- replaced with pubmed01.xml
 
+    % head pubmed01.xml
+    <?xml version="1.1" encoding="UTF-8"?>
+    <PubmedArticleSet>
+      <PubmedArticle>
+        <MedlineCitation Owner="NLM" Status="In-Data-Review">
+          <PMID>16102004</PMID>
+          <DateCreated>
+            <Year>2005</Year>
+            <Month>08</Month>
+            <Day>16</Day>
+          </DateCreated>
 
-This means that it uses information from the schema of the XML data to
-achieve better compression than is possible with a general-purpose
-tool.  To compress an XML document, it must therefore be valid
-according to some schema.  More importantly, to decompress it, you
-must be able to provide an _exact copy_ of the schema that was used to
-compress it.  This is one of the major caveats for using RNGzip.  When
-the schema evolves, be sure to give it a new name or version number;
-otherwise, your compressed data may become impossible to decrypt.
+Notice that the spacing has changed slightly, and the DOCTYPE has been
+dropped.  Unlike a generic compressor, RNGzip does not store the
+ignorable spaces at all.  Instead, it can optionally reformat the XML
+as it decompresses; the option `-p2` means to pretty-print with an
+indentation of two spaces.  RNGzip also drops any DOCTYPE declarations
+or processing instructions.
 
-The schema language we use is Relax NG.  There is an independent tool,
-(trang) that can convert from DTD to RNG if needed.  
+You may think that it is unfair, because gzip must preserve this
+information that RNGzip discards.  But if we remove all the ignorable
+space from the XML first, it doesn't make much difference in the size
+of gzip's output anyway.
 
-java -jar rngzip.jar -s play.rng hamlet.xml
+    % xmllint --noblanks pubmed01.xml > pubmed01.nb.xml
+    % gzip -v pubmed01.nb.xml
+    pubmed01.nb.xml:   86.5% -- replaced with pubmed01.nb.xml.gz
 
-dream.xml    149,559
-dream.xml.gz  43,281
-dream.xml.rnz 42,951
+The XML with ignorable spaces dropped is 62,377 bytes, and compressed
+by gzip it is 8,432.
 
+In general, the more ‘taggy’ an XML document is — and the more
+precisely those tags are constrained by the schema — the better the
+compression will be.  Less taggy XML documents will essentially
+degenerate into the compression ratio of gzip, plus a small overhead.
 
+For example, the plays of Shakespeare have been marked up in XML by
+Jon Bosak.  These represent mostly text, with light markup to indicate
+who is speaking, and where lines begin and end.  In these examples,
+RNGzip does roughly the same as gzip, on average.
 
-trang, that converts DTD to RN
+    % ls -l taming.xml*
+    -rw-r--r-- league  200,918  Jul 15  1999  taming.xml
+    -rw-r--r-- league   53,479  Jul  7 12:31  taming.xml.gz
+    -rw-r--r-- league   52,820  Jul  7 12:31  taming.xml.rnz
 
-This is a preliminary (alpha) release, mainly intended for
-experimentation.  In particular, I do not warrant that files
-compressed with this version will be understood by any future
-version of this tool.
+The compressed forms are both roughly 73% smaller than the original,
+with the RNGzip version just 1.2% smaller than the gzipped one.
 
+You may be aware that gzip does not yield the best compression ratio
+of any generic compressor; rather, it is a good trade-off between
+speed and size.  The block-sorting compressor bzip2 tends to yield
+much smaller files, although it is slower than gzip.  For example,
+taming.xml.bz2 is just 39,502 bytes, beating RNGzip by 25%!
 
+This is because RNGzip actually uses a generic compressor internally,
+and by default, it uses gzip (zlib).  To make RNGzip more competitive
+against bzip2, a Java implementation of bzip2 could be substituted
+within RNGzip.  Incidentally, on the PubMed example above, RNGzip
+(with zlib) still beats bzip2 by 9%.
 
-
-    Options:
-     -c --stdout              write to standard output; do not touch files
-     -D --debug               trace compressor; replaces normal output
-     -E --tree-encoder=CODER  use method CODER for encoding the XML tree
-     -f --force               force overwrite of output file
-        --ignore-checksum     decompress even if schema changed (not recommended)
-     -k --keep                do not remove input files
-     -p --pretty-print[=TAB]  line-break and indent decompressed output [2]
-     -q --quiet               suppress all warnings
-     -s --schema=FILE|URL     use this schema (required to compress)
-     -S --suffix=.SUF         use suffix .SUF on compressed files [.rnz]
-     -t --timings             output timings (implies -v) 
-     -T --tree-compressor=CM  compress the encoded XML tree using CM
-     -v --verbose             report statistics about processed files
-     -Z --data-compressor=CM  compress the data stream using CM
-
-    Modes:                    compress is the default; this requires -s
-     -d --decompress          decompress instead of compress
-     -i --identify            print information about compressed files
-     -h --help                provide this help
-     -V --version             display version number, copyright, and license
-        --exact-version       output complete darcs patch context
-
+----
+» [Installation](INSTALL.html)

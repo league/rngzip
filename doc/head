@@ -7,12 +7,13 @@
   </head>
   <body>
     <div id='banner'>
-      <h1>RNGzip</h1>
-      <a href='README.html'>Introduction</a> • 
-      <a href='INSTALL.html'>Installation</a> • 
-      <a href='USAGE.html'>Usage</a> • 
-      <a href='CAVEATS.html'>Caveats</a> • 
-      <a href='COPYING.html'>License</a>
+      <a href='index.html'><h1>RNGzip</h1></a>
+      <a href='README.html'>Introduction</a> · 
+      <a href='INSTALL.html'>Installation</a> · 
+      <a href='USAGE.html'>Usage</a> · 
+      <a href='CAVEATS.html'>Caveats</a> · 
+      <a href='COPYING.html'>License</a> · 
+      <a href='api/index.html'>API</a>
     </div>
     <div id='body'>
       

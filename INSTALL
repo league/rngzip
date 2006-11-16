@@ -1,6 +1,64 @@
 Obtaining the software
 ======================
 
+RNGzip is available in several forms: a platform-neutral binary
+(.jar), a source bundle (.tar.gz), and from a Darcs repository.  All
+of these can be found at
+
+> <http://contrapunctus.net/dist/rngzip/>
+
+
+Platform-neutral binary
+-----------------------
+
+The simplest way to get started with RNGzip is to download
+`rngzip-VERSION.jar` from the URL above.  This contains all the class
+files needed to run the program, so all you need to do to run it is:
+
+    % java -jar rngzip-VERSION.jar
+
+You may want to set up a shell script or batch file to do this.
+
+
+Source bundle
+-------------
+
+The sources to the program are available in files named like
+`rngzip-VERSION.tar.gz`.  Download and unpack this file.  To build
+RNGzip, you need `javac`, at least version 1.5.0.  The following
+makefile targets are available:
+
+  * `make default` — compiles the entire program into a `build/`
+    sub-directory.
+
+  * `make jar` — also creates the file `rngzip-VERSION.jar`.
+
+  * `make api-docs` — builds the API documentation in `doc/api/`; this
+    is of interest to developers only and is not provided by default.
+
+  * `make all-api-docs` — also include the libraries in the API
+    documentation, for the sake of completeness.
+
+  * `make test` — run the unit tests; requires that you have run
+    `make` to build the program already, and it also requires some
+    special tools — such as `trang` — to be in your path.
+
+
+Darcs repository
+----------------
+
+This is useful if you want to fetch the latest (unstable!) development
+sources or to contribute patches to RNGzip.  To clone the entire
+repository, issue the command:
+
+    % darcs get http://contrapunctus.net/dist/rngzip/trunk rngzip
+
+You can save space and download time by using the `--partial` flag and
+select particular tagged releases with `--tag`.  See the documentation
+of [darcs](http://abridgegame.org/darcs/) for details.
 
 Building and installing
 =======================
+
+----
+» [Usage](USAGE.html)

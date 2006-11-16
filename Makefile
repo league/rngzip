@@ -188,22 +188,16 @@ push-sync:
 
 docs: $(DOCS_HTML)
 
-api-docs: doc/api/index.html
+api-docs: $(SOURCES)
+	javadoc -d doc/api $(ALL_JAVADOC_FLAGS) $^
 
-MARKDOWN = ~/tmp/Markdown_1.0.1/Markdown.pl
+all-api-docs: $(ALL_SOURCES)
+	javadoc -d $(dir $@) $(ALL_JAVADOC_FLAGS) $^
 
+MARKDOWN = libs/markdown/Markdown.pl
 doc/%.html: % doc/head doc/foot
 	(cat doc/head; perl $(MARKDOWN) <$*; cat doc/foot) \
 	  | recode -d u8..h4 >$@
-
-#doc/readme.html: README
-#	perl ~/tmp/Markdown_1.0.1/Markdown.pl <$^ | recode -d u8..h4 >$@
-
-qdoc: $(SOURCES)
-	javadoc -d doc/api $(ALL_JAVADOC_FLAGS) $^
-
-doc/api/index.html: $(ALL_SOURCES)
-	javadoc -d $(dir $@) $(ALL_JAVADOC_FLAGS) $^
 
 ################################ Cleanliness
 

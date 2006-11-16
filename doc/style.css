@@ -17,10 +17,16 @@ div#banner {
 div#banner h1 {
     margin: 0 0 .5ex 0;
     font-size: 180%;
+    font-weight: bold;
 }
 div#banner a {
     color: #222;
     text-decoration: none;
+    font-weight: normal;
+}
+a {
+    text-decoration: none;
+    font-weight: bold;
 }
 div#body {
     margin: 0;
@@ -34,4 +40,26 @@ h2 {
     font-size: 130%;
     padding: 0;
     margin: 2ex 0 0 0;
+}
+dd {
+    margin-bottom: 1ex;
+}
+pre {
+    background: #eee;
+    padding: 1ex;
+    border-style: solid;
+    border-color: #77f;
+    border-width: 1px 0;
+}
+hr {
+   border: 1px solid #222;
+   margin: 3ex -1em 0 -1em;
+}
+hr + p { 
+   margin: 0 -1em;
+   padding: 1ex 1em;
+   background: #8fbc8f;
+}
+hr + p a {
+   color: #222;
 }
