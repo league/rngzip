@@ -22,7 +22,7 @@ ALL_JVM_FLAGS = $(JVM_FLAGS)
 
 ################################ Paths and files
 
-JUNIT_JAR = /home/league/tmp/junit4.0/junit-4.0.jar
+JUNIT_JAR = /home/league/r/xml-group/junit4.1/junit-4.1.jar
 CLASSPATH = 
 
 NAME = rngzip
@@ -30,7 +30,7 @@ PACKAGE = net.contrapunctus.$(NAME)
 VERSION = 0.1
 NAME_VER = $(NAME)-$(VERSION)
 
-LIBRARIES := bali iso-relax msv relaxng-datatype gnu-getopt
+LIBRARIES := bali iso-relax msv relaxng-datatype gnu-getopt commons-compress
 SOURCEPATH := net
 BUILD = build
 
@@ -70,7 +70,7 @@ vpath %.jj $(LIBRARIES)
 vpath %.properties $(LIBRARIES)
 vpath %.rng $(LIBRARIES)
 
-include Makefile.local
+## include Makefile.local
 
 ################################ Java build hacks
 

@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Constructor;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 import net.contrapunctus.rngzip.util.BitInputStream;
@@ -12,9 +13,9 @@ import net.contrapunctus.rngzip.util.BitOutputStream;
 import net.contrapunctus.rngzip.util.MultiplexInputStream;
 import net.contrapunctus.rngzip.util.MultiplexOutputStream;
 import net.contrapunctus.rngzip.util.OutputStreamFilter;
+import org.apache.commons.compress.bzip2.CBZip2InputStream;
+import org.apache.commons.compress.bzip2.CBZip2OutputStream;
 
-//import org.apache.tools.bzip2.CBZip2InputStream;
-//import org.apache.tools.bzip2.CBZip2OutputStream;
 //import com.colloquial.arithcode.ArithCodeInputStream;
 //import com.colloquial.arithcode.ArithCodeOutputStream;
 //import com.colloquial.arithcode.PPMModel;
@@ -73,8 +74,14 @@ public class RNGZSettings
        * Applies GZIP compression to the stream.
        * @see GZIPOutputStream
        */
-      GZ;
-      //, BZ2, PPM;
+        GZ,
+
+      /**
+       * Applies BZip2 compression to the stream.
+       * @see CBZip2OutputStream
+       */
+        BZ2;
+      //BZ2, PPM;
    }
 
    private static final int ppmOrder = 4;
@@ -209,6 +216,20 @@ public class RNGZSettings
     * ----------------------------------------------------------------
     */
 
+  private static Object externalInstance
+    (String nm, Class ty, Object arg)
+    throws IOException
+  {
+    try {
+      Class c = Class.forName(nm);
+      Constructor k = c.getConstructor(ty);
+      return k.newInstance(arg);
+    }
+    catch(Exception x) {
+      throw new IOException(x.getMessage());
+    }
+  }
+
    /**
     * Filter an output stream through a compressor, as specified by
     * ‘cm’.  That is, if ‘cm’ is <code>GZ</code>, this method will
@@ -221,10 +242,15 @@ public class RNGZSettings
       switch(cm) {
       case NONE: break;
       case GZ: out = new GZIPOutputStream(out); break;
-      //case BZ2: out = new CBZip2OutputStream(out); break;
-      //case PPM: 
-      //  out = new ArithCodeOutputStream(out, new PPMModel(ppmOrder)); 
-      //  break;
+      case BZ2: out = new CBZip2OutputStream(out); break; 
+        // here's how it would work for external stuff:
+        //out = (OutputStream) externalInstance
+        //  ("org.apache.commons.compress.bzip2.CBZip2OutputStream",
+        //   OutputStream.class, out);
+        //break;
+        //case PPM: 
+        //  out = new ArithCodeOutputStream(out, new PPMModel(ppmOrder)); 
+        //  break;
       default: assert false;
       }
       return out;
@@ -369,10 +395,14 @@ public class RNGZSettings
       switch(cm) {
       case NONE: break;
       case GZ: in = new GZIPInputStream(in); break;
-      //case BZ2: in = new CBZip2InputStream(in); break;
-      //case PPM: 
-      //  in = new ArithCodeInputStream(in, new PPMModel(ppmOrder));
-      //  break;
+      case BZ2: in = new CBZip2InputStream(in); break;
+        //in = (InputStream) externalInstance
+        //  ("org.apache.commons.compress.bzip2.CBZip2InputStream",
+        //   InputStream.class, in);
+        //break;
+        //case PPM: 
+        //  in = new ArithCodeInputStream(in, new PPMModel(ppmOrder));
+        //  break;
       default: assert false;
       }
       return in;
