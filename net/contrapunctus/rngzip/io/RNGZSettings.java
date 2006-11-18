@@ -1,5 +1,8 @@
 package net.contrapunctus.rngzip.io;
 
+import com.colloquial.arithcode.ArithCodeInputStream;
+import com.colloquial.arithcode.ArithCodeOutputStream;
+import com.colloquial.arithcode.PPMModel;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -15,10 +18,6 @@ import net.contrapunctus.rngzip.util.MultiplexOutputStream;
 import net.contrapunctus.rngzip.util.OutputStreamFilter;
 import org.apache.commons.compress.bzip2.CBZip2InputStream;
 import org.apache.commons.compress.bzip2.CBZip2OutputStream;
-
-//import com.colloquial.arithcode.ArithCodeInputStream;
-//import com.colloquial.arithcode.ArithCodeOutputStream;
-//import com.colloquial.arithcode.PPMModel;
 
 /**
  * This class represents the various configurable settings for a
@@ -80,8 +79,8 @@ public class RNGZSettings
        * Applies BZip2 compression to the stream.
        * @see CBZip2OutputStream
        */
-        BZ2;
-      //BZ2, PPM;
+        BZ2,
+        PPM;
    }
 
    private static final int ppmOrder = 4;
@@ -243,14 +242,14 @@ public class RNGZSettings
       case NONE: break;
       case GZ: out = new GZIPOutputStream(out); break;
       case BZ2: out = new CBZip2OutputStream(out); break; 
+      case PPM: 
+        out = new ArithCodeOutputStream(out, new PPMModel(ppmOrder));
+        break;
         // here's how it would work for external stuff:
         //out = (OutputStream) externalInstance
         //  ("org.apache.commons.compress.bzip2.CBZip2OutputStream",
         //   OutputStream.class, out);
         //break;
-        //case PPM: 
-        //  out = new ArithCodeOutputStream(out, new PPMModel(ppmOrder)); 
-        //  break;
       default: assert false;
       }
       return out;
@@ -396,13 +395,13 @@ public class RNGZSettings
       case NONE: break;
       case GZ: in = new GZIPInputStream(in); break;
       case BZ2: in = new CBZip2InputStream(in); break;
+      case PPM: 
+        in = new ArithCodeInputStream(in, new PPMModel(ppmOrder));
+        break;
         //in = (InputStream) externalInstance
         //  ("org.apache.commons.compress.bzip2.CBZip2InputStream",
         //   InputStream.class, in);
         //break;
-        //case PPM: 
-        //  in = new ArithCodeInputStream(in, new PPMModel(ppmOrder));
-        //  break;
       default: assert false;
       }
       return in;

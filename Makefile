@@ -30,7 +30,8 @@ PACKAGE = net.contrapunctus.$(NAME)
 VERSION = 0.1
 NAME_VER = $(NAME)-$(VERSION)
 
-LIBRARIES := bali iso-relax msv relaxng-datatype gnu-getopt commons-compress
+LIBRARIES := bali iso-relax msv relaxng-datatype gnu-getopt \
+    commons-compress colloquial
 SOURCEPATH := net
 BUILD = build
 
@@ -206,7 +207,8 @@ doc/%.html: % doc/head doc/foot
 # classes in the build/ directory, and the API documentation.
 mostlyclean:
 	$(RM) -r $(BUILD)/net
-	$(RM) $(TEST_CLASSES) $(TEST_RNG_SCHEMATA) 
+	$(RM) $(subst $$,\$$,$(shell find tests -name '*.class'))
+	$(RM) $(TEST_RNG_SCHEMATA) 
 	$(RM) $(patsubst %.xml,%.rnz,$(TEST_XML_CASES))
 	$(RM) $(patsubst %.xml,%.xin,$(TEST_XML_CASES))
 	$(RM) $(patsubst %.xml,%.xout,$(TEST_XML_CASES))

@@ -1,0 +1,170 @@
+<HTML>
+
+<HEAD>
+<TITLE>
+Compression via Arithmetic Coding in Java
+</TITLE>
+</HEAD>
+
+<BODY>
+
+<H1>Compression via Arithmetic Coding in Java. Version 1.1</H1>
+
+<H3>Changes in Version 1.1</H3>
+<P>
+Exclusion statistics for more accurate estimation.
+<P>
+Many source code optimizations, primarily at a fairly low level of detail.
+
+<H3>Overview</H3>
+<P>
+This directory contains the distribution for a package to do compression
+via arithmetic coding in Java.  A very brief description of arithmetic coding with lots of pointers to other material can be found in:
+<UL>
+<LI><a href="javadoc/tutorial.html">The Arithmetic Coding Tutorial</a>
+</UL>
+<P>
+The arithmetic coding package contains a generic arithemtic coder and
+decoder, along with byte stream models that are subclasses of Java's
+I/O streams. Example statistical models include a uniform
+distribution, simple unigram model, and a parametric prediction by
+partial matching (PPM) model. Other models can be built in the
+framework in the same way as the examples.  A prebuilt set of javadoc is available online:
+<UL>
+<LI><a href="javadoc/index.html">Javadoc for com.colloquial.arithcode</a>
+</UL>
+
+<H2>Quick Start for Java Pros</H2>
+<P>
+Download the <a href="colloquial_arithcode_src-1_1.jar">source</a> to target directory,
+cd there, unjar the source, run <code>ant test</code>.
+
+
+<H2>Downloading com.colloquial.arithcode</H2>
+<P>
+The distribution comes in three parts:
+
+<UL>
+  <LI><a href="colloquial_arithcode_src-1_1.jar">Source Distribution jar</a>
+  <LI><a href="colloquial_arithcode_doc-1_1.jar">Javadoc jar</a>
+  <LI><a href="colloquial_arithcode-1_1.jar">Precompiled Class Files jar</a>
+</UL>
+
+
+<H2>Using com.colloquial.arithcode</H2>
+<P>
+The precompiled class files may be used directly from jar by putting
+the filename of the jar in the <code>CLASSPATH</code>, either in the
+environment or in the argument to the JVM.
+<P>
+I attempted to structure the package according to the recommendations
+in Sun's
+<a href="http://java.sun.com/j2se/javadoc/writingapispecs/index.html">Requirements for Writing Java API Specifications</a>
+and in the book <a href="http://www.amazon.com/exec/obidos/tg/detail/-/0201310058/"><i>Effective Java</i></a> by Joshua Block.
+
+
+<H2>Unpacking the documentation</H2>
+<P>
+The documentation may be unpacked into a directory by executing
+the following sequence of commands, where <code>$TARGET_DIR</code> is the
+target directory into which the documentation is to be unpacked.
+<UL>
+<LI><code>mv colloquial_arithcode_doc-1_1.jar $TARGET_DIR</code>
+<LI><code>cd $TARGET_DIR</code>
+<LI><code>jar xvf colloquial_arithcode_doc-1_1.jar</code>
+</UL>
+The documentation was intended to follow the recommendations
+laid out in Sun's
+<a href="http://java.sun.com/j2se/javadoc/writingdoccomments/index.html">How to Write Doc Comments</a>.
+I also used Sun's <a href="http://java.sun.com/j2se/javadoc/doccheck/">Doc Check Utilities</a>
+for checking completeness of doc and linking errors.  But they
+only work with the 1.2 and 1.3 Java 2 SDKs.
+
+
+<H2>Building from the source</H2>
+
+<P>
+The source may be unpacked in exactly the same way as the
+documentation:
+<UL>
+<LI><code>mv colloquial_arithcode_src-1_1.jar $TARGET_DIR</code>
+<LI><code>cd $TARGET_DIR</code>
+<LI><code>jar xvf colloquial_arithcode_src-1_1.jar</code>
+</UL>
+
+<P>
+The source has been tested with the 1.3 and 1.4 Java 2 SDK compilers.
+The code may be compiled directly.  It is packaged in the appropriate
+directory structure.  But I prefer to use <a
+href="http://jakarta.apache.org/ant/">Apache Ant</a>; it's like
+makefiles, only in XML and comprehensible (I know that sounds like an
+oxymoron several times over.). Ant can be downloaded as part of the <a
+href="http://java.sun.com/webservices/downloads/webservicespack.html">Java
+Web Services Developer Pack</a>.  I followed the directory structure
+suggested by the useful but strangely named article <a
+href="http://jakarta.apache.org/ant/ant_in_anger.html">Using Ant in
+Anger</a>.
+
+<P>
+After unpacking the jar file and installing ant, the package and
+documentation may be built from the command line and tests may be run.
+For ant builds, there is a file conventionally named <code>build.xml</code> which
+contains the build instructions. Here is the command to test that
+everything's working, where <code>$TARGET_DIR</code> is where the
+source was unpacked.:
+
+<UL>
+<LI><code>cd $TARGET_DIR</code>
+<LI><code>ant test</code>
+</UL>
+There are no environment variable dependencies in the build.xml.  Use
+<code>ant -projecthelp</code> to examine the other targets, or
+look at the source.
+
+<H2>Tools for Performance Tuning</H2>
+<P>
+I ran everything first through
+<a href="http://java.sun.com/j2se/1.4/docs/tooldocs/windows/java.html"><code>java -Xprof</code></a>,
+which is just the Sun Java runtime with profiling for Windows.  It actually
+caught all the glaring inefficiencies, but to double-check, I ran it through
+<a href="http://www.rational.com/products/quantify_nt/index.jsp">Rational Quantify for Windows</a>.
+Quantify is great; I use it at work.  Get it if you can afford it.
+It's worth it if you need the speed.  The implementations used here don't have
+any glaring inefficiencies; the algorithms on the other hand ...  Any suggestions
+for improvements or if you want to point out a glaring efficiency, I'd be glad to
+hear about it.
+
+<H3>Performance Note</H3>
+<P>
+For best performance, run <code>java</code> with the <code>-server</code> option.  You can find a lot of information in the 
+<a href="http://java.sun.com/products/hotspot/docs/whitepaper/Java_Hotspot_v1.4.1/Java_HSpot_WP_v1.4.1_1002_1.html">Java Hotspot White Paper</a>, 
+which contains a description of the 
+<a href="http://java.sun.com/products/hotspot/docs/whitepaper/Java_Hotspot_v1.4.1/Java_HSpot_WP_v1.4.1_1002_4.html#server">
+Java HotSpot Server Compiler</a>.
+The server option provides a lot of optimizations 
+compiler provides extensive in-lining of one-line functions and other
+code unfolding and folding based on runtime analysis of hotspots.  The
+compressors and decompressors run around 10-50% faster in this mode.  For more discussion
+of this compiler and tuning Java in general, see
+<a href="http://www.amazon.com/exec/obidos/tg/detail/-/0596000154/">
+Java Performance Tuning</a> by Jack Shirazi.
+
+
+<H2>Compression Rates and Speed</H2>
+
+<UL>
+<LI><a href="results-06Oct2002.html">Version 1.0 Results: 6 October 2002</a>
+<LI><a href="results-26Jan2003.html">Version 1.1 Results: 26 January 2003</a>
+</UL>
+
+
+</BODY>
+
+<ADDRESS>
+<HR>
+<font size=-1>
+Copyright 2002-2003. Bob Carpenter.  Maintained by <a href="http://www.colloquial.com/carp">Bob Carpenter</a>,
+<a href="mailto:carp@colloquial.com">carp@colloquial.com</a>.
+</font>
+</ADDRESS>
+</HTML>
