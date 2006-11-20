@@ -91,7 +91,7 @@ public class ArithCodeOutputStream extends OutputStream {
      * @throws IOException If there is an exception in writing to the underlying encoder.
      */
     public void write(byte[] bs, int off, int len)  throws IOException {
-	while (off < len) write(Converter.byteToInteger(bs[off++]));
+      while (off < len) write(bs[off++]);
     }
     
     /** Writes the eight low-order bits of argument to the output stream
@@ -100,7 +100,9 @@ public class ArithCodeOutputStream extends OutputStream {
      * @throws IOException If there is an exception in writing to the underlying encoder.
      */
     public void write(int i)  throws IOException { 
-	encode(i);
+      if( i < 0 ) i += 256;
+      assert 0 <= i && i < 256;
+      encode(i);
     }
 
     /** The model on which the output stream is based.

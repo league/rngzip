@@ -113,7 +113,7 @@ public final class ArithCodeInputStream extends InputStream {
 	for (int i = off; i < len; ++i) {
 	    int nextByte = read();
 	    if (nextByte == -1) return (i - off); // eof, return length read
-	    bs[i] = Converter.integerToByte(nextByte);
+	    bs[i] = (byte)nextByte;
 	}
 	return len > 0 ? len : 0;
     }
@@ -127,6 +127,8 @@ public final class ArithCodeInputStream extends InputStream {
     public int read() throws IOException {
 	int result = _nextByte;
 	decodeNextByte();
+        if( result == -1 ) return -1;
+        assert 0 <= result && result < 256 : result;
 	return result;
     }
 	
