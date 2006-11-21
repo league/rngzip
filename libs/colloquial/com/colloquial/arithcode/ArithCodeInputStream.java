@@ -30,7 +30,6 @@ public final class ArithCodeInputStream extends InputStream {
     public ArithCodeInputStream(ArithDecoder decoder, ArithCodeModel model) throws IOException {
 	_decoder = decoder;
 	_model = model;
-	decodeNextByte();
     }
 
     /** Construct an arithmetic coded input stream from a specified
@@ -63,14 +62,6 @@ public final class ArithCodeInputStream extends InputStream {
 	this(new BufferedInputStream(in), model);
     }
     
-    /** Returns <code>1</code> if there is at least one byte
-     * available to be read and returns <code>0</code> otherwise.
-     * @return <code>1</code> if at least one byte is available and <code>0</code> otherwise.
-     */
-    public int available() {
-	return (_nextByte >= 0) ? 1 : 0;
-    }
-
     /** Closes this input stream.
      * @throws IOException If there is an exception closing the underlying input stream.
      */
@@ -125,8 +116,7 @@ public final class ArithCodeInputStream extends InputStream {
      * @throws IOException If there is an I/O exception reading from the underlying stream.
      */
     public int read() throws IOException {
-	int result = _nextByte;
-	decodeNextByte();
+	int result = decodeNextByte();
         if( result == -1 ) return -1;
         assert 0 <= result && result < 256 : result;
 	return result;
@@ -162,7 +152,7 @@ public final class ArithCodeInputStream extends InputStream {
      * the end of stream has been reached, otherwise next byte
      * is the low order bits.
      */
-    private int _nextByte;
+    private boolean eof_p = false;
 
     /** Interval used for coding ranges.
      */
@@ -170,14 +160,16 @@ public final class ArithCodeInputStream extends InputStream {
 
     /** Buffers the next byte into <code>_nextByte</code>.
      */
-    private void decodeNextByte() throws IOException {
-	if (_nextByte == ArithCodeModel.EOF) return;
-	if (_decoder.endOfStream()) { _nextByte = ArithCodeModel.EOF; return; }
+    private int decodeNextByte() throws IOException {
+      if (eof_p || _decoder.endOfStream()) { 
+        eof_p = true;
+        return ArithCodeModel.EOF;
+      }
 	while (true) {
-	    _nextByte = _model.pointToSymbol(_decoder.getCurrentSymbolCount(_model.totalCount()));
+          int _nextByte = _model.pointToSymbol(_decoder.getCurrentSymbolCount(_model.totalCount()));
 	    _model.interval(_nextByte,_interval);
 	    _decoder.removeSymbolFromStream(_interval); 
-	    if (_nextByte != ArithCodeModel.ESCAPE) return;
+	    if (_nextByte != ArithCodeModel.ESCAPE) return _nextByte;
 	}
     }
     
