@@ -111,7 +111,7 @@ public final class BitOutputStream implements Closeable
    /* Dump the contents of the bit buffer and reset it. */
    private void dumpByte() throws IOException
    {
-      out.write(buf);
+      out.write((byte)buf);
       buf = 0;
       pos = 0;
       /* invariants trivially hold here */

@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.zip.GZIPOutputStream;
 import net.contrapunctus.rngzip.util.BaliAutomaton;
 import net.contrapunctus.rngzip.util.BitOutputStream;
+import net.contrapunctus.rngzip.util.ContextualOutputStream;
 import net.contrapunctus.rngzip.util.ErrorReporter;
 import net.contrapunctus.rngzip.util.MultiplexOutputStream;
 import net.contrapunctus.rngzip.util.OutputStreamFilter;
@@ -29,12 +30,12 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * 
  * @author Christopher League
  */
-public final class RNGZOutputStream implements RNGZOutputInterface
+public class RNGZOutputStream implements RNGZOutputInterface
 {
    private MultiplexOutputStream mux;
    private RNGZSettings settings;
    private BitOutputStream bits;
-   private DataOutputStream data;
+   private ContextualOutputStream data;
 
    private final boolean STATS = false;
    private final PrintStream dbg = System.err;
@@ -58,8 +59,8 @@ public final class RNGZOutputStream implements RNGZOutputInterface
       data = settings.newDataOutput(mux, 2);
       if (au != null) {
          bits.writeBit(true);
-         data.writeUTF(au.getURL().toString());
-         data.writeLong(au.checksum());
+         data.writeUTF(null, au.getURL().toString());
+         data.writeLong(null, au.checksum());
       }
       else {
          bits.writeBit(false);
@@ -101,7 +102,7 @@ public final class RNGZOutputStream implements RNGZOutputInterface
          assert elt.intern() == elt;
          tally(elt);
       }
-      data.writeUTF(s);
+      data.writeUTF(path, s);
    }
    
    /**

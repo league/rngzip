@@ -133,7 +133,7 @@ public class Driver
          System.out.printf("%s: %d bytes %s", name, len, opt.settings);
          URL url = zin.getSchemaURL();
          if( opt.verbosity > 1 && url != null ) {
-            System.out.printf(" %s(%08x)%n", url, zin.getSchemaSum());
+            System.out.printf(" %s(%016x)%n", url, zin.getSchemaSum());
          }
          else {
             System.out.println();

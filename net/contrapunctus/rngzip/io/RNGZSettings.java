@@ -11,11 +11,7 @@ import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
-import net.contrapunctus.rngzip.util.BitInputStream;
-import net.contrapunctus.rngzip.util.BitOutputStream;
-import net.contrapunctus.rngzip.util.MultiplexInputStream;
-import net.contrapunctus.rngzip.util.MultiplexOutputStream;
-import net.contrapunctus.rngzip.util.OutputStreamFilter;
+import net.contrapunctus.rngzip.util.*;
 import org.apache.commons.compress.bzip2.CBZip2InputStream;
 import org.apache.commons.compress.bzip2.CBZip2OutputStream;
 
@@ -80,11 +76,10 @@ public class RNGZSettings
        * @see CBZip2OutputStream
        */
         BZ2,
-        PPM;
+        PPM4, PPM5,
+        HPM4, HPM5
    }
 
-   private static final int ppmOrder = 4;
-   
    private static final BitCoding[] BitCoding_values = BitCoding.values();
    private static final DataCompression[] DataCompression_values =
       DataCompression.values();
@@ -242,9 +237,15 @@ public class RNGZSettings
       case NONE: break;
       case GZ: out = new GZIPOutputStream(out); break;
       case BZ2: out = new CBZip2OutputStream(out); break; 
-      case PPM: 
-        out = new ArithCodeOutputStream(out, new PPMModel(ppmOrder));
+      case PPM4:
+      case HPM4:
+        out = new ArithCodeOutputStream(out, new PPMModel(4));
         break;
+      case PPM5:
+      case HPM5:
+        out = new ArithCodeOutputStream(out, new PPMModel(5));
+        break;
+
         // here's how it would work for external stuff:
         //out = (OutputStream) externalInstance
         //  ("org.apache.commons.compress.bzip2.CBZip2OutputStream",
@@ -307,17 +308,24 @@ public class RNGZSettings
     * according to the settings.
     * @see #dataCompr
     */
-   protected DataOutputStream newDataOutput(MultiplexOutputStream mux, 
-                                            int stream)
-      throws IOException
-   {
-      return mux.open
-         (stream, new OutputStreamFilter<DataOutputStream>() {
-            public DataOutputStream wrap (OutputStream out) throws IOException {
-               return new DataOutputStream(wrapOutput(out, dataCompr));
-            }
-         });
-   }
+  protected ContextualOutputStream newDataOutput
+    (MultiplexOutputStream mux, int stream)
+    throws IOException
+  {
+    return mux.open
+      (stream, new OutputStreamFilter<ContextualOutputStream>() {
+        public ContextualOutputStream wrap (OutputStream out) 
+          throws IOException {
+          switch( dataCompr ) {
+          case HPM4:
+            return new PPMContextOutputStream(out, 4);
+          case HPM5:
+            return new PPMContextOutputStream(out, 5);
+          default:
+            return new ContextFreeOutputStream(wrapOutput(out, dataCompr));
+          }
+        }});
+  }
 
    /**
     * Construct a <code>ChoiceCoder</code> according to these
@@ -395,8 +403,13 @@ public class RNGZSettings
       case NONE: break;
       case GZ: in = new GZIPInputStream(in); break;
       case BZ2: in = new CBZip2InputStream(in); break;
-      case PPM: 
-        in = new ArithCodeInputStream(in, new PPMModel(ppmOrder));
+      case PPM4: 
+      case HPM4:
+        in = new ArithCodeInputStream(in, new PPMModel(4));
+        break;
+      case PPM5: 
+      case HPM5:
+        in = new ArithCodeInputStream(in, new PPMModel(5));
         break;
         //in = (InputStream) externalInstance
         //  ("org.apache.commons.compress.bzip2.CBZip2InputStream",
@@ -424,11 +437,18 @@ public class RNGZSettings
     * settings.
     * @see #dataCompr
     */
-   protected DataInputStream newDataInput(MultiplexInputStream mux,
-                                          int stream)
+   protected ContextualInputStream newDataInput
+     (MultiplexInputStream mux, int stream)
       throws IOException
    {
-      return new DataInputStream(wrapInput(mux.open(stream), dataCompr));
+     InputStream in = mux.open(stream);
+     switch( dataCompr ) {
+     case HPM4:
+       return new PPMContextInputStream(in, 4);
+     case HPM5:
+       return new PPMContextInputStream(in, 5);
+     default:
+       return new ContextFreeInputStream(wrapInput(in, dataCompr));
+     }
    }
-
 }

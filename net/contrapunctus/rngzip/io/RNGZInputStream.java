@@ -1,15 +1,15 @@
 package net.contrapunctus.rngzip.io;
 
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPInputStream;
-import net.contrapunctus.rngzip.util.BitInputStream;
 import net.contrapunctus.rngzip.util.BaliAutomaton;
+import net.contrapunctus.rngzip.util.BitInputStream;
+import net.contrapunctus.rngzip.util.ContextualInputStream;
 import net.contrapunctus.rngzip.util.MultiplexInputStream;
 import net.contrapunctus.rngzip.util.SchemaFormatException;
 
@@ -30,7 +30,7 @@ public final class RNGZInputStream implements RNGZInputInterface
    private MultiplexInputStream mux;
    private RNGZSettings settings;
    private BitInputStream bits;
-   private DataInputStream data;
+   private ContextualInputStream data;
    private URL schemaURL;
    private long expectedSum;
 
@@ -64,8 +64,8 @@ public final class RNGZInputStream implements RNGZInputInterface
       bits = settings.newBitInput(mux, 0);
       data = settings.newDataInput(mux, 2);
       if(bits.readBit()) {
-         schemaURL = new URL(data.readUTF());
-         expectedSum = data.readLong();
+         schemaURL = new URL(data.readUTF(null));
+         expectedSum = data.readLong(null);
       }
    }
 
@@ -107,7 +107,7 @@ public final class RNGZInputStream implements RNGZInputInterface
    {
       check();
       //String elt = path.get(path.size()-1);
-      return data.readUTF();
+      return data.readUTF(path);
    }
 
    /**
