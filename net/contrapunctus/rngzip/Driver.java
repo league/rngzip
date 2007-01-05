@@ -82,7 +82,8 @@ public class Driver
          checksum = automaton.checksum();
          if( opt.timings_p ) {
             long elapsed = System.currentTimeMillis() - start;
-            info("%5dms%n", elapsed);
+            err.printf("%5d%s", elapsed, 
+                       opt.verbosity > 1? "ms\n" : ",");
          }
          else {
             info("done%n");
@@ -176,7 +177,10 @@ public class Driver
          task.setOutput(System.out);
          task.prepare();
          task.run();
-         // maybe collect timing stats here
+         if( opt.timings_p ) {
+           err.printf("%5d%s", task.getTime(),
+                      opt.verbosity > 1? "ms\n" : ",");
+         }
          return;
       }
       File outfile = task.getOutput();
@@ -199,7 +203,8 @@ public class Driver
       task.closeInput();
       outstream.close();
       if( opt.timings_p ) {
-         info("%5dms, ", task.getTime());
+        err.printf("%5d%s", task.getTime(),
+                   opt.verbosity > 1? "ms\n" : ",");
       }
       float ratio = task.computeRatio();
       boolean del_p = false;    // did we delete the input file?
