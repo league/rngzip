@@ -8,7 +8,7 @@
   </define>
   <define name="attlist.vendor" combine="interleave">
     <attribute name="id">
-      <data type="ID"/>
+      <text/>
     </attribute>
   </define>
   <start>

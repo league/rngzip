@@ -171,7 +171,7 @@ net/contrapunctus/rngzip/context.txt:
 
 # for maintainer only: push changes up to web site
 DARCS_BRANCH = trunk
-DARCS_STAGING = $(HOME)/Sites/$(NAME)
+DARCS_STAGING = $(HOME)/tmp/rngztmp
 DARCS_DEST = contrapunctus.net:public_html/dist/$(NAME)
 
 darcs-put:
