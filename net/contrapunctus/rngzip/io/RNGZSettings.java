@@ -51,7 +51,13 @@ public class RNGZSettings
        * proportionally fewer bits.
        * @see HuffmanChoiceFactory
        */
-      HUFFMAN; 
+      HUFFMAN,
+
+      /**
+       * Uses a full byte for each choice point.  Requires that there
+       * are 256 or fewer choices.
+       */
+      BYTE;
    }
 
    /**
@@ -268,7 +274,7 @@ public class RNGZSettings
          other embedded streams will exist, then gives the compression
          scheme for each one.  For now, that is:
 
-         zz  encoder id (one byte, 0=FIXED, 1=HUFFMAN)
+         zz  encoder id (one byte, 0=FIXED, 1=HUFFMAN, 2=BYTE)
          02  number of streams
          xx  compression for bit stream (0=NONE, 1=GZ, 2=BZ2, 3=PPM)
          yy  compression for data stream (same)
@@ -342,6 +348,9 @@ public class RNGZSettings
       }
       else if(limit > 2 && coding == BitCoding.HUFFMAN) {
          return new HuffmanChoiceCoder(limit, id);
+      }
+      else if(coding == BitCoding.BYTE) {
+         return new ByteChoiceCoder(limit, id);
       }
       else {
          assert coding == BitCoding.FIXED || limit == 2;

@@ -32,8 +32,8 @@ public class SimpleChoiceCoder
       }
    }
 
-   private int limit, bits;
-   private Object id;
+   protected int limit, bits;
+   protected Object id;
 
    /**
     * Create a choice point.  You probably want to construct objects
