@@ -1,8 +1,6 @@
 \.class$
 ^build$
-^tests/shakes
-^tests/ncbi
-^tests/junk
+^tests/old
 \.jar$
 \.tar.gz$
 ~$
