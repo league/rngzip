@@ -31,7 +31,7 @@ VERSION = 0.1
 NAME_VER = $(NAME)-$(VERSION)
 
 LIBRARIES := bali iso-relax msv relaxng-datatype gnu-getopt \
-    commons-compress colloquial
+    commons-compress colloquial lzma
 SOURCEPATH := net
 BUILD = build
 

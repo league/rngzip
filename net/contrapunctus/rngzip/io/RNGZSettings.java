@@ -1,5 +1,7 @@
 package net.contrapunctus.rngzip.io;
 
+import SevenZip.streams.LzmaInputStream;
+import SevenZip.streams.LzmaOutputStream;
 import com.colloquial.arithcode.ArithCodeInputStream;
 import com.colloquial.arithcode.ArithCodeOutputStream;
 import com.colloquial.arithcode.PPMModel;
@@ -75,7 +77,8 @@ public class RNGZSettings
        * Applies GZIP compression to the stream.
        * @see GZIPOutputStream
        */
-        GZ,
+        GZ, 
+        LZMA,
 
       /**
        * Applies BZip2 compression to the stream.
@@ -243,6 +246,7 @@ public class RNGZSettings
       case NONE: break;
       case GZ: out = new GZIPOutputStream(out); break;
       case BZ2: out = new CBZip2OutputStream(out); break; 
+      case LZMA: out = new LzmaOutputStream(out); break;
       case PPM4:
       case HPM4:
         out = new ArithCodeOutputStream(out, new PPMModel(4));
@@ -276,7 +280,7 @@ public class RNGZSettings
 
          zz  encoder id (one byte, 0=FIXED, 1=HUFFMAN, 2=BYTE)
          02  number of streams
-         xx  compression for bit stream (0=NONE, 1=GZ, 2=BZ2, 3=PPM)
+         xx  compression for bit stream (0=NONE, 1=GZ, 2=BZ2, 3=PPM, 4=LZMA)
          yy  compression for data stream (same)
       */
       DataOutputStream out = mux.open
@@ -412,6 +416,7 @@ public class RNGZSettings
       case NONE: break;
       case GZ: in = new GZIPInputStream(in); break;
       case BZ2: in = new CBZip2InputStream(in); break;
+      case LZMA: in = new LzmaInputStream(in); break;
       case PPM4: 
       case HPM4:
         in = new ArithCodeInputStream(in, new PPMModel(4));
