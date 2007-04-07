@@ -82,6 +82,7 @@ public class RNGZIOTest
       // first write
       ByteArrayOutputStream bo = new ByteArrayOutputStream();
       RNGZOutputStream zo = new RNGZOutputStream(bo, settings, null);
+      String longbuf = "---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"; // exactly 255 chars
       LinkedList<String> path = new LinkedList<String>();
       path.add("yo");
       setupCoders();
@@ -92,6 +93,7 @@ public class RNGZIOTest
       zo.writeChoice(cc[2], 1);
       zo.writeChoice(cc[4], 0);
       zo.writeContent(path, "Foo");
+      zo.writeContent(path, longbuf);
       zo.writeContent(path, "ABRACADABRA".toCharArray(), 3, 5);
       zo.close();
       // then read 
@@ -107,6 +109,7 @@ public class RNGZIOTest
       assertEquals(1, zi.readChoice(cc[2]));
       assertEquals(0, zi.readChoice(cc[4]));
       assertEquals("Foo", zi.readContent(path));
+      assertEquals(longbuf, zi.readContent(path));
       assertEquals("ACADA", zi.readContent(path));
       zi.close();
    }

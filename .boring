@@ -3,6 +3,7 @@ ex[0-9].*\.(bz2|gz|nbxml|rnz|xppm)$
 \.class$
 ^build$
 ^tests/old
+^tests/cases/.*\.rng$
 ^tests/entrezgene/[A-Z].*\.rng$
 \.jar$
 \.tar.gz$

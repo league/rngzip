@@ -79,7 +79,7 @@ all: compile
 
 .PHONY: default compile recompile nofiles allfiles compilefiles doc dist \
 	clean distclean mostlyclean maintainer-clean libsonly jvm \
-	test buildtest junit buildjunit
+	test buildtest junit buildjunit bench
 .DELETE_ON_ERROR:
 .SUFFIXES: .rnc .rng
 
@@ -173,10 +173,10 @@ BENCH_OUTPUTS := \
     $(patsubst %.xml,%.nbxml,$(BENCH_DOCS)) \
     $(patsubst %.xml,%.gz,$(BENCH_DOCS)) \
     $(patsubst %.xml,%.bz2,$(BENCH_DOCS)) \
-    $(patsubst %.xml,%.xppm,$(BENCH_DOCS)) \
-    $(patsubst %.xml,%.rnz,$(BENCH_DOCS))
+    $(patsubst %.xml,%.xppm,$(BENCH_DOCS))
 
 bench: junit buildtest $(BENCH_SCHEMATA) $(BENCH_OUTPUTS) \
+    $(patsubst %.xml,%.rnz,$(BENCH_DOCS)) \
     $(patsubst %.xml,%.summary,$(BENCH_DOCS))
 
 %.valid: %.xml
@@ -269,6 +269,7 @@ sortaclean:
 # classes in the build/ directory, and the API documentation.
 mostlyclean: sortaclean
 	$(RM) -r $(BUILD)/net
+	$(RM) $(patsubst %.xml,%.rnz,$(BENCH_DOCS)) \
 	$(RM) $(subst $$,\$$,$(shell find tests -name '*.class'))
 
 # Delete files that are normally created by building the program.
