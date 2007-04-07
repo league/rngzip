@@ -212,4 +212,19 @@ public final class BitOutputStream implements Closeable
       }
       out.flush();
    }
+
+    /* Test the byte sign extension problem */
+    public static void main( String[] args )
+    {
+        signext( (byte)0x80 );
+        signext( (byte)0x7f );
+        signext( (byte)0xff );
+    }
+
+    private static void signext( byte b )
+    {
+        int i = b & 0xff;
+        boolean eof = (i == -1);
+        System.out.printf("%02x, %08x %s%n", b, i, eof);
+    }
 }

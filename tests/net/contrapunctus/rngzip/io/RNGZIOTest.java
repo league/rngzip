@@ -32,6 +32,15 @@ public class RNGZIOTest
     return list;
   }
 
+    public static void main( String[] args ) throws Exception
+    {
+        RNGZSettings s = new RNGZSettings();
+        s.setBitCoder( args[0] );
+        s.setTreeCompressor( args[1] );
+        s.setDataCompressor( args[2] );
+        new RNGZIOTest( s ).runTest( );
+    }
+
   public RNGZIOTest( RNGZSettings s )
   {
     settings = s;
