@@ -22,7 +22,6 @@ ALL_JVM_FLAGS = $(JVM_FLAGS)
 
 ################################ Paths and files
 
-JUNIT_JAR = /home/league/r/xml-group/junit4.1/junit-4.1.jar
 CLASSPATH = 
 
 NAME = rngzip
@@ -116,11 +115,14 @@ $(BUILD)/%: %
 
 ################################ Test cases
 
+JUNIT_SOURCES := $(shell find libs/junit -name '*.java' | $(STRIP_PATH))
+JUNIT_CLASSES := $(addprefix libs/junit/,$(patsubst %.java,%.class,$(JUNIT_SOURCES)))
+
 TEST_SOURCES := $(shell find ./tests -name '*.java' | $(STRIP_PATH))
 TEST_CLASSES := $(addprefix tests/,$(patsubst %.java,%.class,$(TEST_SOURCES)))
 TESTS := $(subst /,.,$(patsubst %.java,%,$(TEST_SOURCES)))
 
-TEST_CLASSPATH := tests$(PSEP)$(BUILD)$(PSEP)$(JUNIT_JAR)$(PSEP)$(CLASSPATH)
+TEST_CLASSPATH := tests$(PSEP)$(BUILD)$(PSEP)$(CLASSPATH)
 
 TEST_XML_CASES := $(shell find tests/cases -name '*.xml')
 TEST_RNC_SCHEMATA := $(shell find tests/cases -name '*.rnc')
@@ -128,7 +130,7 @@ TEST_RNG_SCHEMATA := $(patsubst %.rnc,%.rng,$(TEST_RNC_SCHEMATA))
 
 buildtest: CLASSPATH = $(TEST_CLASSPATH)
 buildtest: ALL_JAVAC_FLAGS = $(JAVAC_FLAGS) -d tests -cp $(CLASSPATH)
-buildtest: nofiles $(TEST_CLASSES) compilefiles $(TEST_RNG_SCHEMATA)
+buildtest: nofiles $(JUNIT_CLASSES) $(TEST_CLASSES) compilefiles $(TEST_RNG_SCHEMATA)
 
 test: buildtest
 	$(JVM) $(ALL_JVM_FLAGS) -cp $(TEST_CLASSPATH) \

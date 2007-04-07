@@ -1,0 +1,190 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+   <meta name="Author" content="Erich Gamma, Kent Beck, and David Saff">
+   <title>JUnit 4.1</title>
+</head>
+<body>
+
+<h1>
+<b><font color="#00CC00">J</font><font color="#FF0000">U</font><font color="#000000">nit
+4.1</b></h1> 
+<br>Brought to you by <a href="http://www.threeriversinstitute.org">Kent Beck</a>, Erich 
+
+Gamma, and <a href="http://pag.csail.mit.edu/continuoustesting">David Saff</a>. 
+<br>FAQ edited by <a href="http://www.clarkware.com">Mike Clark</a>. Web mastering by Erik 
+
+Meade.
+<br>(see also <a href="http://www.junit.org">JUnit.org</a>)
+
+<hr WIDTH="100%">
+<br>27 April 2006
+<p>JUnit is a simple framework to write repeatable tests. It is an instance
+of the xUnit architecture for unit testing frameworks.
+<ul>
+<li>
+<a href="#Summary of">Summary of Changes</a></li>
+
+<li>
+<a href="#Contents">Contents</a></li>
+
+<li>
+<a href="#Installation">Installation</a></li>
+
+<li>
+<a href="#Getting">Getting Started</a></li>
+
+<li>
+<a href="#Documentation">Documentation</a></li>
+<li>
+<a href="#Known Defects">Known Defects</a></li>
+</ul>
+
+<h2>
+<a NAME="Summary of"></a>Summary of Changes with version 4.1</h2>
+<p>
+<ul>
+<li>Bug fix: listeners now get a correct test running time, rather than always being told 0 secs.
+<li>The @RunWith annotation is now inherited by subclasses: 
+all subclasses of an abstract test class will be run by the same runner.
+<li>The build script fails if the JUnit unit tests fail
+<li>The faq has been updated
+<li>Javadoc has been improved, with more internal links, and package descriptions added (Thanks, Matthias Schmidt!)
+<li>An acknowledgements.txt file has been created to credit outside contributions
+<li>The <tt>Enclosed</tt> runner, which runs all of the static inner classes of a given class, has been added
+to <tt>org.junit.runners</tt>.
+</ul>
+</p>
+
+<h2>Summary of Changes with version 4.0</h2>
+<p>
+The architecture of JUnit 4.0 is a substantial departure from that of earlier releases. 
+Instead of 
+tagging test classes by subclassing junit.framework.TestCase and tagging test methods by 
+starting their name with "test", you now tag test methods with the @Test annotation.
+</p>
+
+
+<h2>
+<a NAME="Contents"></a>Contents of the Release</h2>
+
+<table CELLSPACING=0 CELLPADDING=0 >
+<tr>
+<td><tt>README.html&nbsp;</tt></td>
+
+<td>this file</td>
+</tr>
+
+<tr>
+<td><tt>junit-4.1.jar</tt></td>
+
+<td>a jar file with the JUnit framework</td>
+</tr>
+
+<tr>
+<td><tt>junit-4.1-src.jar</tt></td>
+
+<td>a jar file with the source code of the JUnit framework</td>
+</tr>
+
+<tr>
+<td><tt>org/junit</tt></td>
+
+<td>the source code of the basic JUnit annotations and classes</td>
+</tr>
+
+<tr>
+<td><tt>&nbsp;&nbsp;&nbsp; samples</tt></td>
+
+<td>sample test cases</td>
+</tr>
+
+<tr>
+<td><tt>&nbsp;&nbsp;&nbsp; tests</tt></td>
+
+<td>test cases for JUnit itself</td>
+</tr>
+
+<tr>
+<td><tt>javadoc</tt></td>
+
+<td>javadoc generated documentation</td>
+</tr>
+
+<tr>
+<td><tt>doc</tt></td>
+
+<td>documentation and articles</td>
+</tr>
+</table>
+
+<h2>
+<a NAME="Installation"></a>Installation</h2>
+Below are the installation steps for installing JUnit:
+<ol>
+<li>
+unzip the junit4.1.zip file</li>
+
+<li>
+add<i> </i><b>junit-4.1.jar</b> to the CLASSPATH. For example: 
+<tt> set classpath=%classpath%;INSTALL_DIR\junit-4.1.jar;INSTALL_DIR</tt></li>
+
+<li>
+test the installation by running <tt>java org.junit.runner.JUnitCore org.junit.tests.AllTests.</tt></li>
+
+<br><b><font color="#FF0000">Notice</font></b>: that the tests are not
+contained in the junit-4.1.jar but in the installation directory directly.
+Therefore make sure that the installation directory is on the class path
+</ol>
+<b><font color="#FF0000">Important</font></b>: don't install junit-4.1.jar
+into the extension directory of your JDK installation. If you do so the
+test class on the files system will not be found.
+<h2>
+<a NAME="Getting"></a>Getting Started</h2>
+To get started with unit testing and JUnit read the article:
+<a href="doc/cookbook/cookbook.htm">JUnit Cookbook</a>.
+<br>This article describes basic test writing using JUnit 4.
+<p>You find additional samples in the org.junit.samples package:
+<ul>
+<li>
+SimpleTest.java - some simple test cases</li>
+
+<li>
+VectorTest.java - test cases for java.util.Vector</li>
+</ul>
+
+<h2>
+<a NAME="Documentation"></a>Documentation</h2>
+
+<blockquote><a href="doc/cookbook/cookbook.htm">JUnit Cookbook</a>
+<br>&nbsp;&nbsp;&nbsp; A cookbook for implementing tests with JUnit.
+<br><a href="javadoc/index.html">Javadoc</a>
+<br>&nbsp;&nbsp;&nbsp; API documentation generated with javadoc.
+<br><a href="doc/faq/faq.htm">Frequently asked questions</a>
+<br>&nbsp;&nbsp;&nbsp; Some frequently asked questions about using JUnit.
+<br><a href="cpl-v10.html">License</a>
+<br>&nbsp;&nbsp;&nbsp; The terms of the common public license used for JUnit.<br>
+</blockquote>
+The following documents still describe JUnit 3.8.
+<blockquote>
+<br><a href="doc/testinfected/testing.htm">Test Infected - Programmers
+Love Writing Tests</a>
+<br>&nbsp;&nbsp;&nbsp; An article demonstrating the development process
+with JUnit.
+<br><a href="doc/cookstour/cookstour.htm">JUnit - A cooks tour</a>
+</blockquote>
+
+<h2><a NAME="Known Defects"></a>Known Defects</h2>
+<ul>
+<li>Multi-dimensional arrays are not processed correctly by assertEquals.</li>
+</ul>
+
+<hr WIDTH="100%">
+<!--webbot bot="HTMLMarkup" startspan --><a href="http://sourceforge.net"><IMG
+                  src="http://sourceforge.net/sflogo.php?group_id=15278"
+                  width="88" height="31" border="0" alt="SourceForge Logo"></a><!--webbot
+bot="HTMLMarkup" endspan -->
+</body>
+</html>
