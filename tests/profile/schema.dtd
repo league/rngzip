@@ -1,0 +1,14 @@
+<?xml encoding="ISO-8859-1"?>
+<!ELEMENT Companies (Company*)>
+<!ELEMENT Company (Symbol, Name, Sector, Industry, Profile)>
+<!ELEMENT Profile (MarketCap, EmployeeNumber, Address, Description)>
+<!ELEMENT Address (State, City)>
+<!ELEMENT Symbol (#PCDATA)>
+<!ELEMENT Name (#PCDATA)>
+<!ELEMENT Sector (#PCDATA)>
+<!ELEMENT Industry (#PCDATA)>
+<!ELEMENT MarketCap (#PCDATA)>
+<!ELEMENT EmployeeNumber (#PCDATA)>
+<!ELEMENT State (#PCDATA)>
+<!ELEMENT City (#PCDATA)>
+<!ELEMENT Description (#PCDATA)>

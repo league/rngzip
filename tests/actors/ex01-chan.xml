@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--                                                                -->
+<!--   W4F: Copyright Arnaud Sahuguet and Fabien Azavant, 1998-99   -->
+<!--   URL: http://db.cis.upenn.edu/W4F                             -->
+<!--                                                                -->
+<!DOCTYPE W4F_DOC  SYSTEM "schema.dtd">
+<W4F_DOC>
+  <Actor>
+    <Name>
+      <FirstName>Jackie</FirstName>
+      <LastName>Chan</LastName>
+    </Name>
+    <Filmography>
+      <Movie>
+        <Title>Shanghai Noon</Title>
+        <Year>2000</Year>
+      </Movie>
+      <Movie>
+        <Title>Tejing xinrenlei</Title>
+        <Year>1999</Year>
+      </Movie>
+      <Movie>
+        <Title>King of Comedy, The</Title>
+        <Year>1999</Year>
+      </Movie>
+      <Movie>
+        <Title>Gorgeous</Title>
+        <Year>1999</Year>
+      </Movie>
+      <Movie>
+        <Title>Rush Hour</Title>
+        <Year>1998</Year>
+      </Movie>
+      <Movie>
+        <Title>Ngo hai sui</Title>
+        <Year>1998</Year>
+      </Movie>
+      <Movie>
+        <Title>Yatgo ho yan</Title>
+        <Year>1997</Year>
+      </Movie>
+      <Movie>
+        <Title>Alan Smithee Film: Burn Hollywood Burn, An</Title>
+        <Year>1997</Year>
+      </Movie>
+      <Movie>
+        <Title>Jing cha gu shi IV: Jian dan ren wu</Title>
+        <Year>1996</Year>
+      </Movie>
+      <Movie>
+        <Title>Hong faan kui</Title>
+        <Year>1995</Year>
+      </Movie>
+      <Movie>
+        <Title>Pi li huo</Title>
+        <Year>1995</Year>
+      </Movie>
+      <Movie>
+        <Title>Cinema of Vengeance</Title>
+        <Year>1994</Year>
+      </Movie>
+      <Movie>
+        <Title>Jui kuen II</Title>
+        <Year>1994</Year>
+      </Movie>
+      <Movie>
+        <Title>Chao ji ji hua</Title>
+        <Year>1993</Year>
+      </Movie>
+      <Movie>
+        <Title>Zhong an zu</Title>
+        <Year>1993</Year>
+      </Movie>
+      <Movie>
+        <Title>Cheng shi lie ren</Title>
+        <Year>1992</Year>
+      </Movie>
+      <Movie>
+        <Title>Jing cha gu shi III: Chao ji jing cha</Title>
+        <Year>1992</Year>
+      </Movie>
+      <Movie>
+        <Title>Shuang long hui</Title>
+        <Year>1992</Year>
+      </Movie>
+      <Movie>
+        <Title>Best of the Martial Arts Films, The</Title>
+        <Year>1990</Year>
+      </Movie>
+      <Movie>
+        <Title>Feiying gaiwak</Title>
+        <Year>1990</Year>
+      </Movie>
+      <Movie>
+        <Title>Huo shao dao</Title>
+        <Year>1990</Year>
+      </Movie>
+      <Movie>
+        <Title>Qiji</Title>
+        <Year>1989</Year>
+      </Movie>
+      <Movie>
+        <Title>Ging chaat goo si juk jaap</Title>
+        <Year>1988</Year>
+      </Movie>
+      <Movie>
+        <Title>'A' gai waak juk jaap</Title>
+        <Year>1987</Year>
+      </Movie>
+      <Movie>
+        <Title>Fei lung maang jeung</Title>
+        <Year>1987</Year>
+      </Movie>
+      <Movie>
+        <Title>Longxiong hudi</Title>
+        <Year>1986</Year>
+      </Movie>
+      <Movie>
+        <Title>Fuk sing go jiu</Title>
+        <Year>1985</Year>
+      </Movie>
+      <Movie>
+        <Title>Ging chaat goo si</Title>
+        <Year>1985</Year>
+      </Movie>
+      <Movie>
+        <Title>Long de xin</Title>
+        <Year>1985</Year>
+      </Movie>
+      <Movie>
+        <Title>Protector, The</Title>
+        <Year>1985</Year>
+      </Movie>
+      <Movie>
+        <Title>Xia ri fu xing</Title>
+        <Year>1985</Year>
+      </Movie>
+      <Movie>
+        <Title>Cannonball Run II</Title>
+        <Year>1984</Year>
+      </Movie>
+      <Movie>
+        <Title>Kwai tsan tseh</Title>
+        <Year>1984</Year>
+      </Movie>
+      <Movie>
+        <Title>Mai nei dak gung dui</Title>
+        <Year>1984</Year>
+      </Movie>
+      <Movie>
+        <Title>Two in a Black Belt</Title>
+        <Year>1984</Year>
+      </Movie>
+      <Movie>
+        <Title>'A' gai waak</Title>
+        <Year>1983</Year>
+      </Movie>
+      <Movie>
+        <Title>Kung Fu Girl</Title>
+        <Year>1983</Year>
+      </Movie>
+      <Movie>
+        <Title>Long teng hu yue</Title>
+        <Year>1983</Year>
+      </Movie>
+      <Movie>
+        <Title>Wu fu xing</Title>
+        <Year>1983</Year>
+      </Movie>
+      <Movie>
+        <Title>Iga ninpoucho</Title>
+        <Year>1982</Year>
+      </Movie>
+      <Movie>
+        <Title>Long xiao ye</Title>
+        <Year>1982</Year>
+      </Movie>
+      <Movie>
+        <Title>Marvelous Fists</Title>
+        <Year>1982</Year>
+      </Movie>
+      <Movie>
+        <Title>Cannonball Run, The</Title>
+        <Year>1981</Year>
+      </Movie>
+      <Movie>
+        <Title>Big Brawl, The</Title>
+        <Year>1980</Year>
+      </Movie>
+      <Movie>
+        <Title>Dian zhi gong fu gan chian chan</Title>
+        <Year>1980</Year>
+      </Movie>
+      <Movie>
+        <Title>Shi di chu ma</Title>
+        <Year>1980</Year>
+      </Movie>
+      <Movie>
+        <Title>Hsiao chuan yi chao</Title>
+        <Year>1979</Year>
+      </Movie>
+      <Movie>
+        <Title>Long quan</Title>
+        <Year>1979</Year>
+      </Movie>
+      <Movie>
+        <Title>Zui quan</Title>
+        <Year>1979</Year>
+      </Movie>
+      <Movie>
+        <Title>Fei du juan yun shan</Title>
+        <Year>1978</Year>
+      </Movie>
+      <Movie>
+        <Title>Quan jing</Title>
+        <Year>1978</Year>
+      </Movie>
+      <Movie>
+        <Title>She hao ba bu</Title>
+        <Year>1978</Year>
+      </Movie>
+      <Movie>
+        <Title>She xing diao shou</Title>
+        <Year>1978</Year>
+      </Movie>
+      <Movie>
+        <Title>Fist of Death</Title>
+        <Year>1977</Year>
+      </Movie>
+      <Movie>
+        <Title>Jian hua yan yu jiang nan</Title>
+        <Year>1977</Year>
+      </Movie>
+      <Movie>
+        <Title>Feng yu shuang liu xing</Title>
+        <Year>1976</Year>
+      </Movie>
+      <Movie>
+        <Title>Shao Lin mu ren xiang</Title>
+        <Year>1976</Year>
+      </Movie>
+      <Movie>
+        <Title>Xin ching-wu men</Title>
+        <Year>1976</Year>
+      </Movie>
+      <Movie>
+        <Title>Hua fei man cheng chun</Title>
+        <Year>1975</Year>
+      </Movie>
+      <Movie>
+        <Title>Pai an jing ji</Title>
+        <Year>1975</Year>
+      </Movie>
+      <Movie>
+        <Title>Shao Lin men</Title>
+        <Year>1975</Year>
+      </Movie>
+      <Movie>
+        <Title>Jin ping shuang yan</Title>
+        <Year>1974</Year>
+      </Movie>
+      <Movie>
+        <Title>Police Woman</Title>
+        <Year>1974/II</Year>
+      </Movie>
+      <Movie>
+        <Title>Si wang yi hou</Title>
+        <Year>1974</Year>
+      </Movie>
+      <Movie>
+        <Title>Enter the Dragon</Title>
+        <Year>1973</Year>
+      </Movie>
+      <Movie>
+        <Title>Ding tian li di</Title>
+        <Year>1973</Year>
+      </Movie>
+      <Movie>
+        <Title>Heroine, The</Title>
+        <Year>1973</Year>
+      </Movie>
+      <Movie>
+        <Title>Xiao lao hu</Title>
+        <Year>1973</Year>
+      </Movie>
+      <Movie>
+        <Title>Hapkido</Title>
+        <Year>1972</Year>
+      </Movie>
+      <Movie>
+        <Title>Xiang Gang gao ke</Title>
+        <Year>1971</Year>
+      </Movie>
+      <Movie>
+        <Title>Hsia nu</Title>
+        <Year>1969</Year>
+      </Movie>
+      <Movie>
+        <Title>Da zui xia</Title>
+        <Year>1965</Year>
+      </Movie>
+      <Movie>
+        <Title>Story of Qiu Glin, The</Title>
+        <Year>1964</Year>
+      </Movie>
+      <Movie>
+        <Title>Liang Shan-po yu Zhu Yingtai</Title>
+        <Year>1963</Year>
+      </Movie>
+      <Movie>
+        <Title>Big and Little Wong Tin Bar</Title>
+        <Year>1962</Year>
+      </Movie>
+      <Movie>
+        <Title>Highway</Title>
+        <Year>????</Year>
+      </Movie>
+      <Movie>
+        <Title>Story of Shaolin</Title>
+        <Year>????</Year>
+      </Movie>
+    </Filmography>
+  </Actor>
+</W4F_DOC>

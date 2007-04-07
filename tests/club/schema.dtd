@@ -1,0 +1,14 @@
+<?xml encoding="ISO-8859-1"?>
+<!ELEMENT club (clubname, member+)>
+<!ELEMENT clubname (#PCDATA)>
+<!ELEMENT member (name, phone, email, address?, title?)>
+<!ELEMENT name (lastname?, firstname)>
+<!ELEMENT address (city, state, zip)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT lastname (#PCDATA)>
+<!ELEMENT firstname (#PCDATA)>
+<!ELEMENT phone (#PCDATA)>
+<!ELEMENT email (#PCDATA)>
+<!ELEMENT city (#PCDATA)>
+<!ELEMENT state (#PCDATA)>
+<!ELEMENT zip (#PCDATA)>
