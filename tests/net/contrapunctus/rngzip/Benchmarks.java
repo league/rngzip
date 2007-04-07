@@ -14,6 +14,7 @@ public class Benchmarks
         File xmlFile = new File( args[0] );
         File rngFile = new File( xmlFile.getParentFile(), "schema.rng" );
         Driver dr = new Driver( );
+        Driver.err = System.out;
         dr.opt.schema = rngFile.toString( );
         dr.opt.keep_p = true;
         dr.opt.force_p = true;

@@ -41,7 +41,7 @@ public class Driver
    Options opt = new Options(myname);
    private BaliAutomaton automaton;
    private long checksum;
-   private static PrintStream err = System.err;
+   static PrintStream err = System.err;
 
    void run(String[] args) throws Exception
    {
@@ -156,7 +156,7 @@ public class Driver
    private void info(String fmt, Object... args)
    {
       if(opt.verbosity > 1) {
-         System.err.printf(fmt, args);
+         err.printf(fmt, args);
       }
    }
 

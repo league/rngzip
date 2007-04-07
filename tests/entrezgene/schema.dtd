@@ -1,0 +1,2 @@
+<!ENTITY % NCBI_Entrezgene_set PUBLIC "-//NLM//DTD NCBI-Entrezgene, 21st January 2005//EN" "http://www.ncbi.nlm.nih.gov/dtd/NCBI_Entrezgene.dtd">
+%NCBI_Entrezgene_set;

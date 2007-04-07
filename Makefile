@@ -258,7 +258,7 @@ doc/%.html: % doc/head doc/foot
 
 # Get rid of auxiliary files from benchmarking and testing.
 sortaclean:
-	$(RM) $(TEST_RNG_SCHEMATA) 
+	$(RM) $(TEST_RNG_SCHEMATA) tests/entrezgene/*.rng
 	$(RM) $(BENCH_SCHEMATA) $(BENCH_OUTPUTS)
 	$(RM) $(addsuffix .*,$(BENCH_DOCS))
 	$(RM) $(patsubst %.rnc,%.txt,$(TEST_RNC_SCHEMATA))
