@@ -38,12 +38,12 @@ public class Driver
    }
 
    private static final String myname = "rngzip";
-   private Options opt = new Options(myname);
+   Options opt = new Options(myname);
    private BaliAutomaton automaton;
    private long checksum;
    private static PrintStream err = System.err;
 
-   private void run(String[] args) throws Exception
+   void run(String[] args) throws Exception
    {
       int first = opt.process(args);
       if( opt.identify_p ) {

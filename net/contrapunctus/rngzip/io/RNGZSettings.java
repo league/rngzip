@@ -202,7 +202,7 @@ public class RNGZSettings
     */
    public String toString()
    {
-      return coding + "/" + treeCompr + "/" + dataCompr;
+      return coding + "-" + treeCompr + "-" + dataCompr;
    }
 
    /**

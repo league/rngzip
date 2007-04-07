@@ -135,7 +135,6 @@ buildtest: CLASSPATH = $(TEST_CLASSPATH)
 buildtest: ALL_JAVAC_FLAGS = $(JAVAC_FLAGS) -d tests -cp $(CLASSPATH)
 buildtest: nofiles $(TEST_CLASSES) compilefiles
 
-TEST_XML_CASES := $(shell find tests/cases -name '*.xml')
 TEST_RNC_SCHEMATA := $(shell find tests/cases -name '*.rnc')
 TEST_RNG_SCHEMATA := $(patsubst %.rnc,%.rng,$(TEST_RNC_SCHEMATA))
 
@@ -147,6 +146,9 @@ test: junit buildtest $(TEST_RNG_SCHEMATA)
 %.rng: %.rnc
 	$(TRANG) $^ $@
 
+%.rng: %.dtd
+	$(TRANG) $^ $@
+
 %.txt: %.rng
 	$(JVM) $(ALL_JVM_FLAGS) -cp $(BUILD) \
 	       org.kohsuke.bali.Driver -ot $^ >$@
@@ -155,6 +157,49 @@ test: junit buildtest $(TEST_RNG_SCHEMATA)
 
 jvm:
 	@echo $(JVM) $(ALL_JVM_FLAGS) -cp $(TEST_CLASSPATH)
+
+################################ Benchmarking
+
+XMLLINT = xmllint
+XMLPPM = ../../xmlppm-0.98.2/src/xmlppm
+TIME = /usr/bin/time
+
+BENCH_DTDS := $(shell find tests -name 'schema.dtd')
+BENCH_SCHEMATA := $(patsubst %.dtd,%.rng,$(BENCH_DTDS))
+
+BENCH_DOCS := $(shell find tests -name 'ex*.xml')
+BENCH_OUTPUTS := \
+    $(patsubst %.xml,%.valid,$(BENCH_DOCS)) \
+    $(patsubst %.xml,%.nbxml,$(BENCH_DOCS)) \
+    $(patsubst %.xml,%.gz,$(BENCH_DOCS)) \
+    $(patsubst %.xml,%.bz2,$(BENCH_DOCS)) \
+    $(patsubst %.xml,%.xppm,$(BENCH_DOCS)) \
+    $(patsubst %.xml,%.rnz,$(BENCH_DOCS))
+
+bench: junit buildtest $(BENCH_SCHEMATA) $(BENCH_OUTPUTS) \
+    $(patsubst %.xml,%.summary,$(BENCH_DOCS))
+
+%.valid: %.xml
+	$(XMLLINT) --relaxng `dirname $@`/schema.rng --noout $< >$@
+
+%.nbxml: %.xml
+	$(XMLLINT) --noblanks $< >$@
+
+%.gz: %.nbxml
+	$(TIME) gzip -c $< >$@
+
+%.bz2: %.nbxml
+	$(TIME) bzip2 -c $< >$@
+
+%.xppm: %.nbxml
+	$(TIME) $(XMLPPM) <$< >$@
+
+%.rnz: %.xml
+	$(TIME) $(JVM) $(ALL_JVM_FLAGS) -cp $(TEST_CLASSPATH) \
+	    net.contrapunctus.rngzip.Benchmarks $< | tee $@
+
+%.summary: %.valid
+	du -b $*.* | sort -n >$@
 
 ################################ Packaging
 
@@ -211,18 +256,20 @@ doc/%.html: % doc/head doc/foot
 
 ################################ Cleanliness
 
+# Get rid of auxiliary files from benchmarking and testing.
+sortaclean:
+	$(RM) $(TEST_RNG_SCHEMATA) 
+	$(RM) $(BENCH_SCHEMATA) $(BENCH_OUTPUTS)
+	$(RM) $(addsuffix .*,$(BENCH_DOCS))
+	$(RM) $(patsubst %.rnc,%.txt,$(TEST_RNC_SCHEMATA))
+	$(RM) test-log.txt files manifest.txt *~
+
 # Like clean, but may refrain from deleting a few files that people
 # normally don't want to recompile.  We leave behind all the library
 # classes in the build/ directory, and the API documentation.
-mostlyclean:
+mostlyclean: sortaclean
 	$(RM) -r $(BUILD)/net
 	$(RM) $(subst $$,\$$,$(shell find tests -name '*.class'))
-	$(RM) $(TEST_RNG_SCHEMATA) 
-	$(RM) $(patsubst %.xml,%.rnz,$(TEST_XML_CASES))
-	$(RM) $(patsubst %.xml,%.xin,$(TEST_XML_CASES))
-	$(RM) $(patsubst %.xml,%.xout,$(TEST_XML_CASES))
-	$(RM) $(patsubst %.rnc,%.txt,$(TEST_RNC_SCHEMATA))
-	$(RM) test-log.txt files manifest.txt *~
 
 # Delete files that are normally created by building the program.
 # Also preserve files that could be made by building, but normally
