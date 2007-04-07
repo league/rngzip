@@ -115,24 +115,28 @@ $(BUILD)/%: %
 
 ################################ Test cases
 
+TEST_CLASSPATH := tests$(PSEP)libs/junit$(PSEP)$(BUILD)$(PSEP)$(CLASSPATH)
+
 JUNIT_SOURCES := $(shell find libs/junit -name '*.java' | $(STRIP_PATH))
 JUNIT_CLASSES := $(addprefix libs/junit/,$(patsubst %.java,%.class,$(JUNIT_SOURCES)))
+
+buildjunit: CLASSPATH = $(TEST_CLASSPATH)
+buildjunit: ALL_JAVAC_FLAGS = $(JAVAC_FLAGS) -cp $(CLASSPATH)
+buildjunit: nofiles $(JUNIT_CLASSES) compilefiles
 
 TEST_SOURCES := $(shell find ./tests -name '*.java' | $(STRIP_PATH))
 TEST_CLASSES := $(addprefix tests/,$(patsubst %.java,%.class,$(TEST_SOURCES)))
 TESTS := $(subst /,.,$(patsubst %.java,%,$(TEST_SOURCES)))
 
-TEST_CLASSPATH := tests$(PSEP)$(BUILD)$(PSEP)$(CLASSPATH)
+buildtest: CLASSPATH = $(TEST_CLASSPATH)
+buildtest: ALL_JAVAC_FLAGS = $(JAVAC_FLAGS) -d tests -cp $(CLASSPATH)
+buildtest: nofiles $(TEST_CLASSES) compilefiles
 
 TEST_XML_CASES := $(shell find tests/cases -name '*.xml')
 TEST_RNC_SCHEMATA := $(shell find tests/cases -name '*.rnc')
 TEST_RNG_SCHEMATA := $(patsubst %.rnc,%.rng,$(TEST_RNC_SCHEMATA))
 
-buildtest: CLASSPATH = $(TEST_CLASSPATH)
-buildtest: ALL_JAVAC_FLAGS = $(JAVAC_FLAGS) -d tests -cp $(CLASSPATH)
-buildtest: nofiles $(JUNIT_CLASSES) $(TEST_CLASSES) compilefiles $(TEST_RNG_SCHEMATA)
-
-test: buildtest
+test: buildjunit buildtest $(TEST_RNG_SCHEMATA)
 	$(JVM) $(ALL_JVM_FLAGS) -cp $(TEST_CLASSPATH) \
 	    org.junit.runner.JUnitCore $(TESTS) | tee test-log.txt
 	@echo Transcript of test run saved to test-log.txt
@@ -222,6 +226,7 @@ mostlyclean:
 # aren't, because the distribution comes with them.
 clean: mostlyclean
 	$(RM) -r $(BUILD) doc/api
+	$(RM) $(subst $$,\$$,$(shell find libs/junit -name '*.class'))
 	$(RM) $(NAME_VER).jar
 
 # Delete files that are created by configuring or building the
