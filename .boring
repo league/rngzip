@@ -1,5 +1,5 @@
 ex[0-9].*\.xml\.[-0-9A-Z]+$
-ex[0-9].*\.(bz2|gz|nbxml|rnz|xppm)$
+ex[0-9].*\.(bz2|gz|nb|rnz|ppm)$
 \.class$
 ^build$
 ^tests/old

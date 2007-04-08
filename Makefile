@@ -161,38 +161,39 @@ jvm:
 ################################ Benchmarking
 
 XMLLINT = xmllint
-XMLPPM = ../../xmlppm-0.98.2/src/xmlppm
+XMLPPM = ../../xmlppm-0.98.2/src/xmlppm.`arch`
 TIME = /usr/bin/time
 
 BENCH_DTDS := $(shell find tests -name 'schema.dtd')
 BENCH_SCHEMATA := $(patsubst %.dtd,%.rng,$(BENCH_DTDS))
 
 BENCH_DOCS := $(shell find tests -name 'ex*.xml')
-BENCH_OUTPUTS := \
-    $(patsubst %.xml,%.valid,$(BENCH_DOCS)) \
-    $(patsubst %.xml,%.nbxml,$(BENCH_DOCS)) \
-    $(patsubst %.xml,%.gz,$(BENCH_DOCS)) \
-    $(patsubst %.xml,%.bz2,$(BENCH_DOCS)) \
-    $(patsubst %.xml,%.xppm,$(BENCH_DOCS))
+BENCH_CHECK := $(patsubst %.xml,%.valid,$(BENCH_DOCS))
+BENCH_ZIPPED := \
+	$(patsubst %.xml,%.xml.nb,$(BENCH_DOCS)) \
+	$(patsubst %.xml,%.xml.gz,$(BENCH_DOCS)) \
+	$(patsubst %.xml,%.xml.bz2,$(BENCH_DOCS)) \
+	$(patsubst %.xml,%.xml.ppm,$(BENCH_DOCS))
+BENCH_OUTPUTS := $(patsubst %.xml,%.rnz,$(BENCH_DOCS))
 
-bench: junit buildtest $(BENCH_SCHEMATA) $(BENCH_OUTPUTS) \
-    $(patsubst %.xml,%.rnz,$(BENCH_DOCS)) \
-    $(patsubst %.xml,%.summary,$(BENCH_DOCS))
+bench: junit buildtest $(BENCH_SCHEMATA) \
+	$(BENCH_CHECK) $(BENCH_ZIPPED) $(BENCH_OUTPUTS) \
+	$(patsubst %.xml,%.summary,$(BENCH_DOCS))
+
+%.xml.nb: %.xml
+	$(XMLLINT) --noblanks $< >$@
+
+%.xml.gz: %.xml.nb
+	$(TIME) gzip -c $< >$@
+
+%.xml.bz2: %.xml.nb
+	$(TIME) bzip2 -c $< >$@
+
+%.xml.ppm: %.xml.nb
+	$(TIME) $(XMLPPM) <$< >$@
 
 %.valid: %.xml
 	$(XMLLINT) --relaxng `dirname $@`/schema.rng --noout $< >$@
-
-%.nbxml: %.xml
-	$(XMLLINT) --noblanks $< >$@
-
-%.gz: %.nbxml
-	$(TIME) gzip -c $< >$@
-
-%.bz2: %.nbxml
-	$(TIME) bzip2 -c $< >$@
-
-%.xppm: %.nbxml
-	$(TIME) $(XMLPPM) <$< >$@
 
 %.rnz: %.xml
 	$(TIME) $(JVM) $(ALL_JVM_FLAGS) -cp $(TEST_CLASSPATH) \
@@ -258,9 +259,7 @@ doc/%.html: % doc/head doc/foot
 
 # Get rid of auxiliary files from benchmarking and testing.
 sortaclean:
-	$(RM) $(TEST_RNG_SCHEMATA) tests/entrezgene/*.rng
-	$(RM) $(BENCH_SCHEMATA) $(BENCH_OUTPUTS)
-	$(RM) $(addsuffix .*,$(BENCH_DOCS))
+	$(RM) $(BENCH_CHECK) $(addsuffix .*,$(BENCH_DOCS))
 	$(RM) $(patsubst %.rnc,%.txt,$(TEST_RNC_SCHEMATA))
 	$(RM) test-log.txt files manifest.txt *~
 
@@ -269,7 +268,8 @@ sortaclean:
 # classes in the build/ directory, and the API documentation.
 mostlyclean: sortaclean
 	$(RM) -r $(BUILD)/net
-	$(RM) $(patsubst %.xml,%.rnz,$(BENCH_DOCS)) \
+	$(RM) $(TEST_RNG_SCHEMATA) tests/entrezgene/*.rng
+	$(RM) $(BENCH_SCHEMATA) $(BENCH_OUTPUTS)
 	$(RM) $(subst $$,\$$,$(shell find tests -name '*.class'))
 
 # Delete files that are normally created by building the program.
