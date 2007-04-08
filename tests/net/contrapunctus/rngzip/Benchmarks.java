@@ -8,29 +8,55 @@ public class Benchmarks
 {
     @Test
     public void nothing() { }
+
+    private static Driver dr;
+    private static String[] args;
     
     public static void main( String[] args ) throws Exception
     {
         File xmlFile = new File( args[0] );
         File rngFile = new File( xmlFile.getParentFile(), "schema.rng" );
-        Driver dr = new Driver( );
+        Benchmarks.args = args;
+        dr = new Driver( );
         Driver.err = System.out;
         dr.opt.schema = rngFile.toString( );
         dr.opt.keep_p = true;
         dr.opt.force_p = true;
         dr.opt.verbosity = 2;
         dr.opt.timings_p = true;
-        for(RNGZSettings.BitCoding x 
-                : RNGZSettings.BitCoding.values()) {
-            for(RNGZSettings.DataCompression y 
-                    : RNGZSettings.DataCompression.values()) {
-                for(RNGZSettings.DataCompression z 
-                        : RNGZSettings.DataCompression.values()) {
-                    dr.opt.settings = new RNGZSettings(x, y, z);
-                    dr.opt.suffix = "." + dr.opt.settings.toString( );
-                    dr.run( args );
-                }
-            }
-        }
+        doBitCoding( RNGZSettings.BitCoding.FIXED );
+        doBitCoding( RNGZSettings.BitCoding.HUFFMAN );
+        doBitCoding( RNGZSettings.BitCoding.BYTE );
+    }
+
+    public static void doBitCoding( RNGZSettings.BitCoding bc )
+        throws Exception
+    {
+        doTreeCmp( bc, RNGZSettings.DataCompression.NONE );
+        doTreeCmp( bc, RNGZSettings.DataCompression.GZ );
+        doTreeCmp( bc, RNGZSettings.DataCompression.LZMA );
+        doTreeCmp( bc, RNGZSettings.DataCompression.BZ2 );
+        doTreeCmp( bc, RNGZSettings.DataCompression.PPM5 );
+    }
+
+    public static void doTreeCmp( RNGZSettings.BitCoding bc, 
+                                  RNGZSettings.DataCompression tc )
+        throws Exception
+    {
+        doDataCmp( bc, tc, RNGZSettings.DataCompression.GZ );
+        doDataCmp( bc, tc, RNGZSettings.DataCompression.LZMA );
+        doDataCmp( bc, tc, RNGZSettings.DataCompression.BZ2 );
+        doDataCmp( bc, tc, RNGZSettings.DataCompression.PPM5 );
+        doDataCmp( bc, tc, RNGZSettings.DataCompression.HPM5 );
+    }
+
+    public static void doDataCmp( RNGZSettings.BitCoding bc,
+                                  RNGZSettings.DataCompression tc,
+                                  RNGZSettings.DataCompression dc )
+        throws Exception
+    {
+        dr.opt.settings = new RNGZSettings( bc, tc, dc );
+        dr.opt.suffix = "." + dr.opt.settings.toString( );
+        dr.run( args );
     }
 }
