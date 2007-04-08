@@ -58,12 +58,11 @@ public class RNGZOutputStream implements RNGZOutputInterface
       bits = settings.newBitOutput(mux, 0);
       data = settings.newDataOutput(mux, 2);
       if (au != null) {
-         bits.writeBit(true);
          data.writeUTF(null, au.getURL().toString());
          data.writeLong(null, au.checksum());
       }
       else {
-         bits.writeBit(false);
+         data.writeUTF(null, "");
       }
       if(STATS) {
          tallies = new HashMap<String, Integer>();

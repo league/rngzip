@@ -63,8 +63,9 @@ public final class RNGZInputStream implements RNGZInputInterface
       settings = se.fromStream(mux, 1);
       bits = settings.newBitInput(mux, 0);
       data = settings.newDataInput(mux, 2);
-      if(bits.readBit()) {
-         schemaURL = new URL(data.readUTF(null));
+      String s = data.readUTF(null);
+      if( s.length() > 0 ) {
+         schemaURL = new URL( s );
          expectedSum = data.readLong(null);
       }
    }
