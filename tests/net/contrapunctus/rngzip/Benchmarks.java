@@ -36,7 +36,7 @@ public class Benchmarks
         doTreeCmp( bc, RNGZSettings.DataCompression.GZ );
         doTreeCmp( bc, RNGZSettings.DataCompression.LZMA );
         doTreeCmp( bc, RNGZSettings.DataCompression.BZ2 );
-        doTreeCmp( bc, RNGZSettings.DataCompression.PPM5 );
+        doTreeCmp( bc, RNGZSettings.DataCompression.PPMX );
     }
 
     public static void doTreeCmp( RNGZSettings.BitCoding bc, 
@@ -46,8 +46,7 @@ public class Benchmarks
         doDataCmp( bc, tc, RNGZSettings.DataCompression.GZ );
         doDataCmp( bc, tc, RNGZSettings.DataCompression.LZMA );
         doDataCmp( bc, tc, RNGZSettings.DataCompression.BZ2 );
-        doDataCmp( bc, tc, RNGZSettings.DataCompression.PPM5 );
-        doDataCmp( bc, tc, RNGZSettings.DataCompression.HPM5 );
+        doDataCmp( bc, tc, RNGZSettings.DataCompression.PPMX );
     }
 
     public static void doDataCmp( RNGZSettings.BitCoding bc,

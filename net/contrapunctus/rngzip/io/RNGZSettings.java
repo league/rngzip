@@ -77,17 +77,37 @@ public class RNGZSettings
        * Applies GZIP compression to the stream.
        * @see GZIPOutputStream
        */
-        GZ, 
-        LZMA,
+      GZ, 
+
+      /**
+       * Applies LZMA (7-Zip) compression to the stream.
+       * @see LzmaOutputStream
+       */
+      LZMA,
 
       /**
        * Applies BZip2 compression to the stream.
        * @see CBZip2OutputStream
        */
-        BZ2,
-        PPM4, PPM5,
-        HPM4, HPM5
+      BZ2,
+
+      /**
+       * Applies Prediction by Partial Match (PPM) compression to the
+       * stream.  The size of the context is currently 4.  When this
+       * is applied to a data stream, it seeds the model with the
+       * parent tag as a context.  
+       * @see ArithCodeOutputStream, PPMModel, PPMContextOutputStream
+       */
+      PPM, 
+
+      /** 
+       * Same as PPM, except the context is extended to 5.
+       */
+      PPMX
    }
+
+   private static final int PPM_SMALL_LENGTH = 4;
+   private static final int PPM_LARGE_LENGTH = 5;
 
    private static final BitCoding[] BitCoding_values = BitCoding.values();
    private static final DataCompression[] DataCompression_values =
@@ -247,13 +267,11 @@ public class RNGZSettings
       case GZ: out = new GZIPOutputStream(out); break;
       case BZ2: out = new CBZip2OutputStream(out); break; 
       case LZMA: out = new LzmaOutputStream(out); break;
-      case PPM4:
-      case HPM4:
-        out = new ArithCodeOutputStream(out, new PPMModel(4));
+      case PPM:
+        out = new ArithCodeOutputStream(out, new PPMModel(PPM_SMALL_LENGTH));
         break;
-      case PPM5:
-      case HPM5:
-        out = new ArithCodeOutputStream(out, new PPMModel(5));
+      case PPMX:
+        out = new ArithCodeOutputStream(out, new PPMModel(PPM_LARGE_LENGTH));
         break;
 
         // here's how it would work for external stuff:
@@ -327,10 +345,10 @@ public class RNGZSettings
         public ContextualOutputStream wrap (OutputStream out) 
           throws IOException {
           switch( dataCompr ) {
-          case HPM4:
-            return new PPMContextOutputStream(out, 4);
-          case HPM5:
-            return new PPMContextOutputStream(out, 5);
+          case PPM:
+            return new PPMContextOutputStream(out, PPM_SMALL_LENGTH);
+          case PPMX:
+            return new PPMContextOutputStream(out, PPM_LARGE_LENGTH);
           default:
             return new ContextFreeOutputStream(wrapOutput(out, dataCompr));
           }
@@ -417,18 +435,12 @@ public class RNGZSettings
       case GZ: in = new GZIPInputStream(in); break;
       case BZ2: in = new CBZip2InputStream(in); break;
       case LZMA: in = new LzmaInputStream(in); break;
-      case PPM4: 
-      case HPM4:
-        in = new ArithCodeInputStream(in, new PPMModel(4));
+      case PPM: 
+        in = new ArithCodeInputStream(in, new PPMModel(PPM_SMALL_LENGTH));
         break;
-      case PPM5: 
-      case HPM5:
-        in = new ArithCodeInputStream(in, new PPMModel(5));
+      case PPMX: 
+        in = new ArithCodeInputStream(in, new PPMModel(PPM_LARGE_LENGTH));
         break;
-        //in = (InputStream) externalInstance
-        //  ("org.apache.commons.compress.bzip2.CBZip2InputStream",
-        //   InputStream.class, in);
-        //break;
       default: assert false;
       }
       return in;
@@ -457,10 +469,10 @@ public class RNGZSettings
    {
      InputStream in = mux.open(stream);
      switch( dataCompr ) {
-     case HPM4:
-       return new PPMContextInputStream(in, 4);
-     case HPM5:
-       return new PPMContextInputStream(in, 5);
+     case PPM:
+       return new PPMContextInputStream(in, PPM_SMALL_LENGTH);
+     case PPMX:
+       return new PPMContextInputStream(in, PPM_LARGE_LENGTH);
      default:
        return new ContextFreeInputStream(wrapInput(in, dataCompr));
      }
