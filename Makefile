@@ -269,7 +269,6 @@ sortaclean:
 mostlyclean: sortaclean
 	$(RM) -r $(BUILD)/net
 	$(RM) $(TEST_RNG_SCHEMATA) tests/entrezgene/*.rng
-	$(RM) $(BENCH_SCHEMATA) $(BENCH_OUTPUTS)
 	$(RM) $(subst $$,\$$,$(shell find tests -name '*.class'))
 
 # Delete files that are normally created by building the program.
@@ -277,6 +276,7 @@ mostlyclean: sortaclean
 # aren't, because the distribution comes with them.
 clean: mostlyclean
 	$(RM) -r $(BUILD) doc/api
+	$(RM) $(BENCH_SCHEMATA) $(BENCH_OUTPUTS)
 	$(RM) $(subst $$,\$$,$(shell find libs/junit -name '*.class'))
 	$(RM) $(NAME_VER).jar
 
