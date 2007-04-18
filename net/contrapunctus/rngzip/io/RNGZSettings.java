@@ -1,7 +1,5 @@
 package net.contrapunctus.rngzip.io;
 
-import SevenZip.streams.LzmaInputStream;
-import SevenZip.streams.LzmaOutputStream;
 import com.colloquial.arithcode.ArithCodeInputStream;
 import com.colloquial.arithcode.ArithCodeOutputStream;
 import com.colloquial.arithcode.PPMModel;
@@ -13,6 +11,8 @@ import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
+import net.contrapunctus.lzma.LzmaInputStream;
+import net.contrapunctus.lzma.LzmaOutputStream;
 import net.contrapunctus.rngzip.util.*;
 import org.apache.commons.compress.bzip2.CBZip2InputStream;
 import org.apache.commons.compress.bzip2.CBZip2OutputStream;

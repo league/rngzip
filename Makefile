@@ -34,7 +34,7 @@ LIBRARIES := bali iso-relax msv relaxng-datatype gnu-getopt \
 SOURCEPATH := net
 BUILD = build
 
-SOURCES := $(shell find $(SOURCEPATH) -name '*.java')
+SOURCES := $(shell find $(SOURCEPATH) -name '_darcs' -prune -false -o -name '*.java')
 
 PARSER_DIR := com/sun/msv/datatype/xsd/datetime
 PARSER_NAME := $(PARSER_DIR)/ISO8601
