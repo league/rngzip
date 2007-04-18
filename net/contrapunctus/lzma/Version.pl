@@ -1,4 +1,10 @@
 #! /usr/bin/perl
+# Version.pl -- create a class with detailed version information
+# Copyright (c)2007 Christopher League <league@contrapunctus.net>
+#
+# This is free software, but it comes with ABSOLUTELY NO WARRANTY.
+# GNU Lesser General Public License 2.1 or Common Public License 1.0
+
 use strict;
 
 my $MAJOR = shift;
@@ -28,7 +34,7 @@ print '";';
 print <<EOF;
 public static void main( String[] args ) {
   if( args.length > 0 ) System.out.println(context);
-  else System.out.printf("lzma-jiostream-%d.%d%n", major, minor);
+  else System.out.printf("lzmajio-%d.%d%n", major, minor);
   }
 }
 EOF
