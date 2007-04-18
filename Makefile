@@ -79,7 +79,7 @@ all: compile
 
 .PHONY: default compile recompile nofiles allfiles compilefiles doc dist \
 	clean distclean mostlyclean maintainer-clean libsonly jvm \
-	test buildtest junit buildjunit bench
+	test buildtest junit buildjunit bench public predist jar
 .DELETE_ON_ERROR:
 .SUFFIXES: .rnc .rng
 
@@ -206,7 +206,9 @@ bench: junit buildtest $(BENCH_SCHEMATA) \
 
 predist: $(ALL_SOURCES) $(AUX_FILES) $(DOCS_HTML)
 
-dist: 
+dist: $(NAME_VER).tar.gz
+
+$(NAME_VER).tar.gz:
 	REPODIR=$$PWD darcs dist --dist-name $(NAME_VER)
 
 jar: $(NAME_VER).jar
@@ -224,21 +226,18 @@ net/contrapunctus/rngzip/version.txt: LICENSE
 net/contrapunctus/rngzip/context.txt:
 	(cd $${REPODIR:-$$PWD}; darcs changes --context) >$@
 
-# for maintainer only: push changes up to web site
+
+DARCS_DEST = comsci.liu.edu:public_html/dist/$(NAME)
 DARCS_BRANCH = trunk
-DARCS_STAGING = $(HOME)/tmp/rngztmp
-DARCS_DEST = contrapunctus.net:public_html/dist/$(NAME)
+
+public: $(NAME_VER).jar $(NAME_VER).tar.gz
+	scp $^ $(DARCS_DEST)
 
 darcs-put:
-	darcs put -v --no-pristine-tree $(DARCS_STAGING)/$(DARCS_BRANCH)
+	darcs put $(DARCS_DEST)/$(DARCS_BRANCH)
 
-push-sync:
-	darcs push
-	rsync -av --include='/$(DARCS_BRANCH)/' \
-	          --include='/$(DARCS_BRANCH)/_darcs/' \
-	          --include='/$(DARCS_BRANCH)/_darcs/**' \
-	          --exclude='*' \
-	      $(DARCS_STAGING)/ $(DARCS_DEST)
+darcs-push:
+	darcs push $(DARCS_DEST)/$(DARCS_BRANCH)
 
 ################################ Documentation
 
