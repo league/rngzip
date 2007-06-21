@@ -50,7 +50,8 @@ LIB_SOURCES := $(PARSER_GEN) \
   $(shell find $(LIBRARIES) -name '*.java' | $(STRIP_PATH))
 AUX_GEN := \
   net/contrapunctus/rngzip/version.txt \
-  net/contrapunctus/rngzip/context.txt 
+  net/contrapunctus/rngzip/context.txt \
+  META-INF/services/org.relaxng.datatype.DatatypeLibraryFactory
 AUX_FILES := com/sun/msv/reader/trex/ng/relaxng.rng \
   $(shell find $(LIBRARIES) -name '*.properties' | $(STRIP_PATH)) \
   net/contrapunctus/rngzip/help.txt $(AUX_GEN)
@@ -226,6 +227,9 @@ net/contrapunctus/rngzip/version.txt: LICENSE
 net/contrapunctus/rngzip/context.txt:
 	(cd $${REPODIR:-$$PWD}; darcs changes --context) >$@
 
+$(BUILD)/META-INF/services/org.relaxng.datatype.DatatypeLibraryFactory:
+	$(MKDIR) $(dir $@)
+	echo com.sun.msv.datatype.xsd.ngimpl.DataTypeLibraryImpl >$@
 
 DARCS_DEST = comsci.liu.edu:public_html/dist/$(NAME)
 DARCS_BRANCH = trunk
