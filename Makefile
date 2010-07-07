@@ -9,7 +9,7 @@ JAVACC = javacc
 JAR = jar
 TRANG = trang
 MKDIR = mkdir -p
-INSTALL = install -D -m 644
+INSTALL = install -m 644
 
 JAVAC_FLAGS = -Xlint:all -encoding UTF-8
 JVM_FLAGS = -ea
@@ -112,6 +112,7 @@ $(PARSER_FILES): $(PARSER_NAME).jj
 	$(JAVACC) -OUTPUT_DIRECTORY=$(dir $^) $^
 
 $(BUILD)/%: %
+	$(MKDIR) $(dir $@)
 	$(INSTALL) $^ $@
 
 ################################ Test cases
