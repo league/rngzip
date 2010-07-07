@@ -209,9 +209,6 @@ predist: $(ALL_SOURCES) $(AUX_FILES) $(DOCS_HTML)
 
 dist: $(NAME_VER).tar.gz
 
-$(NAME_VER).tar.gz:
-	REPODIR=$$PWD darcs dist --dist-name $(NAME_VER)
-
 jar: $(NAME_VER).jar
 
 $(NAME_VER).jar: compile manifest.txt
@@ -225,23 +222,11 @@ net/contrapunctus/rngzip/version.txt: LICENSE
 	cat LICENSE >>$@
 
 net/contrapunctus/rngzip/context.txt:
-	(cd $${REPODIR:-$$PWD}; darcs changes --context) >$@
+	(cd $${REPODIR:-$$PWD}; git describe --always) >$@
 
 $(BUILD)/META-INF/services/org.relaxng.datatype.DatatypeLibraryFactory:
 	$(MKDIR) $(dir $@)
 	echo com.sun.msv.datatype.xsd.ngimpl.DataTypeLibraryImpl >$@
-
-DARCS_DEST = comsci.liu.edu:public_html/dist/$(NAME)
-DARCS_BRANCH = trunk
-
-public: $(NAME_VER).jar $(NAME_VER).tar.gz
-	scp $^ $(DARCS_DEST)
-
-darcs-put:
-	darcs put $(DARCS_DEST)/$(DARCS_BRANCH)
-
-darcs-push:
-	darcs push $(DARCS_DEST)/$(DARCS_BRANCH)
 
 ################################ Documentation
 
