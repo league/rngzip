@@ -26,7 +26,7 @@ CLASSPATH =
 
 NAME = rngzip
 PACKAGE = net.contrapunctus.$(NAME)
-VERSION = 0.6
+VERSION = 0.7
 NAME_VER = $(NAME)-$(VERSION)
 
 LIBRARIES := bali iso-relax msv relaxng-datatype gnu-getopt \
